@@ -1,0 +1,54 @@
+<header class="p-3 text-bg-dark">
+  <div class="container">
+    <div class="d-flex flex-nowrap align-items-center justify-content-between">
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a 
+          routerLink="/" 
+          routerLinkActive="active" 
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link px-2 text-white" 
+          aria-current="page">Home</a></li>
+        <li><a 
+          routerLink="/shop" 
+          routerLinkActive="active" 
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link px-2 text-white" 
+          aria-current="page">Products</a></li>
+        <li><a 
+          routerLink="/contactUs" 
+          routerLinkActive="active" 
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link px-2 text-white"
+          aria-current="page"
+          >Contact Us</a></li>
+        <li><a 
+          routerLink="/aboutUs" 
+          routerLinkActive="active" 
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link px-2 text-white"
+          aria-current="page"
+          >About Us</a></li>
+      </ul>
+      <a routerLink="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+        <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+      </a>
+      <div class="text-end">
+        <ng-container>
+          <button type="button" routerLink="/logout" class="btn btn-danger mx-2">Exit<span class="fas fa-user"></span></button>
+          <button type="button" routerLink="/profile" class="btn btn-primary">Profile<span class="fas fa-user-edit"></span></button>
+        </ng-container>
+        <ng-template #items>
+          <button type="button" routerLink="/account/login" class="btn btn-outline-light mx-2">Enter<span class="fas fa-sign-in"></span></button>
+          <button type="button" routerLink="/account/register" class="btn btn-warning">Register<span class="fas fa-user"></span></button>
+        </ng-template>
+        <button type="button" routerLink="/basket" class="btn btn-primary position-relative mx-2">
+          <span class="fas fa-shopping-cart"></span>
+          <span  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            <span class="visually-hidden">unread messages</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+

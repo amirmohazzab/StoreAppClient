@@ -1,0 +1,44 @@
+<mat-sidenav-container>
+  <mat-sidenav [opened]="sidenavOpen" [mode] = "sidenavOpen ? 'side': 'over'" class="mat-sidenav" style="width: 180px;">
+    <app-shop-filter (updateParams)="updateParams($event)"></app-shop-filter>
+  </mat-sidenav>
+  <mat-sidenav-content class="mat-sidenav-content" style="padding-left: 20px; overflow-x: hidden;">
+    <div class="row w-50 mb-3">
+      <!-- search box -->
+      <form class="d-flex" >
+        <input class="form-control me-2" #search (keyup.enter)="onSearch()" type="search" placeholder="Search ..."  />
+        <button class="btn btn-outline-success" type="submit" (click)="onSearch()">Search</button>
+        <button class="btn btn-outline-danger mx-2" type="submit" (click)="onReset()">Delete</button>
+      </form>
+    </div>
+   <div class="row g-3 w-100">
+    @for(item of data?.result; track $index) {
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-2">
+        <app-card-shop [product]="item"></app-card-shop>
+      </div>
+   }
+   </div>
+
+   @if (data?.result?.length > 0 && (data.count/data.pageSize) > 1 ){
+    <div class="row">
+  <div class="col-xs-12 col-12">
+    <pagination 
+      (pageChanged)="onPageChange($event)"
+      [totalItems]="data.count" 
+      [itemsPerPage]="shopParams.pageSize" 
+      [(ngModel)]="shopParams.pageIndex"
+      previousText="&lsaquo;"
+      nextText="&rsaquo;"
+      firstText="&laquo;"
+      lastText="&raquo;"
+    ></pagination>
+  </div>
+</div>
+   }
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
+        

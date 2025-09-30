@@ -1,0 +1,75 @@
+<div class="w-100 px-1 mb-2">
+  <section class="sticky-top">
+    <div class="list-group shadow">
+      <label class="list-group-item d-flex gap-3 active text-start">
+        <span class="form-checked-content">
+          <strong>Type</strong>
+        </span>
+      </label>
+      <select class="form-select rounded-bottom rounded-0" (change)="onChangeTypes($any($event.target).value)">
+       @for (item of types; track $index){
+         <option [value]="item?.id">
+          {{ item?.title }}
+        </option>
+       }
+      </select>
+    </div>
+  </section>
+</div>
+
+<div class="w-100 px-1 mb-2">
+  <section class="sticky-top">
+    <div class="list-group shadow">
+      <label class="list-group-item d-flex gap-3 active text-start">
+        <span class="form-checked-content">
+          <strong>Brand</strong>
+        </span>
+      </label>
+      <select class="form-select rounded-bottom rounded-0" (change)="onChangeBrands($any($event.target).value)">
+       @for (item of brands; track $index){
+         <option [value]="item?.id">
+          {{ item?.title }}
+        </option>
+       }
+      </select>
+    </div>
+  </section>
+</div>
+
+<div class="w-100 px-1 mb-2">
+  <section class="sticky-top">
+    <div class="list-group shadow">
+      <label class="list-group-item d-flex gap-3 active text-start">
+        <span class="form-checked-content">
+          <strong>Sort</strong>
+        </span>
+      </label>
+      <select class="form-select rounded-bottom rounded-0" (change)="onChangeSort($any($event.target).value)">
+       @for (item of sortOptions; track $index){
+         <option [selected] = "item.key === shopParams?.sort" [value]="item?.key">
+          {{ item?.title }}
+        </option>
+       }
+      </select>
+    </div>
+  </section>
+</div>
+
+<div class="w-100 px-1 mb-2">
+  <section class="sticky-top">
+    <div class="list-group shadow">
+      <label class="list-group-item d-flex gap-3 active text-start">
+        <span class="form-checked-content">
+          <strong>Type Sort</strong>
+        </span>
+      </label>
+      <select class="form-select rounded-bottom rounded-0" (change)="onChangeTypeSort($any($event.target).value)">
+       @for (item of sortTypeOptions; track $index){
+         <option [selected] = "item.key === shopParams?.typeSort" [value]="item?.key">
+          {{ item?.title }}
+        </option>
+       }
+      </select>
+    </div>
+  </section>
+</div>
