@@ -36,6 +36,8 @@ body {
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 @import '../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
 @import '../node_modules/@angular/material/prebuilt-themes/azure-blue.css';
+@import '../node_modules/ngx-toastr/toastr.css';
+@import '../node_modules/ngx-spinner/animations/square-jelly-box.css';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -58,5 +60,26 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .mat-content {
     padding-right: 260px;
   }
+
+.xng-breadcrumb-root {
+  padding: 8px 16px;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: lightblue;
+}
+
+
+.xng-breadcrumb-separator {
+  padding: 0 4px;
+}
+
+.spinner-text {
+  font-size: 1.3rem;
+  color: dodgerblue;
+  margin-top: 2.2rem;;
+}
   
+
+
+
 }
