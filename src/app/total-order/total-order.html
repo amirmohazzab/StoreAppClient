@@ -1,0 +1,7 @@
+@if (basketTotal$ | async; as basketTotal){
+    <div class="list-group border mt-2 list-group-horizontal-md">
+        <button type="button" class="list-group-item list-group-item-action" aria-current="true"> Shippung Price : {{ basketTotal?.shipping | number }}</button>
+        <button type="button" class="list-group-item list-group-item-action"> Price of Products : {{ basketTotal.subTotal | number }}</button>
+        <button type="button" class="list-group-item list-group-item-action bg-danger text-white"> Total Prive : {{ basketTotal.total | number }}</button>
+    </div>
+}

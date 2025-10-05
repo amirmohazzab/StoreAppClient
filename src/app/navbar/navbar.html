@@ -43,9 +43,12 @@
         </ng-template>
         <button type="button" routerLink="/basket" class="btn btn-primary position-relative mx-2">
           <span class="fas fa-shopping-cart"></span>
-          <span  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            <span class="visually-hidden">unread messages</span>
-          </span>
+          @if (basket$ | async; as basket) {
+             <span  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {{basket.items.length}}
+              <span class="visually-hidden">unread messages</span>
+            </span>
+          }
         </button>
       </div>
     </div>

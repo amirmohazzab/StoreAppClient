@@ -10,6 +10,7 @@ import {PaginationModule} from 'ngx-bootstrap/pagination';
 import { BreadcrumbComponent, BreadcrumbItemDirective } from 'xng-breadcrumb';
 import { Breadcrumb } from "./breadcrumb/breadcrumb";
 import { NgxSpinnerComponent } from 'ngx-spinner';
+import { BasketService } from './services/basket-service';
 
 @Component({
   selector: 'app-root',
@@ -45,7 +46,15 @@ import { NgxSpinnerComponent } from 'ngx-spinner';
   `,
   styleUrl: './app.scss'
 })
-export class App{
-  protected title = 'StoreAppClient';
+export class App implements OnInit{
+  
+  constructor(private basketService: BasketService){}
+
+  ngOnInit(): void {
+    const basketId = localStorage.getItem('basket_item');
+    if (basketId) {
+      this.basketService.getBasket(JSON.parse(basketId)).subscribe(res => console.log(res))
+    }
+  }
 
 }
