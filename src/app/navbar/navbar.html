@@ -33,14 +33,13 @@
         <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
       </a>
       <div class="text-end">
-        <ng-container>
+        @if (currentUser$ | async) {
           <button type="button" routerLink="/logout" class="btn btn-danger mx-2">Exit<span class="fas fa-user"></span></button>
           <button type="button" routerLink="/profile" class="btn btn-primary">Profile<span class="fas fa-user-edit"></span></button>
-        </ng-container>
-        <ng-template #items>
+      } @else {
           <button type="button" routerLink="/account/login" class="btn btn-outline-light mx-2">Enter<span class="fas fa-sign-in"></span></button>
           <button type="button" routerLink="/account/register" class="btn btn-warning">Register<span class="fas fa-user"></span></button>
-        </ng-template>
+      }
         <button type="button" routerLink="/basket" class="btn btn-primary position-relative mx-2">
           <span class="fas fa-shopping-cart"></span>
           @if (basket$ | async; as basket) {

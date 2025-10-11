@@ -11,6 +11,7 @@ import { BreadcrumbComponent, BreadcrumbItemDirective } from 'xng-breadcrumb';
 import { Breadcrumb } from "./breadcrumb/breadcrumb";
 import { NgxSpinnerComponent } from 'ngx-spinner';
 import { BasketService } from './services/basket-service';
+import { AccountService } from './services/account-service';
 
 @Component({
   selector: 'app-root',
@@ -48,12 +49,24 @@ import { BasketService } from './services/basket-service';
 })
 export class App implements OnInit{
   
-  constructor(private basketService: BasketService){}
+  constructor(private basketService: BasketService, private accountService: AccountService){}
 
   ngOnInit(): void {
-    const basketId = localStorage.getItem('basket_item');
+    // this.getBasket();
+    // this.getCurrentUser();
+  }
+
+  private getBasket(){
+    const basketId = localStorage.getItem('basket_item') || '';
     if (basketId) {
-      this.basketService.getBasket(JSON.parse(basketId)).subscribe(res => console.log(res))
+      this.basketService.getBasket(JSON.parse(basketId) || '').subscribe(res => console.log(res))
+    }
+  }
+
+  private getCurrentUser(){
+    const user = JSON.parse(localStorage.getItem('user_token') || '');
+    if (user) {
+      this.accountService.setCurrentUser(user);
     }
   }
 

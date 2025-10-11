@@ -6,10 +6,15 @@ import { NotFound } from './not-found/not-found';
 import { Home } from './home/home';
 import { ServerError } from './server-error/server-error';
 import { Basket } from './basket/basket';
+import { Login } from './Account/login/login';
+import { Register } from './Account/register/register';
+import { authGuard } from './auth-guard';
 
 export const routes: Routes = [
      {path: "", title: "HomePage", component: Home, data: {breadcrumb: 'Home'}},
-     {path: "shop", title: "Shop", data: {breadcrumb: 'Shop'}, children: [
+     {path: "account/login", title: "Login", component: Login, data: {breadcrumb: 'Login'}},
+     {path: "account/register", title: "Register", component: Register, data: {breadcrumb: 'Register'}},
+     {path: "shop", canActivate: [authGuard], title: "Shop", data: {breadcrumb: 'Shop'}, children: [
       { path: '', component: Shop },  // /shop
       { path: ':id', component: ShopDetail, data: {breadcrumb:{alias: 'ProductDetail'}} },
      ]},
