@@ -1,1 +1,23 @@
-<p>checkout works!</p>
+<div class="row">
+  <div class="col-md-12">
+    <app-stepper [LinearModeSelected]="true" #stepper>
+      <mat-step label="Choose Address">
+       <app-checkout-address></app-checkout-address>
+      </mat-step>
+      <mat-step label="Delivery Method">
+        <app-checkout-delivery></app-checkout-delivery>
+      </mat-step>
+      <mat-step label="Basket Review">
+        <app-checkout-review></app-checkout-review>
+        <!-- <button class="btn btn-warning btn-sm" (click)="stepper.previous()">قبلی</button> -->
+        <button class="btn btn-success w-100" (click)="stepper.next()">Choose Payment Gateway</button>
+      </mat-step>
+      <mat-step label="Payment">
+        <app-checkout-payment></app-checkout-payment>
+      </mat-step>
+    </app-stepper>
+  </div>
+  <app-total-order></app-total-order>
+  <!-- <a class="btn btn-danger w-100 mt-5"> پرداخت</a> -->
+</div>
+

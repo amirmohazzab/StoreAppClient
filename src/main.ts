@@ -10,6 +10,7 @@ import { routes } from './app/app.routes';
 import {provideToastr} from 'ngx-toastr';
 import { loadingInterceptor } from './app/interceptors/loading-interceptor';
 import { errorHandlingInterceptor } from './app/interceptors/error-handling-interceptor';
+import { authJWTTokenInterceptor } from './app/interceptors/auth-jwttoken-interceptor';
 
 const spinnerConfig = {
   type: 'ball-spin-clockwise',
@@ -23,7 +24,7 @@ bootstrapApplication(App, {
   providers: [
     provideHttpClient(
       withInterceptors([
-       loadingInterceptor //errorHandlingInterceptor, 
+       authJWTTokenInterceptor, loadingInterceptor //errorHandlingInterceptor, 
       ])
     ),
     provideRouter(routes),

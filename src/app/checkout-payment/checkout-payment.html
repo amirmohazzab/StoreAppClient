@@ -1,0 +1,49 @@
+<div class="row">
+  <h3 class="text-muted mt-3"> Choose Bank Gateway </h3>
+  @if (!transferToPortal) {
+    <div class="col-md-12">
+      <div class="col-md-12 mb-2">
+        @for (item of PortalType | showEnum; track $index) {
+          <ng-container>
+            <div class="d-block mb-2">
+              <input class="form-check-input cursor-pointer" [checked]="item.key == portalSelected" (change)="onChangePortal(item.key)" type="radio" [value]="item.key" class="m-1" />
+              <span>
+                @switch (item.key) {
+                  @case ("1") {
+                    <img (click)="onChangePortal(item.key)" src="../../../img-portal/mellat.png" alt="mellat" class="img-thumbnail mw-75 cursor-pointer" />
+                  }
+                  @case ("2") {
+                    <img (click)="onChangePortal(item.key)" src="../../../img-portal/parsian.png" alt="mellat" class="img-thumbnail mw-75 cursor-pointer" />
+                  }
+                  @case ("3") {
+                    <img (click)="onChangePortal(item.key)" src="../../../img-portal/zarrinpal.png" alt="mellat" class="img-thumbnail mw-75 cursor-pointer" />
+                }
+              }
+              </span>
+              <label class="form-check-label mx-2"> Bank Gateway {{ item.value }}</label>
+            </div>
+          </ng-container>
+        }
+      </div>
+    </div>
+  }
+  @if (transferToPortal) {
+    <div class="col-md-12">
+      <div class="alert alert-primary text-center mt-2">
+        <h1><span class="fas fa-exclamation-triangle fa-2x"></span></h1>
+        <p class="lead"> Transfer to Bank Gateway </p>
+        <div class="btn-group">
+          <span class="fas fa-credit-card fa-3x"></span>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+@if (!transferToPortal) {
+  <div class="row">
+    <div class="container-fluid mt-3">
+      <a (click)="createOrder()" routerLinkActive="router-link-active" class="btn btn-success w-100"> Final Payment </a>
+    </div>
+  </div>
+}
+

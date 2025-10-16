@@ -20,20 +20,14 @@
       <td>{{item.productName}}</td>
       <td>{{item.type}}</td>
       <td>{{item.brand}}</td>
-      <td>
-        <div>
-          <button (click)="increaseItenQuantity(item)" class="btn btn-sm btn-success"><span class="fas fa-plus"></span></button>
-          {{item.quantity}}
-          <button (click)="decreaseItenQuantity(item)" class="btn btn-sm btn-danger"><span class="fas fa-minus"></span></button>
-        </div>
-      </td>
+      <td>{{item.quantity}}</td>
       <td>{{item.price * item.quantity | number}}</td>
     </tr>
    }
   </tbody>
     </table>
-    <app-total-order></app-total-order>
-    <a routerLink="/checkout" class="btn btn-danger w-100 mt-5"> Continue Shopping </a>
+    
+    <a class="btn btn-success w-100 mt-5"> Payment </a>
   </div>
 } @else {
   <div class="alert alert-success container mb-5" role="alert">
@@ -42,6 +36,4 @@
     <p class="mb-0"> Please add from Shop</p>
   </div>
 }
-
-
 

@@ -13,6 +13,7 @@ export class BasketService {
   private backendUrl = "https://localhost:7096/api";
   private basketItems = new BehaviorSubject<IBasket>(null);
   basketItems$ = this.basketItems.asObservable();
+  shippingPrice: number = 0;
 
   private totalBasket = new BehaviorSubject<IBasketTotal>(null);
   public totalBasket$ = this.totalBasket.asObservable();
@@ -79,21 +80,32 @@ export class BasketService {
     return of(null)
   }
 
-decreaseItenQuantity(id: number){
-    const basket = this.getCurrentBasketSource();
-    const itemIndex = basket.items.findIndex(x => x.id === id);
-     if (itemIndex != -1){
-      const item = basket.items[itemIndex];
-      if (item.quantity > 1){
-        item.quantity--;
-        return this.setBasket(basket);
-      }
-      else {
-        this.deleteItemFromBasket(item.id);
-      }
+  decreaseItenQuantity(id: number){
+      const basket = this.getCurrentBasketSource();
+      const itemIndex = basket.items.findIndex(x => x.id === id);
+      if (itemIndex != -1){
+        const item = basket.items[itemIndex];
+        if (item.quantity > 1){
+          item.quantity--;
+          return this.setBasket(basket);
+        }
+        else {
+          this.deleteItemFromBasket(item.id);
+        }
+    }
+    return of(null);
   }
-  return of(null);
-}
+
+  setShippingPrice(shippingPrice: number){
+    this.shippingPrice = shippingPrice;
+    this.calculateTotal();
+  }
+
+  clearLocalBasket(){
+    this.basketItems.next(null);
+    this.totalBasket.next(null);
+    localStorage.removeItem('basket_item');
+  }
 
   private createBasket(): IBasket {
   const basket: IBasket = {
@@ -104,7 +116,7 @@ decreaseItenQuantity(id: number){
 
   localStorage.setItem('basket_item', JSON.stringify(basket.id));
   return basket;
-}
+  }
 
   private addOrUpdateBasketItems(itemToAdd: IBasketItems, items: IBasketItems[], quantity: number) : IBasketItems[] {
     const index = items.findIndex(x => x.id === itemToAdd.id);
@@ -129,15 +141,14 @@ decreaseItenQuantity(id: number){
       type : product.productType,
     }
   }
-
+  
   private calculateTotal(){
     const basket = this.getCurrentBasketSource();
-    let shipping = 0;
     let subTotal = basket.items.reduce((init, item) =>{
       return item.price * item.quantity + init;
     }, 0);
-    let total = shipping + subTotal;
-    this.totalBasket.next({shipping: shipping, subTotal: subTotal, total: total});
+    let total = this.shippingPrice + subTotal;
+    this.totalBasket.next({shipping: this.shippingPrice, subTotal: subTotal, total: total});
   }
 
 }
