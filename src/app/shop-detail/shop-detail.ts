@@ -19,7 +19,7 @@ export class ShopDetail implements OnInit{
   constructor(
     private shopService: ShopService, 
     private route: ActivatedRoute, 
-    private router: Router, 
+    private router: Router,
     private toast: ToastrService,
     private title: Title,
     private bc: BreadcrumbService
@@ -31,14 +31,15 @@ export class ShopDetail implements OnInit{
     this.shopService.getProduct(this.id).subscribe(res => {
       if (res){
         this.product = res
-      this.title.setTitle(res?.title);
-      this.bc.set('@ProductDetail', res?.title);
+        this.title.setTitle(res?.title);
+        this.bc.set('@ProductDetail', res?.title);
       } else {
-        this.bc.set('@ProductDetail', 'Not Found');
+        
       }
     }, 
     (error) => {
-      this.bc.set('@ProductDetail', 'Not Found');
+      this.router.navigateByUrl('/notFound');
+        this.toast.error("product not found");
     }
   );
   }

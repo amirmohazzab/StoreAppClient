@@ -1,0 +1,57 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left"> Visit Order</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container">
+   @if (order){
+     <div class="w-100 overflow-auto">
+      <table class="table shadow caption-top table-hover table-responsive table-bordered text-center align-middle">
+        <caption>
+          <div class="d-inline">
+            <p class="d-inline"> Order Lists </p>
+          </div>
+        </caption>
+        <thead class="table-primary sticky-md-top">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Product</th>
+            <th scope="col">Image</th>
+            <th scope="col">Type</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price(euro)</th>
+          </tr>
+        </thead>
+        <tbody>
+         @for (item of order.orderItems; track i; let i = $index){
+             <tr>
+                <th>{{ i + 1 }}</th>
+                <td>
+                <b>{{ item?.productName }}</b>
+                </td>
+                <td class="text-center">
+                <a [routerLink]="['/shop', item?.productItemId]" routerLinkActive="router-link-active"
+                    ><img [src]="item.pictureUrl" [alt]="item.productName" class="w-25 mw-55"
+                /></a>
+                </td>
+                <td>{{ item.productTypeName }}</td>
+                <td>{{ item.productBrandName }}</td>
+                <td>
+                <b class="mt-2">{{ item.quantity }}</b>
+                </td>
+                <td>{{ item.price * item.quantity | number }}</td>
+          </tr>
+         }
+        </tbody>
+      </table>
+    </div>
+   }
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-warning" (click)="bsModalRef.hide()">close</button>
+</div>
+

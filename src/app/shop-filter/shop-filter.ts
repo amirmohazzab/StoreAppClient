@@ -11,6 +11,7 @@ import { ShopParams } from '../models/shopParams';
   styleUrl: './shop-filter.scss'
 })
 export class ShopFilter implements OnInit{
+
   @Output() updateParams = new EventEmitter<boolean>();
   public brands: IBrand[];
   public types: IType[];
@@ -34,14 +35,6 @@ export class ShopFilter implements OnInit{
     this.getTypes();
   }
 
-  private getBrands(){
-    this.shopService.getBrands().subscribe(res => this.brands = res);
-   }
-
-   private getTypes(){
-    this.shopService.getTypes().subscribe(res => this.types = res);
-   }
-
    onChangeTypes(typeId: number){
     this.shopParams.typeId = typeId;
     this.shopService.updateShopParams(this.shopParams);
@@ -64,5 +57,17 @@ export class ShopFilter implements OnInit{
     this.shopParams.typeSort = typeSort;
     this.shopService.updateShopParams(this.shopParams);
     this.updateParams.emit(true);
+   }
+
+   private getBrands(){
+    this.shopService.getBrands().subscribe(res => {
+       this.brands = res;
+    });
+   }
+
+   private getTypes(){
+    this.shopService.getTypes().subscribe(res => {
+       this.types = res;
+    });
    }
 }

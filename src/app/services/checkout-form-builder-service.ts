@@ -7,7 +7,12 @@ import { IDeliveryMethod } from '../models/order';
   providedIn: 'root'
 })
 export class CheckoutFormBuilderService {
-  private formBuilder = new BehaviorSubject<ICheckoutFormBuilder>(null);
+  private formBuilder = new BehaviorSubject<ICheckoutFormBuilder>({
+    address: { id: 0, isMain: false, state: '', city: '', firstName: '', lastName: '', fullAddress: '', number: '', postalCode:''},
+    deliveryMethod: undefined,
+    portalType: undefined,
+    buyerPhoneNumber: ''
+  });
   public formBuilder$ = this.formBuilder.asObservable();
 
   constructor(){}
@@ -23,6 +28,10 @@ export class CheckoutFormBuilderService {
   setPortalType(portalType: number){
     this.formBuilder.next({...this.formBuilder.value, portalType});
   }
+
+//   setBuyerPhoneNumber(phoneNumber: string) {
+//   this.formBuilder.next({ ...this.formBuilder.value, buyerPhoneNumber: phoneNumber });
+// }
 
 
 }

@@ -1,4 +1,4 @@
-  <div class="card mb-4 box-shadow">
+  <!-- <div class="card mb-4 box-shadow">
     <img 
       class="card-img-top" 
       [src]="product.pictureUrl" 
@@ -15,8 +15,46 @@
           <button type="button" class="btn btn-sm btn-outline-primary" [routerLink]="['/shop', product?.id]">
             <span class="fas fa-eye"></span>
           </button>
+          <button (click)="toggleLike(product)" class="btn btn-outline-danger">
+            <i [ngClass]="[product.liked ? 'fas fa-heart' : 'far fa-heart', 'heart-animate']"></i>
+            <span class="like-count">{{ likesCount }}</span>
+          </button>
         </div>
         <small class="text-muted">{{product.price | number }}</small>
       </div>
     </div>
-  </div>
+  </div> -->
+
+  <section class="product-section mt-4">
+        <div class="product-card">
+        <img 
+          [src]="getImageUrl(product.pictureUrl)"
+          [alt]="product.title" 
+        />
+        <h4>{{ product.title }}</h4>
+        <p>${{ product.price | number }}</p>
+        <div class="actions">
+          <!-- <button class="btn-view" (click)="viewDetails(item)">View Details</button> -->
+          <!-- <button class="btn-cart" (click)="addItemToBasket()">Add to Cart</button> -->
+           <!-- <div class="d-flex justify-content-between align-items-center">
+        <div class="btn-group"> -->
+          <button type="button" class="btn btn-lg btn-outline-success" (click)="addItemToBasket()">
+            <span class="fas fa-shopping-cart"></span>
+          </button>
+          <button type="button" class="btn btn-lg btn-outline-primary" [routerLink]="['/shop', product?.id]">
+            <span class="fas fa-eye"></span>
+            @if(showVisitsCount){
+              <span class="like-count" style="color: blue;">{{ visitsCount }}</span>
+            }
+          </button>
+          <button (click)="toggleLike(product)" class="btn btn-lg btn-outline-danger">
+            <i [ngClass]="[product.liked ? 'fas fa-heart' : 'far fa-heart', 'heart-animate']"></i>
+            @if(showLikesCount){
+              <span class="like-count" style="color: red;">{{ likesCount }}</span>
+            }
+          </button>
+        </div>
+      </div>
+        <!-- </div> 
+      </div> -->
+  </section>

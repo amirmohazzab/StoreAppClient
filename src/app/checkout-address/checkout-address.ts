@@ -1,14 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AccountService } from '../services/account-service';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { IAddress } from '../models/Address';
 import { CheckoutFormBuilderService } from '../services/checkout-form-builder-service';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { AddAddressCheckout } from '../modal/add-address-checkout/add-address-checkout';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-checkout-address',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './checkout-address.html',
   styleUrl: './checkout-address.scss'
 })
@@ -17,11 +18,11 @@ export class CheckoutAddress implements OnInit, OnDestroy {
   sub$ = new Subscription();
   public addresses: IAddress[] = [];
   public indexAddressShipping = 0;
+  bsModalRef?: BsModalRef;
 
   constructor(
     private accountService: AccountService, 
     private formBuilder: CheckoutFormBuilderService, 
-    private bsModalRef: BsModalRef,
     private modalService: BsModalService
   ){}
 
@@ -31,9 +32,13 @@ export class CheckoutAddress implements OnInit, OnDestroy {
   }
 
   private getAllAddresses(){
-    const sub = this.accountService.getAddresses().subscribe((res) => {
+    const sub = this.accountService.getAddresses().subscribe((res: IAddress[]) => {
       this.addresses = res;
-      this.indexAddressShipping = res.findIndex(x => x.isMain == true);
+      console.log(this.addresses);
+      this.indexAddressShipping = res.findIndex(x => x.isMain === true);
+      if (this.indexAddressShipping === -1 && res.length > 0) {
+        this.indexAddressShipping = 0;
+      }
       this.onChangeAddressShipping(this.indexAddressShipping);
     });
     this.sub$.add(sub);
@@ -60,10 +65,20 @@ export class CheckoutAddress implements OnInit, OnDestroy {
   }
 
   setToMainAddress(index: number){
-
+    // بروزرسانی index
+    this.indexAddressShipping = index;
+    // بروزرسانی isMain برای همه آدرس‌ها
+    this.addresses.forEach((a, i) => a.isMain = (i === index));
+    // بروزرسانی فرم یا سرویس
+    this.formBuilder.setAddress(this.addresses[index]);
   }
 
-  private checkAddressMain(address: IAddress) {
+ 
+  ngOnDestroy(): void {
+    this.sub$.unsubscribe();
+  }
+
+   private checkAddressMain(address: IAddress) {
     if (address.isMain) {
       this.addresses.forEach((element) => {
         if (element.id === address.id) {
@@ -75,9 +90,6 @@ export class CheckoutAddress implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    this.sub$.unsubscribe();
-  }
  
 
 

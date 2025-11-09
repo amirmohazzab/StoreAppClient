@@ -1,0 +1,48 @@
+@for (basket of baskets; track basket.id) {
+  <table class="table-auto w-full border-collapse border border-gray-300 mt-2">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="border px-2 py-1">#</th>
+        <th class="border px-2 py-1"> image </th>
+        <th class="border px-2 py-1"> Product </th>
+        <th class="border px-2 py-1"> Type </th>
+        <th class="border px-2 py-1"> Brand </th>
+        <th class="border px-2 py-1"> Quantity </th>
+        <th class="border px-2 py-1"> Price </th>
+        <th class="border px-2 py-1"> SubTotal </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of basket.items; track item.productId; let i = $index) {
+        <tr>
+          <td class="border px-2 py-1 text-center">{{ i + 1 }}</td>
+          <td class="border px-2 py-1 text-right">
+          <img 
+            class="card-img-top" 
+            [src]="item.pictureUrl" 
+            [alt]="item.productName"
+            [routerLink]="['/shop', item.productId]"
+            style="width: 80px;"
+          >
+          </td>
+          <td class="border px-2 py-1">{{ item.productName }}</td>
+          <td class="border px-2 py-1">{{ item.type }}</td>
+          <td class="border px-2 py-1">{{ item.brand }}</td>
+          <td class="border px-2 py-1 text-center">{{ item.quantity }}</td>
+          <td class="border px-2 py-1 text-right">{{ item.price | number }} Euro </td>
+          <td class="border px-2 py-1 text-right">{{ item.price * item.quantity | number}} Euro </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+  <tfoot class="bg-gray-50 font-semibold">
+  <tr>
+    <td colspan="3" class="border px-2 py-2 text-center"> Total</td>
+    <td class="border px-2 py-2 text-right">
+      {{ totalPrice(basket) | number }}  Euro
+    </td>
+  </tr>
+</tfoot>
+}
+
+

@@ -27,7 +27,7 @@ export class AccountService {
   }
 
   register(register: Register){
-    return this.http.post<IUser>(`${this.backendUrl}/account/login`, register).pipe(map((res: IUser) => {
+    return this.http.post<IUser>(`${this.backendUrl}/account/register`, register).pipe(map((res: IUser) => {
       if (res){
          this.setCurrentUser(res);
         return res;
@@ -39,7 +39,7 @@ export class AccountService {
   logout(){
     localStorage.removeItem('user_token');
     this.currentUser.next(null);
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/');
   }
 
   setCurrentUser(user: IUser){
@@ -50,7 +50,7 @@ export class AccountService {
   }
 
   getAddresses() {
-    return this.http.get<IAddress[]>(`${this.backendUrl}/account/getAddresses`)
+    return this.http.get<IAddress[]>(`${this.backendUrl}/account/getAddresses`);
   }
 
   addAddress(address: IAddAddress) : Observable<IAddress> {

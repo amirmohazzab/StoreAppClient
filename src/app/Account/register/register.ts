@@ -3,6 +3,8 @@ import { BreadcrumbService } from 'xng-breadcrumb';
 import { AccountService } from '../../services/account-service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputForm } from "../../input-form/input-form";
+import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -12,13 +14,19 @@ import { InputForm } from "../../input-form/input-form";
 })
 export class Register implements OnInit{
 
-  
-  constructor(private bc: BreadcrumbService, private accountService: AccountService){}
+  private returnUrl = '/';
+
+  constructor(
+    private bc: BreadcrumbService, 
+    private accountService: AccountService, 
+    private toast: ToastrService,
+    private route: ActivatedRoute,
+    private router: Router){}
 
   registerForm = new FormGroup({
     phoneNumber: new FormControl('', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]),
-    password: new FormControl(''),
-    displayName: new FormControl('')
+    password: new FormControl('', [Validators.required, Validators.minLength(5)]),
+    displayName: new FormControl({value: '', disabled: false}, [Validators.required, Validators.minLength(3)])
   });
   
   ngOnInit(): void {

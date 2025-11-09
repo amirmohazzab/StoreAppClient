@@ -1,0 +1,114 @@
+<!-- <div class="w-100 overflow-auto">
+    @if (orders?.length > 0){
+    <ng-template>
+       <table class="table shadow caption-top table-hover table-responsive text-center align-middle p-0 m-0">
+        <thead class="table-primary sticky-md-top">
+          <tr>
+            <th scope="col"> Phone Number</th>
+            <th scope="col"> Order Date</th>
+            <th scope="col"> Total stuff </th>
+            <th scope="col"> Post expense </th>
+            <th scope="col"> Main Price (euro) </th>
+            <th scope="col"> Payment condition </th>
+            <th scope="col"> Payment Gateway </th>
+            <th scope="col"> Delivery Method</th>
+            <th scope="col"> Delivery Number Date</th>
+            <th scope="col"> Delivery Condition </th>
+            <th scope="col">Actions </th>
+          </tr>
+        </thead>
+        <tbody>
+         @for(item of orders; track item.id){
+          <tr class="cursor-pointer">
+           
+            <td>{{ item.buyerPhoneNumber }}</td>
+            <td>{{ item?.created | date }}</td>
+            <td>{{ item?.subTotal | number }}</td>
+            <td>
+              {{ item?.deliveryMethod?.price ? (item?.deliveryMethod?.price | number) : 'Free' }}
+            </td>
+            <td> 
+              {{ item?.total | number }}
+            </td>
+            <td [class]="item?.isFinally ? 'text-success' : 'text-danger'">
+              {{ item?.isFinally ? ' Payed ' : ' Not Payed ' }}
+            </td>
+           
+            <td>{{ item?.portalType | castEnum : 'PortalType' }}</td>
+            <td>{{ item?.deliveryMethod?.shortName }}</td>
+            <td>{{ item?.deliveryMethod?.deliveryDate }}</td>
+           
+            <td>{{ item?.status | castEnum : 'OrderStatus' }}</td>
+            <td>
+              <a (click)="showOrder(item?.id)" class="btn btn-outline-primary btn-sm">
+                <span class="fas fa-eye m-1"></span>
+              </a>
+            </td>
+          </tr>
+        } 
+        </tbody>
+      </table>
+    </ng-template>
+} @else {
+    <ng-template>
+        <div class="alert alert-warning" role="alert"> No order registered </div>
+    </ng-template>
+}
+</div>  -->
+
+<!-- @for(order of orders; track order.id){
+  <div>
+  {{ order.id }} - {{ order.total }}
+</div>
+} -->
+
+
+       <table class="table shadow caption-top table-hover table-responsive text-center align-middle p-0 m-0">
+        <thead class="table-primary sticky-md-top">
+          <tr>
+            <th scope="col"> Phone Number</th>
+            <th scope="col"> Order Date</th>
+            <th scope="col"> Total stuff </th>
+            <th scope="col"> Post expense </th>
+            <th scope="col"> Main Price (euro) </th>
+            <th scope="col"> Payment condition </th>
+            <th scope="col"> Payment Gateway </th>
+            <th scope="col"> Delivery Method</th>
+            <th scope="col"> Delivery Number Date</th>
+            <th scope="col"> Delivery Condition </th>
+            <th scope="col">Actions </th>
+          </tr>
+        </thead>
+        <tbody>
+         @for(item of orders; track item.id){
+          <tr class="cursor-pointer">
+           
+            <td>{{ item.buyerPhoneNumber }}</td>
+            <td>{{ item?.created | date }}</td>
+            <td>{{ item?.subTotal | number }}</td>
+            <td>
+              {{ item?.deliveryMethod?.price ? (item?.deliveryMethod?.price | number) : 'Free' }}
+            </td>
+            <td> 
+              {{ item?.total | number }}
+            </td>
+            <td [class]="item?.isFinally ? 'text-success' : 'text-danger'">
+              {{ item?.isFinally ? ' Payed ' : ' Not Payed ' }}
+            </td>
+           
+            <td>{{ item?.portalType | castEnum : 'PortalType' }}</td>
+            <td>{{ item?.deliveryMethod?.shortName }}</td>
+            <td>{{ item?.deliveryMethod?.deliveryDate }}</td>
+           
+            <td>{{ item?.status | castEnum : 'OrderStatus' }}</td>
+            <td>
+              <a (click)="showOrder(item?.id)" class="btn btn-outline-primary btn-sm">
+                <span class="fas fa-eye m-1"></span>
+              </a>
+            </td>
+          </tr>
+        } 
+        </tbody>
+      </table>
+
+

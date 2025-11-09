@@ -13,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-   @for (item of basket?.items; track $index; let i = $index){
+   @for (item of basket?.items; track i; let i = $index){
      <tr>
       <th scope="row">{{i + 1}}</th>
       <td><img [src] = "item.pictureUrl" class="Image-thumbnail" style="max-width: 8rem;"></td>
@@ -26,8 +26,6 @@
    }
   </tbody>
     </table>
-    
-    <a class="btn btn-success w-100 mt-5"> Payment </a>
   </div>
 } @else {
   <div class="alert alert-success container mb-5" role="alert">

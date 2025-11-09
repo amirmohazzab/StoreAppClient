@@ -1,1 +1,71 @@
-<p>shop-detail works!</p>
+<div class="product-container">
+
+  <!-- Product Gallery -->
+  <div class="product-gallery">
+    <img src="assets/images/product-main.jpg" alt="Main Product" class="main-img" id="main-img">
+    <div class="thumbnail-list">
+      <img src="assets/images/product-thumb1.jpg" alt="thumb1" onclick="document.getElementById('main-img').src=this.src">
+      <img src="assets/images/product-thumb2.jpg" alt="thumb2" onclick="document.getElementById('main-img').src=this.src">
+      <img src="assets/images/product-thumb3.jpg" alt="thumb3" onclick="document.getElementById('main-img').src=this.src">
+    </div>
+  </div>
+
+  <!-- Product Info -->
+  <div class="product-info">
+    <h1>Men’s Running Sneakers</h1>
+    <p class="brand">Brand: <span>Nike</span></p>
+    <p class="price">$89.99 <span class="old-price">$119.99</span></p>
+
+    <p class="description">
+      Lightweight and durable running shoes designed for comfort and performance. 
+      Perfect for daily runs, workouts, or casual wear.
+    </p>
+
+    <div class="sizes">
+      <h4>Available Sizes</h4>
+      <div class="size-options">
+        <button>40</button>
+        <button class="active">41</button>
+        <button>42</button>
+        <button>43</button>
+      </div>
+    </div>
+
+    <div class="colors">
+      <h4>Colors</h4>
+      <div class="color-options">
+        <span class="color red"></span>
+        <span class="color blue active"></span>
+        <span class="color black"></span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <input type="number" value="1" min="1" class="quantity">
+      <button class="btn-add">Add to Cart</button>
+      <button class="btn-like"><i class="fa fa-heart-o"></i></button>
+    </div>
+
+    <div class="details">
+      <p><strong>Category:</strong> Shoes</p>
+      <p><strong>SKU:</strong> #SNK2025</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Product Description & Reviews -->
+<section class="extra-info">
+  <div class="tabs">
+    <button class="active">Description</button>
+    <button>Reviews (3)</button>
+  </div>
+
+  <div class="tab-content">
+    <p>
+      These men’s running sneakers feature breathable mesh fabric, cushioned soles, and a flexible design 
+      that adapts to your foot movement. Ideal for long-distance runs and gym workouts.
+    </p>
+  </div>
+</section>
+

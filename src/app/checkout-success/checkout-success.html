@@ -1,40 +1,13 @@
-@if (status === 'success') {
-    <div class="alert alert-success text-center mt-2">
-        <h1><span class="fas fa-exclamation-triangle fa-2x"></span></h1>
-        <p class="lead"> Payment Successful </p>
-        <div class="btn-group">
-            <a class="btn btn-lg btn-outline-success" [routerLink]="['/profile/orders']" routerLinkActive="router-link-active"> Orders List</a>
-            <a class="btn btn-lg btn-outline-success" [routerLink]="['/']" routerLinkActive="router-link-active"> Main Page </a>
-        </div>
+<div class="checkout-empty-container">
+  <div class="left-side">
+    <img src="../../../image/shopping-cart.png" alt="Empty Basket" class="basket-img" />
+  </div>
+  <div class="right-side">
+    <h2>🛒 Dear Customer, your basket is empty!</h2>
+    <p> you can visit product list again and continue to buy</p>
+    <div class="buttons">
+     <a routerLink="/shop" class="btn btn-primary">🛍 Visit Product List </a>
+    <a routerLink="/" class="btn btn-outline-secondary">🏠 Main Page</a>
     </div>
-}
-@if (status === 'failed') {
-    <div class="alert alert-danger text-center mt-2">
-  <h1><span class="fas fa-exclamation-triangle fa-2x"></span></h1>
-  <p class="lead"> Payment Failed </p>
-  <div class="btn-group">
-    <a class="btn btn-lg btn-outline-danger" [routerLink]="['/profile/orders']" routerLinkActive="router-link-active"> Orders List</a>
-    <a class="btn btn-lg btn-outline-danger" [routerLink]="['/']" routerLinkActive="router-link-active"> Main Page</a>
   </div>
 </div>
-}
-@if (status === 'cancelled'){
-    <div class="alert alert-warning text-center mt-2">
-  <h1><span class="fas fa-exclamation-triangle fa-2x"></span></h1>
-  <p class="lead"> you quit payment </p>
-  <div class="btn-group">
-    <a class="btn btn-lg btn-outline-warning" [routerLink]="['/profile/orders']" routerLinkActive="router-link-active"> Orders List </a>
-    <a class="btn btn-lg btn-outline-warning" [routerLink]="['/']" routerLinkActive="router-link-active"> Main Page</a>
-  </div>
-</div>
-}
-@if (status === 'unknown') {
-    <div class="alert alert-warning text-center mt-2">
-        <h1><span class="fas fa-exclamation-triangle fa-2x"></span></h1>
-        <p class="lead">Transaction result is not specify, 24 hours later will specify</p>
-        <div class="btn-group">
-            <a class="btn btn-lg btn-outline-warning" [routerLink]="['/profile/orders']" routerLinkActive="router-link-active"> Orders List</a>
-            <a class="btn btn-lg btn-outline-warning" [routerLink]="['/']" routerLinkActive="router-link-active"> Main Page</a>
-        </div>
-    </div>
-}

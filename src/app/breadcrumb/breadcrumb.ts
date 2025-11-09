@@ -7,17 +7,14 @@ import { BreadcrumbComponent, BreadcrumbService} from 'xng-breadcrumb';
   templateUrl: './breadcrumb.html',
   styleUrl: './breadcrumb.scss'
 })
-export class Breadcrumb implements OnInit{
+export class Breadcrumb {
+
   bcLength = 0;
   constructor(private bc: BreadcrumbService){
     this.bc.breadcrumbs$.subscribe(breadcrumb => {
-      console.log(breadcrumb);
       this.bcLength = breadcrumb?.length;
     })
   }
 
-  ngOnInit(): void {
-    
-  }
-
+  
 }

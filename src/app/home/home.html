@@ -1,1 +1,59 @@
-<p>home works!</p>
+<div class="home-container">
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Welcome to My Store</h1>
+    <p>Discover top-rated, most-loved, and trending products</p>
+    <button>Shop Now</button>
+  </section>
+
+  <!-- Categories -->
+  <section class="category-section mt-b">
+    <h2>🛍️ Categories</h2>
+    <div class="category-grid">
+      @for(cat of categories; track $index){
+        <div class="category-item">{{ cat }}</div>
+      }
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="product-section mt-4">
+    <h2>🌟 Featured Products</h2>
+    <div class="carousel">
+      @for(item of featuredProducts; track $index){
+        <!-- <div class="product-card">
+        <img [src]="item.img" [alt]="item.name" />
+        <h4>{{ item.name }}</h4>
+        <p>${{ item.price }}</p>
+        <div class="actions">
+          <button class="btn-view" (click)="viewDetails(item)">View Details</button>
+          <button class="btn-cart" (click)="addItemToBasket()">Add to Cart</button>
+        </div> 
+      </div> -->
+      <app-card-shop [product]="item"></app-card-shop>
+      }
+    </div>
+  </section>
+
+  <!-- Liked Products -->
+  <section class="product-section">
+    <h2>❤️ Most Liked Products</h2>
+    <div class="carousel">
+      @for(item of likedProducts; track $index){
+        <app-card-shop [product]="item"></app-card-shop>
+      }
+    </div>
+  </section>
+
+  <!-- Most Viewed -->
+  <section class="product-section">
+    <h2>👀 Most Viewed Products</h2>
+    <div class="carousel">
+      @for(item of viewedProducts; track $index){
+       <app-card-shop [product]="item"></app-card-shop>
+      }
+    </div>
+  </section>
+
+  
+</div>

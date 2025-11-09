@@ -18,16 +18,15 @@ import {FormsModule} from '@angular/forms';
   styleUrl: './shop.scss'
 })
 export class Shop implements OnInit, OnDestroy{
+  
   public data : IPagination<IProduct>;
   shopParams: ShopParams;
   sidenavOpen: boolean = true;
-
   @ViewChild('search', {static: false}) searchItem: ElementRef
-
   private sub$ = new Subscription();
+
   constructor(private shopService: ShopService){}
  
-
   ngOnInit(): void {
     this.getProducts();
     this.shopParams = this.shopService.getShopParams();
@@ -38,11 +37,6 @@ export class Shop implements OnInit, OnDestroy{
     window.innerWidth < 960 ? this.sidenavOpen = false : this.sidenavOpen = true;
   }
 
-   private getProducts(){
-    const sub$ = this.shopService.getProducts().subscribe(res => this.data = res);
-    this.sub$.add(sub$);
-   }
-   
    updateParams(updated: boolean){
     if (updated)
       this.getProducts();
@@ -69,6 +63,14 @@ export class Shop implements OnInit, OnDestroy{
    ngOnDestroy(): void {
     this.sub$.unsubscribe();
   }
+
+   private getProducts(){
+    const sub$ = this.shopService.getProducts().subscribe(res => {
+      this.data = res;
+      console.log(this.data.result);
+    });
+    this.sub$.add(sub$);
+   }
 
 
 }

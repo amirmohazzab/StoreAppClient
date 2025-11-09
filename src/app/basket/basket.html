@@ -43,5 +43,42 @@
   </div>
 }
 
+ <!-- <div class="container">
+    <table class="table table-responsive table-hover table-bordered text-center">
+  <thead class="table-primary">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Image</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Type</th>
+      <th scope="col">Brand</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+   @for (item of basket?.items; track $index; let i = $index){
+     <tr>
+      <th scope="row">{{i + 1}}</th>
+      <td><img [src] = "item.pictureUrl" class="Image-thumbnail" style="max-width: 8rem;"></td>
+      <td>{{item.productName}}</td>
+      <td>{{item.type}}</td>
+      <td>{{item.brand}}</td>
+      <td>
+        <div>
+          <button  class="btn btn-sm btn-success"><span class="fas fa-plus"></span></button>
+          {{item.quantity}}
+          <button class="btn btn-sm btn-danger"><span class="fas fa-minus"></span></button>
+        </div>
+      </td>
+      <td>{{item.price * item.quantity | number}}</td>
+    </tr>
+   }
+  </tbody>
+    </table>
+    <app-total-order></app-total-order>
+    <a routerLink="/checkout" class="btn btn-danger w-100 mt-5"> Continue Shopping </a>
+  </div> -->
+
 
 

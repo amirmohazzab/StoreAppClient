@@ -1,0 +1,48 @@
+import { Component, OnInit } from '@angular/core';
+import { ProfileService } from '../services/profile-service';
+import { IProduct } from '../models/IProduct';
+import { CardShop } from '../card-shop/card-shop';
+
+@Component({
+  selector: 'app-liked-prodcts-list',
+  imports: [CardShop],
+  templateUrl: './liked-prodcts-list.html',
+  styleUrl: './liked-prodcts-list.scss'
+})
+export class LikedProdctsList implements OnInit{
+
+  likedProducts: IProduct[] = [];
+  constructor(private profileService: ProfileService){}
+
+  ngOnInit(): void {
+    this.loadLikedProducts();
+  }
+
+  toggleLike(product: IProduct) {
+    this.profileService.toggleLike(product.id).subscribe({
+      next: () => {
+        // ✅ به‌روزرسانی local state بدون رفرش
+        this.likedProducts = this.likedProducts.filter(p => p.id !== product.id);
+      }
+    });
+  }
+
+  loadLikedProducts() {
+    this.profileService.getLikedProducts().subscribe(
+      // { next: (res) => this.likedProducts = res }
+      res => {
+        this.likedProducts = res;
+      console.log(this.likedProducts);
+      }
+  );
+  }
+
+  onLikeChanged(product: IProduct) {
+  if (!product.liked) {
+    // 👇 اگر محصول دیسلایک شد، از لیست حذفش کن
+    this.likedProducts = this.likedProducts.filter(p => p.id !== product.id);
+  }
+}
+
+
+}

@@ -13,6 +13,7 @@ export class CheckoutSuccess {
 
   constructor(private router: ActivatedRoute){
     this.status = this.router.snapshot.queryParamMap.get('status') as any;
-
   }
+
+  
 }

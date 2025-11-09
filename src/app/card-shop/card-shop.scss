@@ -1,0 +1,89 @@
+@keyframes fa-blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+
+.is-online {
+  animation: fa-blink 1.5s linear infinite reverse;
+  color: rgb(1, 189, 42, 0.9);
+}
+
+.liked {
+  color: red; /* قلب قرمز */
+}
+
+.not-liked {
+  color: gray; /* قلب خاکستری */
+}
+
+.like-count {
+  font-size: 1rem;
+  color: #555;
+}
+
+.heart-animate {
+  transition: transform 0.2s ease;
+}
+
+.heart-animate:hover {
+  transform: scale(1.2);
+}
+
+.product-section {
+  margin-bottom: 40px;
+}
+
+.product-card {
+  flex: 0 0 auto;
+  width: 230px;
+  scroll-snap-align: start;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  text-align: center;
+  background: #fff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+.product-card:hover {
+  transform: translateY(-5px);
+}
+.product-card img {
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+}
+.btn-view,
+.btn-cart {
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn-view {
+  background: #e3f2fd;
+  color: #007bff;
+}
+.btn-view:hover {
+  background: #bbdefb;
+}
+.btn-cart {
+  background: #007bff;
+  color: white;
+}
+.btn-cart:hover {
+  background: #0056b3;
+}

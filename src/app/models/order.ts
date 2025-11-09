@@ -1,20 +1,21 @@
 import { IAddAddress } from "./Address";
+import {PortalTypeEnum} from "./checkout";
 
 export interface IDeliveryMethod {
     id: number;
     isDelete: boolean;
     shortName: string,
-    deliveryTime: string;
+    deliveryDate: string;
     description: string;
     price: number;
 }
 
 export interface IOrderRequest {
-    basketId: number;
+    basketId: string;
     deliveryMethodId : number;
     buyerPhoneNumber: string;
     portalType: number;
-    shioToAddress: IAddAddress;
+    shipToAddress: IAddAddress;
 }
 
 export interface IOrder {
@@ -29,10 +30,10 @@ export interface IOrder {
   isFinally: boolean;
   total: number;
   portal: Portal;
-  portalType: number | string | PortalTypeEnum; //enum
+  portalType: number | string | PortalTypeEnum; 
   authority: string;
   link: string;
-  status: number | string | OrderStatusEnum; //enum
+  status: number | string | OrderStatusEnum; 
   deliveryMethod: IDeliveryMethod;
   shipToAddress: IAddAddress;
   orderItems: IOrderItem[];
@@ -56,4 +57,15 @@ export interface IOrderItem {
   id: number;
   price: number;
   quantity: number;
+}
+
+export enum OrderStatusEnum{
+  Surveying = 1,
+  Proccessing,
+  DeliveredToPost,
+  Sent,
+  Delivered,
+  Returned,
+  Quited,
+  Unsuccessful
 }

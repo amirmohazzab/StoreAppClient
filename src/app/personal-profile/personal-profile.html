@@ -1,0 +1,41 @@
+<div class="modal-body">
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-floating mb-2">
+      <input type="text" id="number" class="form-control" formControlName="number">
+      <label for="number">Mobile</label>
+    </div>
+
+    <div class="form-floating mb-2">
+      <input type="text" id="firstName" class="form-control" formControlName="firstName">
+      <label for="firstName">First Name</label>
+    </div>
+
+    <div class="form-floating mb-2">
+      <input type="text" id="lastName" class="form-control" formControlName="lastName">
+      <label for="lastName">Last Name</label>
+    </div>
+
+    <div class="form-floating mb-2">
+      <input type="text" id="state" class="form-control" formControlName="state">
+      <label for="state">State</label>
+    </div>
+
+    <div class="form-floating mb-2">
+      <input type="text" id="city" class="form-control" formControlName="city">
+      <label for="city">City</label>
+    </div>
+
+    <div class="form-floating mb-2">
+      <input type="text" id="postalCode" class="form-control" formControlName="postalCode">
+      <label for="postalCode">Postal Code</label>
+    </div>
+
+    <div class="form-floating mb-4">
+      <textarea id="fullAddress" class="form-control" style="height: 60px;" formControlName="fullAddress"></textarea>
+      <label for="fullAddress">Full Address</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Profile</button>
+  </form>
+</div>

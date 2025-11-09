@@ -12,6 +12,8 @@ import { Breadcrumb } from "./breadcrumb/breadcrumb";
 import { NgxSpinnerComponent } from 'ngx-spinner';
 import { BasketService } from './services/basket-service';
 import { AccountService } from './services/account-service';
+import { BusyService } from './services/busy-service';
+import { IUser } from './models/User';
 
 @Component({
   selector: 'app-root',
@@ -20,14 +22,8 @@ import { AccountService } from './services/account-service';
     Footer,
     Navbar,
     RouterModule,
-    Shop,
     CommonModule,
-    MatSidenavContainer,
-    MatSidenavContent,
-    MatSidenav,
     PaginationModule,
-    BreadcrumbItemDirective,
-    BreadcrumbComponent,
     Breadcrumb,
     NgxSpinnerComponent
 ],
@@ -49,25 +45,49 @@ import { AccountService } from './services/account-service';
 })
 export class App implements OnInit{
   
-  constructor(private basketService: BasketService, private accountService: AccountService){}
+  constructor(
+    private basketService: BasketService, 
+    private accountService: AccountService,
+    private busyService: BusyService
+  ){}
+
+  get busy$() {
+    return this.busyService.busy$;
+  }
+
+  
 
   ngOnInit(): void {
-    // this.getBasket();
-    // this.getCurrentUser();
+    this.getBasket();
+    this.getCurrentUser();
   }
 
   private getBasket(){
-    const basketId = localStorage.getItem('basket_item') || '';
+    const basketId = localStorage.getItem('basket_item');
     if (basketId) {
-      this.basketService.getBasket(JSON.parse(basketId) || '').subscribe(res => console.log(res))
+       this.basketService.getBasket(basketId).subscribe(res => console.log(res))
     }
   }
 
   private getCurrentUser(){
-    const user = JSON.parse(localStorage.getItem('user_token') || '');
+
+     const userJson = localStorage.getItem('user_token');
+
+  if (!userJson) return; // اگر چیزی در localStorage نبود، کاری نکن
+
+  try {
+    const user = JSON.parse(userJson) as IUser;
     if (user) {
       this.accountService.setCurrentUser(user);
     }
+  } catch (error) {
+    console.error('❌ Invalid user_token in localStorage:', error);
+    localStorage.removeItem('user_token'); // اگر خراب بود، پاکش کن
+  }
+    // const user = <IUser>JSON.parse(localStorage.getItem('user_token') || '');
+    // if (user) {
+    //   this.accountService.setCurrentUser(user);
+    // }
   }
 
 }

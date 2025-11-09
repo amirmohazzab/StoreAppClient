@@ -5,19 +5,13 @@ import { finalize, tap } from 'rxjs';
 
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   
-  const busyServive = inject(BusyService);
+   const busyServive = inject(BusyService);
   busyServive.showBusy();
 
   return next(req).pipe(
     finalize(() => {
       busyServive.hideBusy();
-    }),
-    tap((event) => {
-    if (event.type == HttpEventType.Sent){
+    }))
 
-    }
-    if (event.type == HttpEventType.Response){
-      busyServive.hideBusy();
-    }
-  }))
+  
 };

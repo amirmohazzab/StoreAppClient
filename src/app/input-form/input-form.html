@@ -2,9 +2,10 @@
   <input
     #input
     [type]="type"
-    [ngClass]="controlDir && controlDir?.control && controlDir?.control?.touched && controlDir.control.dirty ? (controlDir.control.invalid ? 'is-invalid' : 'is-valid') : null"
+    [ngClass]="controlDir && controlDir?.control && controlDir?.control?.touched && controlDir.control.dirty ? 
+                (controlDir.control.invalid ? 'is-invalid' : 'is-valid') : null"
     [disabled]="disabled"
-    (input)="onChange($event.target.value)"
+    (input)="onChange($event?.target?.value)"
     (blur)="onTouched()"
     [id]="label"
     class="form-control"
@@ -12,7 +13,7 @@
   />
   <label [for]="label">{{ label }}</label>
 </div>
-@if (controlDir && controlDir.control && controlDir.control.invalid && controlDir.control.touched && controlDir.control.dirty){
+@if (controlDir && controlDir.control && controlDir.control.invalid && controlDir.control.touched && controlDir.control.dirty) {
     <div class="text-start mt-2 mb 2" >
         @if (controlDir?.control?.getError('required')){
             <span class="text-danger"> Please Enter {{ label }} </span>
@@ -23,6 +24,5 @@
         @if (controlDir?.control?.getError('maxlength')){
             <span class="text-danger"> Enter {{ label }} Correctly </span>
         }
-        
     </div>
 }

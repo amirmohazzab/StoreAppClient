@@ -1,0 +1,77 @@
+/* Highlight step active */
+.nav-tabs .nav-link.active {
+  font-weight: bold;
+  border-bottom: 3px solid #0d6efd;
+}
+
+/* Fade transition for steps */
+.tab-pane {
+  transition: opacity 0.3s ease-in-out;
+}
+
+
+.checkout-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-content {
+  width: 100%;
+  flex: 1 1 auto;
+}
+
+.tab-pane {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ظاهر کلی تب‌ها */
+.nav-tabs {
+  border-bottom: 2px solid #dee2e6;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+/* هر آیتم تب */
+.nav-item {
+  flex-grow: 1;
+}
+
+/* لینک داخل تب‌ها */
+.step-link {
+  display: block;
+  width: 100%;
+  font-weight: 500;
+  color: #6c757d;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 0.75rem 0;
+  transition: all 0.3s ease;
+}
+
+/* hover روی تب */
+.step-link:hover {
+  color: #0d6efd;
+  border-bottom-color: rgba(13, 110, 253, 0.3);
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+/* تب فعال */
+.step-link.active {
+  color: #0d6efd;
+  font-weight: 600;
+  border-bottom-color: #0d6efd;
+  background-color: rgba(13, 110, 253, 0.08);
+}
+
+/* تب‌های کوچک‌تر در موبایل */
+@media (max-width: 768px) {
+  .step-link {
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+  }
+}

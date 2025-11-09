@@ -3,10 +3,11 @@ import { OrderService } from '../services/order-service';
 import { ToastrService } from 'ngx-toastr';
 import { CheckoutFormBuilderService } from '../services/checkout-form-builder-service';
 import {ReactiveFormsModule} from '@angular/forms';
-import { PortalType } from '../models/checkout';
+import { PortalTypeEnum } from '../models/checkout';
 import {CommonModule} from '@angular/common';
 import { ShowEnumPipe } from '../pipes/show-enum-pipe';
 import { Router } from '@angular/router';
+import { BasketService } from '../services/basket-service';
 
 @Component({
   selector: 'app-checkout-payment',
@@ -16,12 +17,13 @@ import { Router } from '@angular/router';
 })
 export class CheckoutPayment implements OnInit {
 
-  PortalType = PortalType;
+  PortalType = PortalTypeEnum;
   portalSelected = 3;
   transferToPortal = false;
 
   constructor(
     private orderService: OrderService, 
+    private basketService: BasketService,
     private toast: ToastrService, 
     private formBuilder: CheckoutFormBuilderService,
     private router: Router
@@ -31,19 +33,19 @@ export class CheckoutPayment implements OnInit {
     this.formBuilder.setPortalType(this.portalSelected);
   }
 
-  createOrder(){
-    this.transferToPortal = true;
-    this.orderService.createOrder().subscribe(res => {
-      if (res){
-        if (res.authority) {
-          window.location.href = res.link;
-        } else {
-          this.transferToPortal = false;
-          this.router.navigateByUrl('/checkout/success/?status=failed');
-        }
-        this.toast.success('Payment Successful');
-      }
-    })
+  submitPayment(){
+    //this.orderService.createOrder();
+    this.orderService.createOrder().subscribe({
+    next: () => {
+      this.basketService.clearLocalBasket();
+      this.toast.success('ayment Done Successfully');
+      this.router.navigateByUrl('/checkout/success');
+    },
+    error: err => {
+      this.toast.error('Payment Unsuccessful');
+      console.error(err);
+    }
+  });
   }
 
   onChangePortal(portalType: number){

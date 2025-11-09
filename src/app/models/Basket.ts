@@ -1,12 +1,14 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export interface IBasket {
-    id: number,
-    userId: number,
+    id: string,
     items: IBasketItems[],
 }
 
 
 export interface IBasketItems {
-    id: number,
+    productId: number;   
+    basketId: string;  
     isDelete?: boolean,
     productName: string,
     type: string,
@@ -18,8 +20,7 @@ export interface IBasketItems {
 }
 
 export class Basket implements IBasket {
-    id : number = 1;
-    userId: number = 1;
+    id : string = uuidv4();
     items: IBasketItems[] = [];
 }
 

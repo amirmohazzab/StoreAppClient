@@ -1,23 +1,64 @@
-<div class="row">
-  <div class="col-md-12">
-    <app-stepper [LinearModeSelected]="true" #stepper>
-      <mat-step label="Choose Address">
-       <app-checkout-address></app-checkout-address>
-      </mat-step>
-      <mat-step label="Delivery Method">
-        <app-checkout-delivery></app-checkout-delivery>
-      </mat-step>
-      <mat-step label="Basket Review">
-        <app-checkout-review></app-checkout-review>
-        <!-- <button class="btn btn-warning btn-sm" (click)="stepper.previous()">قبلی</button> -->
-        <button class="btn btn-success w-100" (click)="stepper.next()">Choose Payment Gateway</button>
-      </mat-step>
-      <mat-step label="Payment">
-        <app-checkout-payment></app-checkout-payment>
-      </mat-step>
-    </app-stepper>
+<!-- <mat-horizontal-stepper [linear]="true" #stepper>
+  <mat-step label="Choose Address">
+    <app-checkout-address></app-checkout-address>
+  </mat-step>
+
+  <mat-step label="Delivery Method">
+    <app-checkout-delivery></app-checkout-delivery>
+  </mat-step>
+
+  <mat-step label="Basket Review">
+    <app-checkout-review></app-checkout-review>
+    <button class="btn btn-success w-100" (click)="stepper.next()">Choose Payment Gateway</button>
+  </mat-step>
+
+  <mat-step label="Payment">
+    <app-checkout-payment></app-checkout-payment>
+  </mat-step>
+</mat-horizontal-stepper> -->
+
+<div class="checkout-container w-100 d-flex flex-column">
+  <!-- Navigation Tabs -->
+  <ul class="nav nav-tabs mb-4 text-center">
+   @for(step of steps; track i; let i = $index){
+     <li class="nav-item flex-grow-1">
+      <a class="nav-link step-link" [class.active]="selectedIndex === i" (click)="selectStep(i)">
+        {{ step.label }}
+      </a>
+    </li>
+   }
+  </ul>
+
+  <!-- Step Content -->
+  <div class="tab-content flex-grow-1 w-100">
+    <div *ngIf="selectedIndex === 0" class="tab-pane fade show active w- d-flex flex-column">
+      <app-checkout-address class="w-100"></app-checkout-address>
+      <button class="btn btn-primary w-100 mt-3" (click)="nextStep()">Next</button>
+    </div>
+
+    <div *ngIf="selectedIndex === 1" class="tab-pane fade show active w-100 d-flex flex-column">
+      <app-checkout-delivery class="w-100"></app-checkout-delivery>
+      <div class="d-flex gap-2 mt-3">
+        <button class="btn btn-secondary w-50" (click)="prevStep()">Back</button>
+        <button class="btn btn-primary w-50" (click)="nextStep()">Next</button>
+      </div>
+    </div>
+
+    <div *ngIf="selectedIndex === 2" class="tab-pane fade show active w-100 d-flex flex-column">
+      <app-checkout-review class="w-100"></app-checkout-review>
+      <div class="d-flex gap-2 mt-3">
+        <button class="btn btn-secondary w-50" (click)="prevStep()">Back</button>
+        <button class="btn btn-success w-50" (click)="nextStep()">Next</button>
+      </div>
+    </div>
+
+    <div *ngIf="selectedIndex === 3" class="tab-pane fade show active w-100 d-flex flex-column">
+      <app-checkout-payment class="w-100"></app-checkout-payment>
+      <button class="btn btn-secondary w-100 mt-3" (click)="prevStep()">Back</button>
+    </div>
   </div>
-  <app-total-order></app-total-order>
-  <!-- <a class="btn btn-danger w-100 mt-5"> پرداخت</a> -->
+
+  <!-- Total Order outside tabs -->
+  <app-total-order class="mt-4"></app-total-order>
 </div>
 

@@ -1,19 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BreadcrumbService } from 'xng-breadcrumb';
 import { AccountService } from '../../services/account-service';
 import { InputForm } from "../../input-form/input-form";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, InputForm],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })
 export class Login implements OnInit{
 
+  modalForm: FormGroup;
   private returnUrl = '/';
   
   constructor(
@@ -21,11 +23,18 @@ export class Login implements OnInit{
     private accountService: AccountService, 
     private toast: ToastrService, 
     private router: Router, 
-    private route: ActivatedRoute){}
+    private route: ActivatedRoute){
+      this.modalForm = new FormGroup({
+        phoneNumber: new FormControl('', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]),
+        password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(30)])
+      })
+    }
+
+
 
   loginForm = new FormGroup({
     phoneNumber: new FormControl('', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]),
-    password: new FormControl({ value: '', disabled: false }, [Validators.required, Validators.minLength(5)])
+    password: new FormControl('', [Validators.required, Validators.minLength(5)])
   });
 
   ngOnInit(): void {
@@ -41,7 +50,7 @@ export class Login implements OnInit{
     this.accountService.login(this.loginForm.getRawValue()).subscribe((response) => {
       if (response) {
         this.router.navigateByUrl(this.returnUrl);
-        this.toast.success('Enter Successful');
+        this.toast.success('Login Successful');
       }
     });
   }

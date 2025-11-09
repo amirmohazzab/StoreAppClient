@@ -16,3 +16,8 @@ export type Register = {
     password: string,
     displayName: string
 }
+
+export interface IUserLike {
+    productId : number,
+    liked: boolean
+}

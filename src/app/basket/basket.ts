@@ -4,15 +4,17 @@ import { Observable } from 'rxjs';
 import { IBasket, IBasketItems } from '../models/Basket';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { TotalOrder } from "../total-order/total-order";
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-basket',
-  imports: [AsyncPipe, DecimalPipe, TotalOrder],
+  imports: [DecimalPipe, TotalOrder, AsyncPipe, RouterModule],
   templateUrl: './basket.html',
   styleUrl: './basket.scss'
 })
 export class Basket implements OnInit{
 
+  basket: IBasket;
   basket$ : Observable<IBasket>;
   constructor(private basketService: BasketService){}
 
@@ -21,10 +23,20 @@ export class Basket implements OnInit{
   }
 
   increaseItenQuantity(item: IBasketItems){
-    this.basketService.increaseItenQuantity(item.id).subscribe();
-  }
+     this.basketService.increaseItenQuantity(item.productId).subscribe();
+   }
 
-  decreaseItenQuantity(item: IBasketItems){
-    this.basketService.decreaseItenQuantity(item.id).subscribe();
-  }
+   decreaseItenQuantity(item: IBasketItems){
+     
+     this.basketService.decreaseItenQuantity(item.productId).subscribe({
+      next: res => {
+    if (res) {
+      console.log('Updated basket:', res);
+    } else {
+      console.log('Basket is now empty');
+    }
+  },
+  error: err => console.error('Error deleting item:', err)
+    });
+   }
 }

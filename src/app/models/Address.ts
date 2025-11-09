@@ -6,16 +6,17 @@ export interface IAddress {
     state: string,
     city: string,
     firstName: string,
-    fullAddress: string,
     lastName: string,
+    fullAddress: string,
     number: string,
     postalCode: string
 }
 
 export interface ICheckoutFormBuilder {
-    address: IAddress,
-    deliveryMethod: IDeliveryMethod,
-    portalType: number
+    address?: IAddress,
+    deliveryMethod?: IDeliveryMethod,
+    portalType?: number,
+    buyerPhoneNumber?: string
 }
 
 export interface IAddAddress{
@@ -23,8 +24,8 @@ export interface IAddAddress{
     state: string,
     city: string,
     firstName: string,
-    fullAddress: string,
     lastName: string,
+    fullAddress: string,
     number: string,
     postalCode: string
 }
