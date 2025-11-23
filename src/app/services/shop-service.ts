@@ -6,6 +6,7 @@ import { map, Observable } from 'rxjs';
 import { IType } from '../models/IType';
 import { IBrand } from '../models/IBrand';
 import { ShopParams } from '../models/shopParams';
+import { IReview } from '../models/IReview';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class ShopService {
    return this.http.get<IPagination<IProduct>>(`${this.backendUrl}/product`, {params});
   }
 
-  getProduct(id: number){
+  getProduct(id: number) : Observable<IProduct> {
      return this.http.get<IProduct>(`${this.backendUrl}/product/${id}`);
   }
 
@@ -63,4 +64,36 @@ export class ShopService {
 
       return params
   }
+
+  incrementViewCount(productId: number): Observable<any> {
+    return this.http.post<any>(`${this.backendUrl}/product/${productId}/increament-view`, {});
+  }
+
+  getProductsByCategory(categoryId: number): Observable<IProduct[]> {
+    return this.http.get<IProduct[]>(`${this.backendUrl}/product/by-category/${categoryId}`);
+  }
+
+  toggleLike(productId: number): Observable<{ liked: boolean; likeCount: number }> {
+    return this.http.post<{ liked: boolean; likeCount: number }>(
+      `${this.backendUrl}/product/toggle-like/${productId}`,
+      {}
+    );
+  }
+
+  getRelatedProducts(productId: number, count: number = 6): Observable<IProduct[]> {
+   return this.http.get<IProduct[]>(`${this.backendUrl}/product/${productId}/related?count=${count}`);
+  }
+
+  addReview(productId: number, data: any) {
+    return this.http.post(`${this.backendUrl}/product/${productId}/review`, data);
+  }
+
+  getReviews(productId: number) {
+    return this.http.get<IReview[]>(`${this.backendUrl}/product/${productId}/reviews`);
+  }
+
+  // getLikeStatus(productId: number) {
+  //   return this.http.get<{ liked: boolean }>(`${this.backendUrl}/product/like-status/${productId}`);
+  // }
+
 }

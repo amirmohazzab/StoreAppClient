@@ -36,4 +36,11 @@ totalPrice(basket: IBasket): number {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
+
+  getImageUrl(pictureUrl: string | null | undefined): string {
+  if (!pictureUrl.startsWith('http')) {
+    return `https://localhost:7096/images/products/${pictureUrl}`;
+  }
+  return pictureUrl;
+}
 }

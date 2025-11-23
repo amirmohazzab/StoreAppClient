@@ -19,4 +19,11 @@ export class CheckoutReview implements OnInit{
   ngOnInit(): void {
     this.basket$ = this.basketService.basketItems$;
   }
+
+   getImageUrl(pictureUrl: string | null | undefined): string {
+  if (!pictureUrl.startsWith('http')) {
+    return `https://localhost:7096/images/products/${pictureUrl}`;
+  }
+  return pictureUrl;
+}
 }

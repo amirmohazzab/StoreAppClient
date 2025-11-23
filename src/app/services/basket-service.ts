@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, of, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, tap, throwError } from 'rxjs';
 import { IBasket, IBasketItems, IBasketTotal } from '../models/Basket';
 import { HttpClient } from '@angular/common/http';
 import { IProduct } from '../models/IProduct';
@@ -183,5 +183,34 @@ export class BasketService {
 getCurrentBasketValue(): IBasket | null {
   return this.basketItems.value;
 }
+
+removeItem(basketId: string, productId: number) {
+  return this.http.delete<IBasket>(
+    `${this.backendUrl}/basket/removeItem?basketId=${basketId}&productId=${productId}`
+  );
+}
+
+
+removeItemFromBasket(item: IBasketItems): Observable<IBasket> {
+  const basket = this.basketItems.value;
+  if (!basket) return throwError(() => new Error("Basket is empty"));
+
+  return this.removeItem(basket.id, item.productId).pipe(
+    tap(updatedBasket => {
+      this.basketItems.next(updatedBasket);
+      this.calculateTotal();
+    })
+  );
+}
+
+clearBasket(basketId: string) {
+    return this.http.delete(`${this.backendUrl}/basket/clear/${basketId}`).pipe(
+      tap(() => {
+        const emptyBasket: IBasket = { id: basketId, items: [] };
+        this.basketItems.next(emptyBasket);
+        this.calculateTotal();
+      })
+    );
+  }
 
 }

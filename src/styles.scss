@@ -82,4 +82,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 
+:root {
+  --bg: #fff;
+  --card: #fff;
+  --text: #222;
+}
+
+body.dark-mode {
+  --bg: #121212;
+  --card: #1e1e1e;
+  --text: #eaeaea;
+}
+
+body { background: var(--bg); color: var(--text); }
+.card { background: var(--card); color: var(--text); }
+
+
 }

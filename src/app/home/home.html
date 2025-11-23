@@ -16,22 +16,20 @@
     </div>
   </section>
 
+  <!-- <div class="filters mb-3 d-flex gap-2">
+    <input type="text" placeholder="Search..." class="form-control w-25" #searchBox>
+    <button class="btn btn-primary" (click)="loadProducts(undefined, undefined, searchBox.value)">Search</button>
+  </div> -->
+
   <!-- Featured Products -->
   <section class="product-section mt-4">
     <h2>🌟 Featured Products</h2>
     <div class="carousel">
-      @for(item of featuredProducts; track $index){
-        <!-- <div class="product-card">
-        <img [src]="item.img" [alt]="item.name" />
-        <h4>{{ item.name }}</h4>
-        <p>${{ item.price }}</p>
-        <div class="actions">
-          <button class="btn-view" (click)="viewDetails(item)">View Details</button>
-          <button class="btn-cart" (click)="addItemToBasket()">Add to Cart</button>
-        </div> 
-      </div> -->
+     @if(allProducts && allProducts.length){
+       @for(item of allProducts; track $index){
       <app-card-shop [product]="item"></app-card-shop>
       }
+     }
     </div>
   </section>
 
@@ -39,7 +37,7 @@
   <section class="product-section">
     <h2>❤️ Most Liked Products</h2>
     <div class="carousel">
-      @for(item of likedProducts; track $index){
+      @for(item of liked; track $index){
         <app-card-shop [product]="item"></app-card-shop>
       }
     </div>
@@ -49,7 +47,7 @@
   <section class="product-section">
     <h2>👀 Most Viewed Products</h2>
     <div class="carousel">
-      @for(item of viewedProducts; track $index){
+      @for(item of viewed; track $index){
        <app-card-shop [product]="item"></app-card-shop>
       }
     </div>

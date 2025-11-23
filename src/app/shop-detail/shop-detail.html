@@ -1,71 +1,171 @@
-<div class="product-container">
 
-  <!-- Product Gallery -->
-  <div class="product-gallery">
-    <img src="assets/images/product-main.jpg" alt="Main Product" class="main-img" id="main-img">
-    <div class="thumbnail-list">
-      <img src="assets/images/product-thumb1.jpg" alt="thumb1" onclick="document.getElementById('main-img').src=this.src">
-      <img src="assets/images/product-thumb2.jpg" alt="thumb2" onclick="document.getElementById('main-img').src=this.src">
-      <img src="assets/images/product-thumb3.jpg" alt="thumb3" onclick="document.getElementById('main-img').src=this.src">
+<div class="product-detail-container">
+  <!-- LEFT: PRODUCT GALLERY -->
+  <div class="gallery">
+    <img 
+      class="main-img" 
+      [src]="getImageUrl(selectedImage) || getImageUrl(product?.pictureUrl)"
+      [alt]="product?.title"
+      style="max-width: 150px;"
+    >
+
+   @if(product?.galleryImages){
+     <div class="thumbnails">
+      <img 
+        *ngFor="let img of product?.galleryImages"
+        [src]="img"
+        (click)="selectedImage = img"
+        [class.active]="selectedImage === img"
+      >
     </div>
+   }
   </div>
 
-  <!-- Product Info -->
-  <div class="product-info">
-    <h1>Men’s Running Sneakers</h1>
-    <p class="brand">Brand: <span>Nike</span></p>
-    <p class="price">$89.99 <span class="old-price">$119.99</span></p>
+  <!-- RIGHT: PRODUCT INFO -->
+  <div class="info">
+    <h1>{{ product?.title }}</h1>
 
-    <p class="description">
-      Lightweight and durable running shoes designed for comfort and performance. 
-      Perfect for daily runs, workouts, or casual wear.
-    </p>
-
-    <div class="sizes">
-      <h4>Available Sizes</h4>
-      <div class="size-options">
-        <button>40</button>
-        <button class="active">41</button>
-        <button>42</button>
-        <button>43</button>
-      </div>
+    <div class="meta">
+      <span class="brand">Brand: <b>{{ product?.productBrand }}</b></span>
+      <span class="category">Category: <b>{{ product?.productType }}</b></span>
     </div>
 
-    <div class="colors">
-      <h4>Colors</h4>
-      <div class="color-options">
-        <span class="color red"></span>
-        <span class="color blue active"></span>
-        <span class="color black"></span>
-      </div>
+    <div class="price-box">
+      <span class="price">{{ product?.price | number }} Euro </span>
+    </div>
+
+    <p class="description">{{ product?.description }}</p>
+
+    <div class="stats">
+      <span>
+       <i [ngClass]="[product.liked ? 'fas fa-heart' : 'far fa-heart', 'heart-animate']"></i>
+        {{ product?.likeCount }}
+      </span>
+      <span><i class="fa fa-eye"></i> {{ product?.viewCount }}</span>
     </div>
 
     <div class="actions">
-      <input type="number" value="1" min="1" class="quantity">
-      <button class="btn-add">Add to Cart</button>
-      <button class="btn-like"><i class="fa fa-heart-o"></i></button>
+      <input type="number" min="1" [(ngModel)]="quantity" class="qty-input">
+
+      <button class="btn-cart" (click)="addToBasket()">
+        <i class="fa fa-shopping-cart"></i> Add to Cart
+      </button>
+
+      <button 
+        class="btn-like" 
+        [class.active]="product?.liked"
+        (click)="toggleLike(product)"
+      >
+        <!-- <i class="fa" [class.fa-heart]="product?.liked" [class.fa-heart-o]="!product?.liked"></i> -->
+        <i [ngClass]="[product.liked ? 'fas fa-heart' : 'far fa-heart', 'heart-animate']"></i>
+      </button>
     </div>
 
-    <div class="details">
-      <p><strong>Category:</strong> Shoes</p>
-      <p><strong>SKU:</strong> #SNK2025</p>
-    </div>
   </div>
-
 </div>
 
-<!-- Product Description & Reviews -->
-<section class="extra-info">
+<!-- TABS SECTION -->
+<div class="tabs-section">
+
   <div class="tabs">
-    <button class="active">Description</button>
-    <button>Reviews (3)</button>
+    <button (click)="activeTab='description'" [class.active]="activeTab==='description'">
+      Description
+    </button>
+    <button (click)="activeTab='reviews'" [class.active]="activeTab==='reviews'">
+      Reviews
+    </button>
   </div>
 
   <div class="tab-content">
-    <p>
-      These men’s running sneakers feature breathable mesh fabric, cushioned soles, and a flexible design 
-      that adapts to your foot movement. Ideal for long-distance runs and gym workouts.
-    </p>
+    <div *ngIf="activeTab==='description'">
+      <p>{{ product?.description }}</p>
+    </div>
+
+    <div *ngIf="activeTab==='reviews'">
+      <!-- <h3>User Reviews</h3>
+      <p *ngFor="let r of reviews">⭐ {{ r }}</p> -->
+      <section class="reviews">
+      
+     <div class="d-flex align-items-center mb-2">
+  <h3 class="me-3">Customer Reviews ({{ reviews.length }})</h3>
+  <h4> Average Rating : <span class="ms-2">{{ averageRating.toFixed(2) }}</span> </h4>
+  <div class="review-stars d-flex align-items-center">
+    <span *ngFor="let star of getStars()">
+      <i 
+        class="fa"
+        [ngClass]="{
+          'fa-star': isStarFilled(star, averageRating) === 'full',
+          'fa-star-half-alt': isStarFilled(star, averageRating) === 'half',
+          'fa-star-o': isStarFilled(star, averageRating) === 'empty'
+        }"
+      ></i>
+    </span>
+     
   </div>
-</section>
+</div>
+
+  <!-- Review List -->
+       <div class="review-stars">
+  <div *ngFor="let review of reviews" class="review-item mb-3">
+
+  <p><strong>{{ review.userName }}</strong> - {{ review.created | date:'short' }}</p>
+
+  <div class="review-stars d-flex align-items-center">
+    <span *ngFor="let star of getStars(); let i = index">
+      <i 
+        class="fa"
+        [ngClass]="{
+          'fa-star': isStarFilled(i + 1, review.rating) === 'full',
+          'fa-star-half-alt': isStarFilled(i + 1, review.rating) === 'half',
+          'fa-star-o': isStarFilled(i + 1, review.rating) === 'empty'
+        }"
+      ></i>
+    </span>
+    <span class="ms-2">{{ review.rating.toFixed(1) }}</span>
+  </div>
+
+  <p>{{ review.comment }}</p>
+
+</div>
+
+</div>
+
+  <hr>
+
+  <!-- Write Review -->
+  <h4>Write a Review</h4>
+
+  <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+    <div class="form-group">
+      <label>Rating</label>
+      <select class="form-control" formControlName="rating">
+        <option *ngFor="let r of [1,2,3,4,5]" [value]="r">{{ r }}</option>
+      </select>
+    </div>
+
+    <div class="form-group mt-2">
+      <label>Your Comment</label>
+      <textarea class="form-control" rows="3" formControlName="comment"></textarea>
+    </div>
+
+    <button class="btn btn-primary mt-3" type="submit" [disabled]="reviewForm.invalid">
+      Submit Review
+    </button>
+  </form>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- RELATED PRODUCTS -->
+<h3 class="related-title">Related Products</h3>
+
+<div class="related-grid">
+  <div *ngFor="let item of relatedProducts" class="item">
+    <app-card-shop [product]="item"></app-card-shop>
+  </div>
+</div>
+
+
 

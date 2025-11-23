@@ -1,4 +1,4 @@
-<header class="p-3 text-bg-dark">
+<!-- <header class="p-3 text-bg-dark">
   <div class="container">
     <div class="d-flex flex-nowrap align-items-center justify-content-between">
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
@@ -42,15 +42,86 @@
       }
         <button type="button" routerLink="/basket" class="btn btn-primary position-relative mx-2">
           <span class="fas fa-shopping-cart"></span>
-          @if (basket$ | async; as basket) {
+          @if(currentUser$ | async){
+            @if (basket$ | async; as basket) {
              <span  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
               {{basket.items.length}}
               <span class="visually-hidden">unread messages</span>
             </span>
           }
+          }
         </button>
       </div>
     </div>
   </div>
-</header>
+</header> -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+
+    <!-- LOGO -->
+    <a class="navbar-brand" routerLink="/">MyShop</a>
+
+    <!-- HAMBURGER BUTTON -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- NAV CONTENT -->
+    <div class="collapse navbar-collapse" id="mainNavbar">
+
+      <!-- LEFT MENU -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/shop" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Products</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/contactUs" routerLinkActive="active">Contact Us</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/aboutUs" routerLinkActive="active">About Us</a>
+        </li>
+
+      </ul>
+
+      <!-- RIGHT SIDE BUTTONS -->
+      <div class="d-flex align-items-center">
+
+        <!-- BASKET BUTTON -->
+        <button type="button" routerLink="/basket" class="btn btn-primary position-relative me-3">
+          <i class="fa fa-shopping-cart"></i>
+
+          @if (currentUser$ | async) {
+            @if (basket$ | async; as basket) {
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{ basket.items.length }}
+              </span>
+            }
+          }
+
+        </button>
+
+        <!-- AUTH BUTTONS -->
+        @if (currentUser$ | async) {
+          <button class="btn btn-danger me-2" (click)="logout()">Logout</button>
+          <button routerLink="/profile" class="btn btn-outline-light">Profile</button>
+        } @else {
+          <button routerLink="/account/login" class="btn btn-outline-light me-2">Login</button>
+          <button routerLink="/account/register" class="btn btn-warning">Register</button>
+        }
+
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+
 

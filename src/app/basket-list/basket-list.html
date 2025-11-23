@@ -19,7 +19,7 @@
           <td class="border px-2 py-1 text-right">
           <img 
             class="card-img-top" 
-            [src]="item.pictureUrl" 
+            [src]="getImageUrl(item.pictureUrl)" 
             [alt]="item.productName"
             [routerLink]="['/shop', item.productId]"
             style="width: 80px;"

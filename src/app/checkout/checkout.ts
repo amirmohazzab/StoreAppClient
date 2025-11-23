@@ -38,4 +38,6 @@ export class Checkout {
   prevStep() {
     if (this.selectedIndex > 0) this.selectStep(this.selectedIndex - 1);
   }
+
+ 
 }

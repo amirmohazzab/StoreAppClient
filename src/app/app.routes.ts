@@ -28,7 +28,7 @@ export const routes: Routes = [
       { path: '', component: Shop },  
       { path: ':id', component: ShopDetail, data: {breadcrumb:{alias: 'ProductDetail'}} },
      ]},
-     {path: "basket", title: "Basket", component: Basket, data: {breadcrumb: 'Basket'}},
+     {path: "basket", canActivate: [AuthGuard], title: "Basket", component: Basket, data: {breadcrumb: 'Basket'}},
      { path: "profile", component: ProfileLayout, children: [
           { path: '', component: PersonalProfile, title: 'Personal Info', data: { breadcrumb: 'Personal Info', title: 'Personal Info' } },  
           { path: 'basket', component: BasketList, title: 'My Baskets',  data: { breadcrumb: 'My Baskets', title: 'My Baskets' } },

@@ -1,0 +1,13 @@
+<div *ngIf="reviews?.length === 0" class="text-muted">No reviews yet.</div>
+    <div *ngFor="let r of reviews" class="review-item p-2 border-bottom">
+      <div class="d-flex justify-content-between">
+        <strong>{{ r.userDisplayName || 'User' }}</strong>
+        <small class="text-muted">{{ r.created | date:'short' }}</small>
+      </div>
+      <div class="rating">
+        <ng-container *ngFor="let s of [1,2,3,4,5]">
+          <i class="fa" [class.fa-star]="s <= r.rating" [class.fa-star-o]="s > r.rating"></i>
+        </ng-container>
+      </div>
+      <p>{{ r.comment }}</p>
+    </div>

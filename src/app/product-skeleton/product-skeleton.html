@@ -1,0 +1,19 @@
+<div class="skeleton-grid">
+  <div class="skeleton-left">
+    <div class="skeleton-img"></div>
+    <div class="skeleton-thumbs d-flex">
+      <div class="thumb" *ngFor="let n of [1,2,3]"></div>
+    </div>
+  </div>
+
+  <div class="skeleton-right">
+    <div class="s-line title"></div>
+    <div class="s-line price"></div>
+    <div class="s-line meta"></div>
+    <div class="s-line desc" *ngFor="let i of [1,2,3]"></div>
+    <div class="s-btns d-flex gap-2 mt-3">
+      <div class="s-btn"></div>
+      <div class="s-btn small"></div>
+    </div>
+  </div>
+</div>

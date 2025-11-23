@@ -1,0 +1,32 @@
+<div class="card p-3">
+  <h2 class="product-title">{{product?.title}}</h2>
+
+  <div class="d-flex align-items-center gap-3 mb-2">
+    <div class="price fs-4 text-primary">{{ product?.price | number }} تومان</div>
+
+    <div class="rating ms-auto">
+      <ng-container *ngFor="let s of [1,2,3,4,5]; let i = index">
+        <i class="fa" [class.fa-star]="(product?.averageRating || 0) >= s" [class.fa-star-half-o]="(product?.averageRating || 0) >= s - 0.5 && (product?.averageRating || 0) < s" [class.fa-star-o]="(product?.averageRating || 0) < s"></i>
+      </ng-container>
+      <small class="text-muted ms-2">({{product?.reviewCount || 0}})</small>
+    </div>
+  </div>
+
+  <div class="meta mb-2">
+    <span class="me-3">Brand: <b>{{product?.productBrand}}</b></span>
+    <span>Category: <b>{{product?.productType}}</b></span>
+  </div>
+
+  <p class="desc text-muted">{{ product?.description }}</p>
+
+  <div class="d-flex align-items-center gap-2 mt-3">
+    <input type="number" min="1" [(ngModel)]="quantity" class="form-control qty-input" style="width:90px" />
+    <button class="btn btn-success" (click)="addToCart.emit()">Add to Cart</button>
+    <button class="btn btn-outline-danger" [class.active]="product?.liked" (click)="toggleLike.emit()">
+      <i class="fa" [class.fa-heart]="product?.liked" [class.fa-heart-o]="!product?.liked"></i>
+    </button>
+    <div class="ms-auto text-muted">
+      <i class="fa fa-eye"></i> {{product.viewCount}}
+    </div>
+  </div>
+</div>

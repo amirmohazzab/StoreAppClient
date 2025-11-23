@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { IProduct } from '../models/IProduct';
 import { CardShop } from '../card-shop/card-shop';
+import { HomeService } from '../services/home-service';
 
 @Component({
   selector: 'app-home',
@@ -35,9 +36,45 @@ export class Home implements OnInit {
 
   categories = ['Electronics', 'Clothing', 'Home & Kitchen', 'Beauty', 'Toys', 'Sports'];
 
-  constructor() {}
+  allProducts: IProduct[] = [];
+  liked: IProduct[] = [];
+  viewed: IProduct[] = [];
+  constructor(private homeService: HomeService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadData();
+    //this.loadProducts();
+  }
+
+  loadData() {
+    this.homeService.getFeatured().subscribe(res => {
+      this.allProducts = res;
+      console.log(this.allProducts);
+    });
+    this.homeService.getMostLiked(6).subscribe(res => {
+      this.liked = res;
+      console.log(this.liked);
+    });
+    this.homeService.getMostViewed(6).subscribe(res => {
+      this.viewed = res;
+      console.log(this.viewed);
+    });
+  }
+
+//   loadProducts(categoryId?: number, brandId?: number, search?: string) {
+//   this.homeService.getFeatured({ categoryId, brandId, search }).subscribe({
+//     next: (res) => this.allProducts = res,
+//     error: (err) => console.error('Error loading products:', err)
+//   });
+// }
+
+// this.productService.getAll('likes').subscribe(res => {
+//   this.mostLikedProducts = res;
+// });
+
+// this.productService.getAll('views').subscribe(res => {
+//   this.mostViewedProducts = res;
+// });
 
   addItemToBasket(){}
 

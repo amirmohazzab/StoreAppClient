@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileService } from '../services/profile-service';
 import { IProduct } from '../models/IProduct';
 import { CardShop } from '../card-shop/card-shop';
+import { ShopService } from '../services/shop-service';
+import { ProfileService } from '../services/profile-service';
 
 @Component({
   selector: 'app-liked-prodcts-list',
@@ -12,14 +13,14 @@ import { CardShop } from '../card-shop/card-shop';
 export class LikedProdctsList implements OnInit{
 
   likedProducts: IProduct[] = [];
-  constructor(private profileService: ProfileService){}
+  constructor(private shopService: ShopService, private profileService: ProfileService){}
 
   ngOnInit(): void {
     this.loadLikedProducts();
   }
 
   toggleLike(product: IProduct) {
-    this.profileService.toggleLike(product.id).subscribe({
+    this.shopService.toggleLike(product.id).subscribe({
       next: () => {
         // ✅ به‌روزرسانی local state بدون رفرش
         this.likedProducts = this.likedProducts.filter(p => p.id !== product.id);

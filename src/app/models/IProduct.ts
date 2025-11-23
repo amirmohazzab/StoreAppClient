@@ -11,4 +11,13 @@ export interface IProduct{
     isActive?: boolean,
     summary?: string,
     liked?: boolean; 
+    likeCount: number,
+    viewCount: number,
+    colors: string[],
+    oldPrice: number,
+    sizes: string[],
+    thumbnails: string[],
+    averageRating?: number;   
+    reviewCount?: number; 
+    galleryImages: string[];
 }

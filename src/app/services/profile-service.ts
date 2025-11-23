@@ -34,9 +34,9 @@ export class ProfileService {
     return this.http.put<IAddress>(`${this.backendUrl}/user/update-profile`, data);
   }
 
-  toggleLike(productId: number) : Observable<{ liked: boolean }> {
-    return this.http.post<{ liked: boolean }>(`${this.backendUrl}/userLike/toggle/${productId}`, {});
-  }
+  // toggleLike(productId: number) : Observable<{ liked: boolean }> {
+  //   return this.http.post<{ liked: boolean }>(`${this.backendUrl}/userLike/toggle/${productId}`, {});
+  // }
 
   getLikedProducts() : Observable<IProduct[]> {
     return this.http.get<IProduct[]>(`${this.backendUrl}/userLike/liked-products`);

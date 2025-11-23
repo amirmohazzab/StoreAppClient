@@ -2,7 +2,7 @@
   <h3>❤️ My Liked Products</h3>
   <div class="row">
    @for(item of likedProducts; track $index){
-     <div class="col-md-3 mb-3">
+     <div class="col-md-4 mb-3">
      <app-card-shop 
       [product]="item" 
       (likedChanged)="onLikeChanged($event)"

@@ -16,7 +16,7 @@
    @for (item of basket?.items; track i; let i = $index){
      <tr>
       <th scope="row">{{i + 1}}</th>
-      <td><img [src] = "item.pictureUrl" class="Image-thumbnail" style="max-width: 8rem;"></td>
+      <td><img [src] = "getImageUrl(item.pictureUrl)" class="Image-thumbnail" style="max-width: 8rem;"></td>
       <td>{{item.productName}}</td>
       <td>{{item.type}}</td>
       <td>{{item.brand}}</td>
