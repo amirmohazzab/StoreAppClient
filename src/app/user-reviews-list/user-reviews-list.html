@@ -1,0 +1,53 @@
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h4>My Reviews</h4>
+    <hr>
+
+    @if(loading){
+      <div>Loading...</div>
+    }
+
+    @if(!loading && reviews.length === 0){
+      <div class="text-muted">
+      You have not written any reviews yet.
+    </div>
+    }
+
+    @for(review of reviews; track $index){
+      <div class="mb-3 border-bottom pb-2">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <strong>{{ review.userName }}</strong>
+          <span class="text-muted ms-2">{{ review.created | date:'short' }}</span>
+          <span class="text-muted ms-2">{{ review.productTitle }}</span>
+
+           <div class="review-stars d-flex align-items-center">
+            @for(star of getStars(); track $index){
+              <span>
+              <i 
+                class="fa"
+                [ngClass]="{
+                  'fa-star': isStarFilled($index + 1, review.rating) === 'full',
+                  'fa-star-half-alt': isStarFilled($index + 1, review.rating) === 'half',
+                  'fa-star-o': isStarFilled($index + 1, review.rating) === 'empty'
+                }"
+              ></i>
+            </span>
+            }
+          <span class="ms-2">{{ review.rating.toFixed(1) }}</span>
+        </div>
+
+          <p class="mt-2">{{ review.comment }}</p>
+        </div>
+
+        <div class="text-end">
+          <button class="btn btn-sm btn-danger" (click)="delete(review)">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+
+  </div>
+</div>

@@ -1,0 +1,19 @@
+
+i.fa {
+  color: #ccc; 
+  font-size: 18px;
+  margin-right: 2px;
+}
+
+i.fa-star, i.fa-star-half-alt {
+  color: gold; 
+}
+
+.review-item i.fa {
+  color: #fbc02d; // رنگ طلایی برای ستاره‌ها
+  margin-right: 2px;
+}
+
+.review-item i.far.fa-star {
+  color: #ccc; // ستاره خالی رنگ خاکستری
+}

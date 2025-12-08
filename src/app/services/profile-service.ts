@@ -4,6 +4,7 @@ import { IAddress } from '../models/Address';
 import { IUserLike } from '../models/User';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IProduct } from '../models/IProduct';
+import { IReview } from '../models/IReview';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,14 @@ export class ProfileService {
 
   getLikedProducts() : Observable<IProduct[]> {
     return this.http.get<IProduct[]>(`${this.backendUrl}/userLike/liked-products`);
+  }
+
+   getUserReviews(): Observable<IReview[]> {
+    return this.http.get<IReview[]>(`${this.backendUrl}/account/review`);
+  }
+
+  deleteReview(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(`${this.backendUrl}/account/review/${id}`);
   }
 
   

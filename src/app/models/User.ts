@@ -3,7 +3,9 @@ export interface IUser {
     userName: string,
     token: string,
     nationalCode?: string,
-    displayName: string
+    displayName: string,
+    role?: string,
+    permission?: string[]
 }
 
 export type Login = {

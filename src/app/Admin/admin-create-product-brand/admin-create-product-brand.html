@@ -1,0 +1,21 @@
+<h3>Create Product Brand</h3>
+
+<form (ngSubmit)="save()">
+  
+  <div class="mb-3">
+    <label>Title</label>
+    <input class="form-control" [(ngModel)]="model.title" name="name" required>
+  </div>
+
+  <div class="mb-3">
+    <label>Summary</label>
+    <input class="form-control" [(ngModel)]="model.summary" name="name" required>
+  </div>
+
+  <div class="mb-3">
+    <label>Description</label>
+    <input class="form-control" [(ngModel)]="model.description" name="name" required>
+  </div>
+
+  <button class="btn btn-success">Save</button>
+</form>

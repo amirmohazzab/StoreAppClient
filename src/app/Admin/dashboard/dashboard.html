@@ -1,0 +1,32 @@
+<h2>Dasboard</h2>
+
+<div class="row mt-4">
+
+  <div class="col-md-4">
+    <div class="card p-3">
+      <h5> Last Purchase </h5>
+      <ul>
+        <li *ngFor="let order of [1,2,3]">سفارش شماره {{order}}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card p-3">
+      <h5> Last Liked</h5>
+      <ul>
+        <li *ngFor="let like of [1,2,3]">محصول لایک شده {{like}}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card p-3">
+      <h5> Last Reviews </h5>
+      <ul>
+        <li *ngFor="let c of [1,2,3]">کامنت شماره {{c}}</li>
+      </ul>
+    </div>
+  </div>
+
+</div>

@@ -11,12 +11,13 @@
 
    @if(product?.galleryImages){
      <div class="thumbnails">
-      <img 
-        *ngFor="let img of product?.galleryImages"
+      @for(img of product?.galleryImages; track $index){
+        <img 
         [src]="img"
         (click)="selectedImage = img"
         [class.active]="selectedImage === img"
       >
+      }
     </div>
    }
   </div>
@@ -37,10 +38,12 @@
     <p class="description">{{ product?.description }}</p>
 
     <div class="stats">
-      <span>
-       <i [ngClass]="[product.liked ? 'fas fa-heart' : 'far fa-heart', 'heart-animate']"></i>
+      @if(product){
+        <span>
+       <i [ngClass]="[product?.liked ? 'fas fa-heart' : 'far fa-heart', 'heart-animate']"></i>
         {{ product?.likeCount }}
       </span>
+      }
       <span><i class="fa fa-eye"></i> {{ product?.viewCount }}</span>
     </div>
 
@@ -77,20 +80,26 @@
   </div>
 
   <div class="tab-content">
-    <div *ngIf="activeTab==='description'">
+    @if(activeTab==='description'){
+      <div>
       <p>{{ product?.description }}</p>
     </div>
+    }
 
-    <div *ngIf="activeTab==='reviews'">
+   @if(activeTab==='reviews'){
+     <div>
       <!-- <h3>User Reviews</h3>
       <p *ngFor="let r of reviews">⭐ {{ r }}</p> -->
       <section class="reviews">
       
      <div class="d-flex align-items-center mb-2">
-  <h3 class="me-3">Customer Reviews ({{ reviews.length }})</h3>
+   @if(reviews){
+     <h3 class="me-3">Customer Reviews ({{ reviews.result.length}})</h3>
+   }
   <h4> Average Rating : <span class="ms-2">{{ averageRating.toFixed(2) }}</span> </h4>
   <div class="review-stars d-flex align-items-center">
-    <span *ngFor="let star of getStars()">
+    @for(star of getStars(); track $index){
+      <span>
       <i 
         class="fa"
         [ngClass]="{
@@ -99,34 +108,44 @@
           'fa-star-o': isStarFilled(star, averageRating) === 'empty'
         }"
       ></i>
-    </span>
+    </span> 
+    }
      
   </div>
 </div>
 
   <!-- Review List -->
-       <div class="review-stars">
-  <div *ngFor="let review of reviews" class="review-item mb-3">
+<div class="review-stars">
+
+  @if(reviews.result.length === 0){
+    <div>No reviews yet.</div>
+  }
+
+ @for(review of reviews.result; track $index){
+   <div class="review-item mb-3">
 
   <p><strong>{{ review.userName }}</strong> - {{ review.created | date:'short' }}</p>
 
   <div class="review-stars d-flex align-items-center">
-    <span *ngFor="let star of getStars(); let i = index">
+    @for(star of getStars(); track $index){
+       <span>
       <i 
         class="fa"
         [ngClass]="{
-          'fa-star': isStarFilled(i + 1, review.rating) === 'full',
-          'fa-star-half-alt': isStarFilled(i + 1, review.rating) === 'half',
-          'fa-star-o': isStarFilled(i + 1, review.rating) === 'empty'
+          'fa-star': isStarFilled($index + 1, review.rating) === 'full',
+          'fa-star-half-alt': isStarFilled($index + 1, review.rating) === 'half',
+          'fa-star-o': isStarFilled($index + 1, review.rating) === 'empty'
         }"
       ></i>
     </span>
+    }
     <span class="ms-2">{{ review.rating.toFixed(1) }}</span>
   </div>
 
   <p>{{ review.comment }}</p>
 
-</div>
+  </div>
+ }
 
 </div>
 
@@ -139,7 +158,9 @@
     <div class="form-group">
       <label>Rating</label>
       <select class="form-control" formControlName="rating">
-        <option *ngFor="let r of [1,2,3,4,5]" [value]="r">{{ r }}</option>
+       @for(r of [1,2,3,4,5]; track $index){
+         <option [value]="r">{{ r }}</option>
+       }
       </select>
     </div>
 
@@ -155,6 +176,7 @@
       </section>
 
     </div>
+   }
   </div>
 </div>
 
@@ -162,9 +184,11 @@
 <h3 class="related-title">Related Products</h3>
 
 <div class="related-grid">
-  <div *ngFor="let item of relatedProducts" class="item">
+  @for(item of relatedProducts; track $index){
+    <div class="item">
     <app-card-shop [product]="item"></app-card-shop>
   </div>
+  }
 </div>
 
 

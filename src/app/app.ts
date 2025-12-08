@@ -25,7 +25,7 @@ import { IUser } from './models/User';
     CommonModule,
     PaginationModule,
     Breadcrumb,
-    NgxSpinnerComponent
+    NgxSpinnerComponent,
 ],
   
   templateUrl: './app.html',

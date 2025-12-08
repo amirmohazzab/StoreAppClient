@@ -23,10 +23,13 @@ export class ProfileLayout implements OnInit{
   isMobile = false;
 
   links = [
-    { name: 'Personal Profile', href: '/profile', icon: 'person' },
-    { name: 'My Baskets', href: '/profile/basket', icon: 'shopping_cart' },
-    { name: 'My Orders', href: '/profile/order', icon: 'order' },
-    { name: 'My Favorites', href: '/profile/like', icon: 'like' }
+    { name: 'Personal Info', href: '/profile', icon: 'fa-solid fa-info-circle' },
+    { name: 'Baskets', href: '/profile/basket', icon: 'fa-solid fa-cart-shopping' },
+    { name: 'Orders', href: '/profile/order', icon: 'fa-solid fa-receipt' },
+    { name: 'Favorites', href: '/profile/like', icon: 'fa-solid fa-heart' },
+    { name: "Addresses", href: "/profile/address", icon: "fa-solid fa-location-dot" },
+    { name: "Reviews", href: "/profile/review", icon: "fa-solid fa-comment-dots" },
+    { name: "Password", href: "/profile/changePassword", icon: "fa-solid fa-lock" }
   ];
 
   constructor(private router: Router, private route: ActivatedRoute) {

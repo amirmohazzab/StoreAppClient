@@ -1,0 +1,39 @@
+<div class="card">
+  <div class="card-header">Permissions</div>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="save()">
+      <div class="row">
+        <div class="col">
+          <input formControlName="name" class="form-control" placeholder="Permission name (eg. Product.Create)">
+        </div>
+        <div class="col">
+          <input formControlName="description" class="form-control" placeholder="Description (optional)">
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-primary" type="submit">{{ editing ? 'Update' : 'Create' }}</button>
+          @if(editing){
+            <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+          }
+        </div>
+      </div>
+    </form>
+
+    <hr>
+
+    <table class="table table-sm mt-3">
+      <thead><tr><th>Name</th><th>Description</th><th>Actions</th></tr></thead>
+      <tbody>
+        @for(p of permissions; track $index){
+            <tr>
+          <td>{{p.name}}</td>
+          <td>{{p.displayName}}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary" (click)="startEdit(p)">Edit</button>
+            <button class="btn btn-sm btn-outline-danger" (click)="remove(p.id)">Delete</button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

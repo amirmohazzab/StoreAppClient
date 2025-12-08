@@ -1,0 +1,26 @@
+<div class="d-flex justify-content-between mb-3">
+  <h3>Roles</h3>
+  <button class="btn btn-primary" routerLink="/admin/role/create">Create Role</button>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Permissions</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for(role of roles; track $index){
+    <tr>
+        <td>{{ role.name }}</td>
+        <td>{{ role.permission.join(', ') }}</td>
+        <td>
+            <button class="btn btn-sm btn-warning" (click)="editRole(role.id)">Edit</button>
+            <button class="btn btn-sm btn-danger" (click)="deleteRole(role.id)">Delete</button>
+        </td>
+    </tr>
+    }
+  </tbody>
+</table>

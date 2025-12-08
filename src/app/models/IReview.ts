@@ -4,4 +4,7 @@ export interface IReview {
   comment: string;
   rating: number;
   created: string;
+  productId: number;
+  userId?: string;
+  productTitle: string
 }

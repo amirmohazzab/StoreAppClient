@@ -1,8 +1,8 @@
 export interface IType {
+    id: number,
     created?: Date,
     createdBy?: string,
     description?: string,
-    id: number,
     isActive?: boolean,
     isDelete?: boolean,
     lastModified?: Date,

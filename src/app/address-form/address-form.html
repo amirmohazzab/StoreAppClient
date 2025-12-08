@@ -1,0 +1,55 @@
+<div class="card shadow-sm">
+  <div class="card-body">
+
+    <h4 class="mb-3">
+      <i class="fa fa-map-marker"></i>
+      {{ id ? "Edit Address" : "Add New Address" }}
+    </h4>
+    <hr>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="mb-3">
+        <label>Title</label>
+        <input type="text" class="form-control" formControlName="title">
+        <div class="text-danger" *ngIf="form.controls.title.touched && form.controls.title.invalid">
+          Title is required (min 2 chars)
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label>State</label>
+        <input type="text" class="form-control" formControlName="state">
+        <div class="text-danger" *ngIf="form.controls.state.touched && form.controls.state.invalid">
+          State is required
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label>City</label>
+        <input type="text" class="form-control" formControlName="city">
+        <div class="text-danger" *ngIf="form.controls.city.touched && form.controls.city.invalid">
+          City is required
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label>Full Address</label>
+        <textarea rows="3" class="form-control" formControlName="address"></textarea>
+        <div class="text-danger" *ngIf="form.controls.address.touched && form.controls.address.invalid">
+          Address must be at least 10 characters
+        </div>
+      </div>
+
+      <button class="btn btn-success" [disabled]="loading">
+        {{ id ? "Update" : "Save" }}
+      </button>
+
+      <a routerLink="/profile/address" class="btn btn-secondary ms-2">
+        Cancel
+      </a>
+
+    </form>
+
+  </div>
+</div>

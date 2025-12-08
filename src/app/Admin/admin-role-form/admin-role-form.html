@@ -1,0 +1,21 @@
+<form [formGroup]="form" (ngSubmit)="save()">
+  <div class="mb-3">
+    <label>Name</label>
+    <input formControlName="name" class="form-control" />
+  </div>
+
+  <div class="mb-3">
+    <label>Permissions</label>
+    @for(perm of permissions; track $index){
+        <div class="form-check">
+      <input type="checkbox" class="form-check-input"
+             [value]="perm.name"
+             (change)="onPermissionChange($event)"
+             [checked]="form.value.permissions.includes(perm.name)">
+      <label class="form-check-label">{{ perm.displayName }}</label>
+    </div>
+    }
+  </div>
+
+  <button class="btn btn-success">Save</button>
+</form>

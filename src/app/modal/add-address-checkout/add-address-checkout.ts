@@ -30,7 +30,8 @@ export class AddAddressCheckout {
       city: new FormControl('', [Validators.required, Validators.minLength(3)]),
       postalCode: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
       fullAddress: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]),
-      isMain: new FormControl(true)
+      isMain: new FormControl(true),
+      place: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(15)]),
     });
   }
   

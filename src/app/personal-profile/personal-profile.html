@@ -1,41 +1,84 @@
-<div class="modal-body">
-  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+ <div class="card shadow-sm">
+  <div class="card-body">
 
-    <div class="form-floating mb-2">
-      <input type="text" id="number" class="form-control" formControlName="number">
-      <label for="number">Mobile</label>
+    <h4><i class="fa fa-user"></i> Personal Info</h4>
+    <hr>
+
+    <!-- PROFILE IMAGE -->
+    <div class="text-center mb-4">
+
+      <!-- Preview Image -->
+      <img 
+        [src]="previewUrl || avatarUrl || '../../../image/avatar.png'" 
+        class="rounded-circle border shadow"
+        width="150" height="150" style="object-fit: cover;"
+      >
+
+      <!-- Drag & Drop Zone -->
+      <div 
+        class="upload-box mt-3"
+        (drop)="onDrop($event)"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        [class.dragging]="isDragging">
+
+        <p>Drag & Drop Image Here</p>
+        <p>or</p>
+
+        <input type="file" #fileInput hidden (change)="onFileChange($event)">
+        <button class="btn btn-outline-primary" (click)="fileInput.click()">Select Image</button>
+
+      </div>
     </div>
 
-    <div class="form-floating mb-2">
-      <input type="text" id="firstName" class="form-control" formControlName="firstName">
-      <label for="firstName">First Name</label>
-    </div>
+    <!-- FORM -->
+    <div class="modal-body">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
 
-    <div class="form-floating mb-2">
-      <input type="text" id="lastName" class="form-control" formControlName="lastName">
-      <label for="lastName">Last Name</label>
-    </div>
+      <div class="form-floating mb-2">
+        <input type="text" id="number" class="form-control" formControlName="number">
+        <label for="number">Mobile</label>
+      </div>
 
-    <div class="form-floating mb-2">
-      <input type="text" id="state" class="form-control" formControlName="state">
-      <label for="state">State</label>
-    </div>
+      <div class="form-floating mb-2">
+        <input type="text" id="firstName" class="form-control" formControlName="firstName">
+        <label for="firstName">First Name</label>
+      </div>
 
-    <div class="form-floating mb-2">
-      <input type="text" id="city" class="form-control" formControlName="city">
-      <label for="city">City</label>
-    </div>
+      <div class="form-floating mb-2">
+        <input type="text" id="lastName" class="form-control" formControlName="lastName">
+        <label for="lastName">Last Name</label>
+      </div>
 
-    <div class="form-floating mb-2">
-      <input type="text" id="postalCode" class="form-control" formControlName="postalCode">
-      <label for="postalCode">Postal Code</label>
-    </div>
+      <div class="form-floating mb-2">
+        <input type="text" id="state" class="form-control" formControlName="state">
+        <label for="state">State</label>
+      </div>
 
-    <div class="form-floating mb-4">
-      <textarea id="fullAddress" class="form-control" style="height: 60px;" formControlName="fullAddress"></textarea>
-      <label for="fullAddress">Full Address</label>
-    </div>
+      <div class="form-floating mb-2">
+        <input type="text" id="city" class="form-control" formControlName="city">
+        <label for="city">City</label>
+      </div>
 
-    <button type="submit" class="btn btn-primary">Update Profile</button>
-  </form>
+      <div class="form-floating mb-2">
+        <input type="text" id="postalCode" class="form-control" formControlName="postalCode">
+        <label for="postalCode">Postal Code</label>
+      </div>
+
+      <div class="form-floating mb-4">
+        <textarea id="fullAddress" class="form-control" style="height: 60px;" formControlName="fullAddress"></textarea>
+        <label for="fullAddress">Full Address</label>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+  </div>
+
+  </div>
 </div>
+
+
+
+
+
+ 

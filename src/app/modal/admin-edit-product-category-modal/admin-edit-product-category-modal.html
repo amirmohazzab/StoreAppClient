@@ -1,0 +1,25 @@
+@if(visible){
+    <div class="modal-backdrop"></div>
+}
+
+@if(visible){
+<div class="modal">
+  <div class="modal-content">
+
+    <h3>Edit Category</h3>
+
+    <form (ngSubmit)="save()">
+
+      <label>Name</label>
+      <input class="form-control" type="text" [(ngModel)]="model.name" name="name" required>
+
+      <div class="modal-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-secondary" (click)="close()">Cancel</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+}

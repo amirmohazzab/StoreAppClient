@@ -1,0 +1,63 @@
+.admin-container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 230px;
+  background: #1e1e2f;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 10px;
+  margin-bottom: 5px;
+  background: #2d2d42;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+}
+
+.sidebar nav a.active {
+  background: #4a4aff;
+}
+
+.content {
+  flex: 1;
+  padding: 25px;
+  background: #f3f4f6;
+}
+
+.admin-wrapper {
+  min-height: 100vh;
+}
+
+.admin-content {
+  min-height: calc(100vh - 120px);
+}
+
+.admin-wrapper {
+  position: relative;
+}
+
+/* BACKDROP */
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 99;
+}
+
+/* MAIN CONTENT */
+.admin-content {
+  transition: margin-left .3s ease;
+}
+
+/* MOBILE OVERRIDE */
+@media (max-width: 992px) {
+  .admin-content {
+    margin-left: 0 !important;
+  }
+}

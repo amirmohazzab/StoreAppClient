@@ -8,7 +8,7 @@ import { IDeliveryMethod } from '../models/order';
 })
 export class CheckoutFormBuilderService {
   private formBuilder = new BehaviorSubject<ICheckoutFormBuilder>({
-    address: { id: 0, isMain: false, state: '', city: '', firstName: '', lastName: '', fullAddress: '', number: '', postalCode:''},
+    address: { id: 0, isMain: false, state: '', city: '', firstName: '', lastName: '', fullAddress: '', number: '', postalCode:'', avatarUrl: '', place: ''},
     deliveryMethod: undefined,
     portalType: undefined,
     buyerPhoneNumber: ''

@@ -9,7 +9,9 @@ export interface IAddress {
     lastName: string,
     fullAddress: string,
     number: string,
-    postalCode: string
+    postalCode: string, 
+    avatarUrl: string,
+    place: string
 }
 
 export interface ICheckoutFormBuilder {
@@ -27,5 +29,6 @@ export interface IAddAddress{
     lastName: string,
     fullAddress: string,
     number: string,
-    postalCode: string
+    postalCode: string,
+    place: string
 }

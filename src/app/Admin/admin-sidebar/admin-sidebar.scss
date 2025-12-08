@@ -1,0 +1,114 @@
+.sidebar {
+  width: 260px;
+  padding: 20px;
+  background: #1e293b;
+  min-height: 100vh;
+  color: white;
+  transition: 0.3s ease;
+}
+
+.sidebar.mobile {
+  position: fixed;
+  top: 0;
+  right: -260px;
+  z-index: 2000;
+}
+
+.sidebar.mobile.open {
+  right: 0;
+}
+
+.sidebar-header {
+  font-size: 20px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-list li a,
+.dropdown-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: none;
+  color: white;
+  text-align: left;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ .menu-list li a:hover,
+ .dropdown-btn:hover {
+   background: rgba(255,255,255,0.1);
+   border-radius: 6px;
+ }
+
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.submenu.open {
+  max-height: 1000px;
+}
+
+// .menu-list li a.active,
+// .submenu li a.active {
+//   background-color: #4f46e5 !important;
+//   border-radius: 6px;
+// }
+
+
+// .submenu {
+//   max-height: 0;
+//   overflow: hidden;
+//   background: rgba(255,255,255,0.05);
+//   margin-left: 10px;
+//   transition: max-height 0.3s ease;
+//   border-radius: 6px;
+// }
+
+// .submenu.open {
+//   max-height: 400px;
+// }
+
+.submenu li a {
+  padding: 10px 15px;
+  display: block;
+}
+
+.active {
+  background-color: #4f46e5 !important;
+  border-radius: 6px;
+}
+
+
+.sidebar-item {
+  position: relative;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  position: relative;
+}
+
+.icon-left {
+  position: absolute;
+  left: 15px; /* آیکن همیشه چپ باشد */
+}
+
+.title-center {
+  flex: 1;
+  text-align: center; /* متن دقیقاً وسط */
+  font-weight: 500;
+}

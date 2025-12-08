@@ -1,0 +1,22 @@
+<div class="modal" tabindex="-1" [ngClass]="{ show: isOpen }" [ngStyle]="{ display: isOpen ? 'block' : 'none' }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Manage Permissions for {{ user?.userName }}</h5>
+        <button type="button" class="btn-close" (click)="close()"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let perm of allPermissions">
+          <input type="checkbox" 
+                 [checked]="userPermissionIds.includes(perm.id)" 
+                 (change)="togglePermission(perm.id, $event.target.checked)">
+          {{ perm.displayName }}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="close()">Cancel</button>
+        <button class="btn btn-primary" (click)="savePermissions()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

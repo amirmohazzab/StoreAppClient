@@ -17,7 +17,7 @@
         <th scope="col">State</th>
         <th scope="col">City</th>
         <th scope="col"> Full Address</th>
-        <th scope="col">Action</th>
+        <th scope="col">Place</th>
       </tr>
     </thead>
     <tbody>
@@ -40,16 +40,7 @@
           <td>{{ item.state }}</td>
           <td>{{ item.city }}</td>
           <td>{{ item.fullAddress }}</td>
-          <td>
-            <button 
-              (click)="setToMainAddress(item?.id)" 
-              [class.btn-primary]="i === indexAddressShipping"
-              [class.btn-outline-primary]="i !== indexAddressShipping"
-              class="btn btn-sm"
-            >   
-            Default
-            </button>
-          </td>
+          <td>{{ item.place}}</td>
         </tr>
     }
    }
@@ -66,3 +57,12 @@
     </ng-template>
 }
 
+<!-- 
+<button 
+              (click)="setToMainAddress(item?.id)" 
+              [class.btn-primary]="i === indexAddressShipping"
+              [class.btn-outline-primary]="i !== indexAddressShipping"
+              class="btn btn-sm"
+            >   
+            Default
+            </button> -->

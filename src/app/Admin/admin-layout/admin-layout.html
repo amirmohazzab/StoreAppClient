@@ -1,0 +1,20 @@
+<div class="admin-wrapper d-flex">
+
+  <!-- BACKDROP for mobile -->
+ @if(sidebarOpen && isMobile){
+   <div class="sidebar-backdrop" (click)="toggleSidebar()"></div>
+ }
+  <!-- SIDEBAR -->
+  <app-admin-sidebar [mobile]="isMobile" [open]="sidebarOpen"></app-admin-sidebar>
+
+  <!-- MAIN CONTENT -->
+  <div class="admin-content flex-grow-1">
+    <app-admin-header (toggleSidebar)="toggleSidebar()"></app-admin-header>
+
+    <div class="p-3">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>
+

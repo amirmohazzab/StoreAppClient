@@ -1,0 +1,39 @@
+<div class="container mt-4">
+  <h3>Categories</h3>
+
+  <button class="btn btn-success mb-3" routerLink="/admin/category/create">
+    + Create Category
+  </button>
+
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+     @for(p of categories; track $index){
+         <tr>
+        <td>{{$index+1}}</td>
+        <td>{{p.name}}</td>
+        <td>
+          <button class="btn btn-primary btn-sm" (click)="openEditModal(p)">Edit</button>
+          <button class="btn btn-danger btn-sm ms-2" (click)="delete(p.id)">Delete</button>
+        </td>
+      </tr>
+     }
+    </tbody>
+  </table>
+
+</div>
+
+<app-admin-edit-product-category-modal
+  [visible]="editModalOpen"
+  [model]="editModel"
+  (onSave)="updateCategory($event)"
+  (onClose)="editModalOpen = false">
+</app-admin-edit-product-category-modal>
+

@@ -1,0 +1,38 @@
+<h2> Product Details </h2>
+
+@if(product){
+  <div class="mt-3">
+  <p><strong>Title:</strong> {{product.title}}</p>
+  <p><strong>Price:</strong> {{product.price}}</p>
+  <p><strong>OldPrice:</strong> {{product.oldPrice}}</p>
+  <p><strong>Category:</strong> {{product.productCategoryName}}</p>
+  <p><strong>Brand:</strong> {{product.productBrandName}}</p>
+  <p><strong>Type:</strong> {{product.productTypeName}}</p>
+  <div>
+  <p><strong>Main Image:</strong></p>
+  <img [src]="getImageUrl(product.mainImage)" width="150" />
+</div>
+<div>
+  <p><strong>Gallery:</strong></p>
+  <div class="flex gap-2 flex-wrap">
+   @for(g of product.gallery; track $index){
+     <img [src]="getImageUrl(g)"
+         width="100"
+         class="rounded border" />
+   }
+  </div>
+</div>
+  <p><strong>Colors:</strong></p>
+<ul>
+  @for(c of product.colors; track $index){
+    <li>{{c}}</li>
+  }
+</ul>
+<p><strong>Sizes:</strong></p>
+<ul>
+  @for(s of product.sizes; track $index){
+    <li>{{s}}</li>
+  }
+</ul>
+</div>
+}

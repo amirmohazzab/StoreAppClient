@@ -24,7 +24,7 @@ export class ProductTabs {
 
   loadReviews(){
     if (!this.product) return;
-    this.shopService.getReviews(this.product.id).subscribe(res => this.reviews = res);
+    this.shopService.getReviews(this.product.id).subscribe(res => this.reviews = res.result);
   }
 
   onReviewSubmitted() {

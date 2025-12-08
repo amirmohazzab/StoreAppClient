@@ -1,0 +1,18 @@
+<!-- edit modal (Bootstrap) -->
+<div class="modal" tabindex="-1" #editModal>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form (ngSubmit)="submitEdit()">
+        <div class="modal-header"><h5>Edit review</h5></div>
+        <div class="modal-body">
+          <input [(ngModel)]="editModel.rating" name="rating" type="number" class="form-control" />
+          <textarea [(ngModel)]="editModel.comment" name="comment" class="form-control mt-2"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" (click)="closeModal()">Close</button>
+          <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

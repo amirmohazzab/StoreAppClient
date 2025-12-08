@@ -1,0 +1,93 @@
+
+<div class="sidebar" [class.mobile]="mobile" [class.open]="open">
+
+  <!-- Logo -->
+  <div class="sidebar-header">
+    <h4>Admin Panel</h4>
+  </div>
+
+  <ul class="menu-list">
+
+    <!-- Dashboard -->
+   <li class="sidebar-item">
+  <a routerLink="/admin" routerLinkActive="active" class="sidebar-link">
+    <i class="fa fa-home icon-left"></i>
+    <span class="title-center">Dashboard</span>
+  </a>
+</li>
+
+    <!-- Product Category Menu -->
+    <li>
+      <button class="dropdown-btn" (click)="toggleProductCategoryMenu()">
+        <i class="fa fa-box"></i> Categories
+        <i class="fa" [class.fa-chevron-down]="!productCategoryMenuOpen"
+                     [class.fa-chevron-up]="productCategoryMenuOpen"></i>
+      </button>
+
+      <ul class="submenu" [class.open]="productCategoryMenuOpen">
+            <li><a routerLink="/admin/category" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Category List</a></li>
+            <li><a routerLink="/admin/category/create" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Create Category</a></li>
+      </ul>
+    </li>
+
+     <!-- Product Brand Menu -->
+    <li>
+      <button class="dropdown-btn" (click)="toggleProductBrandMenu()">
+        <i class="fa fa-box"></i> Product Brand
+        <i class="fa" [class.fa-chevron-down]="!productBrandMenuOpen"
+                     [class.fa-chevron-up]="productBrandMenuOpen"></i>
+      </button>
+
+      <ul class="submenu" [class.open]="productBrandMenuOpen">
+            <li><a routerLink="/admin/productBrand" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Product Brand List</a></li>
+            <li><a routerLink="/admin/productBrand/create" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Create Product Brand</a></li>
+      </ul>
+    </li>
+
+    <!-- Product Brand Menu -->
+    <li>
+      <button class="dropdown-btn" (click)="toggleProductTypeMenu()">
+        <i class="fa fa-box"></i> Product Type
+        <i class="fa" [class.fa-chevron-down]="!productTypeMenuOpen"
+                     [class.fa-chevron-up]="productTypeMenuOpen"></i>
+      </button>
+
+      <ul class="submenu" [class.open]="productTypeMenuOpen">
+            <li><a routerLink="/admin/productType" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Product Type List</a></li>
+            <li><a routerLink="/admin/productType/create" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Create Product Type</a></li>
+      </ul>
+    </li>
+
+    <!-- Product Menu -->
+    <li>
+      <button class="dropdown-btn" (click)="toggleProductMenu()">
+        <i class="fa fa-box"></i> Products
+        <i class="fa" [class.fa-chevron-down]="!productMenuOpen"
+                     [class.fa-chevron-up]="productMenuOpen"></i>
+      </button>
+
+      <ul class="submenu" [class.open]="productMenuOpen">
+            <li><a routerLink="/admin/product" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Product List</a></li>
+            <li><a routerLink="/admin/product/create" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Create Product</a></li>
+      </ul>
+    </li>
+
+    <!-- User Menu -->
+    <li>
+      <button class="dropdown-btn" (click)="toggleUserMenu()">
+        <i class="fa fa-users"></i> Users
+        <i class="fa" [class.fa-chevron-down]="!userMenuOpen"
+                     [class.fa-chevron-up]="userMenuOpen"></i>
+      </button>
+
+      <ul class="submenu" [class.open]="userMenuOpen">
+        <li><a routerLink="/admin/user" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">User List</a></li>
+      </ul>
+    </li>
+
+  </ul>
+</div>
+
+<!-- <ul class="submenu" [ngClass]="{'open': menu.products}"></ul>
+<ul class="submenu" [ngClass]="{'open': menu.users}"></ul> -->
+<!-- *appHasPermission="'Product.Create'" -->

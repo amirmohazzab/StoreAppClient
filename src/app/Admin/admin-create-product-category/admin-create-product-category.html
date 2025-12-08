@@ -1,0 +1,11 @@
+<h3>Create Category</h3>
+
+<form (ngSubmit)="save()">
+  
+  <div class="mb-3">
+    <label>Name</label>
+    <input class="form-control" [(ngModel)]="model.name" name="name" required>
+  </div>
+
+  <button class="btn btn-success">Save</button>
+</form>

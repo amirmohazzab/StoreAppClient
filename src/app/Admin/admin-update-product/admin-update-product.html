@@ -1,0 +1,123 @@
+<div class="container mt-4">
+  <h3>Update Product</h3>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label>Title</label>
+        <input class="form-control" formControlName="title">
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label>Price</label>
+        <input class="form-control" formControlName="price" type="number">
+      </div>
+
+      <div class="col-md-3 mb-3">
+        <label>Old Price</label>
+        <input class="form-control" formControlName="oldPrice" type="number">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>Description</label>
+      <textarea class="form-control" formControlName="description"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label>Summary</label>
+      <textarea class="form-control" formControlName="summary"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label>Select Categories</label>
+      <select class="form-control" formControlName="productCategory">
+        <option value="">-- Select --</option>
+        @for(category of categories; track $index){
+          <option [value]="category?.id">
+            {{ category?.name }}
+        </option>
+        }
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Select Product Brands</label>
+      <select class="form-control" formControlName="productBrand">
+        <option value="">-- Select --</option>
+        @for(brand of productBrands; track $index){
+          <option [value]="brand?.id">
+              {{ brand?.title }}
+          </option>
+        }
+      </select>
+    </div>
+
+     <div class="mb-3">
+      <label>Select Product Types</label>
+      <select class="form-control" formControlName="productType">
+        <option value="">-- Select --</option>
+        @for(type of productTypes; track $index){
+          <option [value]="type?.id">
+            {{ type?.title }}
+        </option>
+        }
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Main Image</label>
+      <input type="file" class="form-control" (change)="onMainImageSelected($event)">
+    </div>
+
+    @if(mainImagePreview) {
+        @if(mainImagePreview.startsWith('data:image')) {
+            <img [src]="mainImagePreview" width="100">
+        } @else {
+            <img [src]="getImageUrl(mainImagePreview)" width="100">
+        }
+    }
+
+    <div class="mb-3">
+      <label>Gallery (Multiple)</label>
+      <input type="file" class="form-control" (change)="onGallerySelected($event)" multiple>
+    </div>
+
+   <div class="d-flex flex-wrap gap-3">
+  @for(g of galleryPreview; track $index) {
+
+    <div class="position-relative" style="display:inline-block;">
+
+      <img 
+        [src]="g.startsWith('data:image') ? g : getImageUrl(g)" 
+        width="90" 
+        class="rounded border"
+      />
+
+      <button class="btn btn-danger btn-sm" type="button"
+              style="position:absolute; top:0; right:0; padding:0 6px;"
+              (click)="removeGalleryImage($index)">
+        ×
+      </button>
+
+    </div>
+
+  }
+</div>
+
+    <div class="mb-3">
+      <label>Colors (comma separated)</label>
+      <input class="form-control" formControlName="colors">
+    </div>
+
+    <div class="mb-3">
+      <label>Sizes (comma separated)</label>
+      <input class="form-control" formControlName="sizes">
+    </div>
+
+    <button class="btn btn-primary mt-3">Edit</button>
+
+  </form>
+</div>
+

@@ -1,13 +1,1 @@
-<app-navbar></app-navbar>
-@if(busy$ | async){
-    <ngx-spinner class="spinner-text">
-        Loading ...
-    </ngx-spinner>
-}
-<app-breadcrumb></app-breadcrumb>
-<div class="album py-5 bg-light">
-    <div class="container">
-        <router-outlet></router-outlet>
-    </div>
-</div>
-<app-footer></app-footer>
+<router-outlet></router-outlet>

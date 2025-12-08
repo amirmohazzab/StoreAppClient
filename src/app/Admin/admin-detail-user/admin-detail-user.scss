@@ -1,0 +1,11 @@
+.permissions span {
+  position: relative;
+  padding: 0 8px; 
+}
+
+.permissions span:not(:last-child)::after {
+  content: "|";      
+  position: absolute;
+  right: 0;
+  color: #ccc;       
+}

@@ -47,12 +47,24 @@ export class Login implements OnInit{
       this.loginForm.markAllAsTouched();
       return;
     }
-    this.accountService.login(this.loginForm.getRawValue()).subscribe((response) => {
-      if (response) {
-        this.router.navigateByUrl(this.returnUrl);
-        this.toast.success('Login Successful');
-      }
-    });
+    this.accountService.login(this.loginForm.getRawValue()).subscribe((user) => {
+       if (!user) return;
+
+    this.toast.success('Login Successful');
+
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'];
+
+    if (returnUrl) {
+      this.router.navigateByUrl(returnUrl);
+      return;
+    }
+
+    if (user.role?.toLowerCase() === "admin") {
+      this.router.navigate(['/admin']);
+    } else {
+      this.router.navigate(['/']);
+    }
+  });
   }
 
 

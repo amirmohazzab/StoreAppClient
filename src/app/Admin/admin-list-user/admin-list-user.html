@@ -1,0 +1,99 @@
+<h3 class="mb-3">User List</h3>
+
+<div class="d-flex mb-3">
+  <input type="text" class="form-control me-2"
+         placeholder="Search..."
+         [(ngModel)]="search"
+         (keyup)="onSearch()">
+
+  <button class="btn btn-primary" (click)="onSearch()">Search</button>
+</div>
+
+<table class="table table-bordered table-hover">
+  <thead class="table-light">
+    <tr>
+      <th>#</th>
+      <th>Username</th>
+      <th>DisplayName</th>
+      <th>Active</th>
+      <th>Role</th>
+      <th>Permission</th>
+      <th class="text-center">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+   @for(user of users; track $index){
+     <tr>
+      <td>{{ $index + 1 }}</td>
+      <td>{{ user.userName }}</td>
+      <td>{{ user.displayName }}</td>
+      <td>{{ user.isActive ? 'Yes' : 'No' }}</td>
+      <td>{{ user.role }}</td>  
+      <td>
+       @for(perm of user.permissions; track $index){
+          <span class="badge bg-primary me-1">
+            {{ perm.displayName}}
+          </span>
+       }
+      </td>
+
+      <td class="text-center">
+         <button class="btn btn-info btn-sm" (click)="openPermissionsModal(user)">
+          Permissions
+        </button>
+        <button class="btn btn-sm btn-info me-2"
+                [routerLink]="['/admin/user', user.id]">
+          View
+        </button>
+
+        <button class="btn btn-sm btn-warning me-2"
+                
+                [routerLink]="['/admin/user/edit', user.id]">
+          Edit
+        </button>
+
+        <button class="btn btn-sm btn-danger"
+                (click)="deleteUser(user.id)">
+          Delete
+        </button>
+      </td>
+    </tr>
+   }
+  </tbody>
+</table>
+
+@if(pagination){
+  <nav>
+  <ul class="pagination justify-content-center">
+
+    <li class="page-item"
+        [class.disabled]="pageNumber == 1">
+      <a class="page-link" (click)="pageChanged(pageNumber - 1)">Prev</a>
+    </li>
+
+    @for(p of [].constructor(pagination.totalPages); track $index){
+      <li class="page-item" [class.active]="pageNumber == ($index+1)">
+      <a class="page-link" (click)="pageChanged($index+1)">
+        {{ $index + 1 }}
+      </a>
+    </li>
+    }
+
+    <li class="page-item"
+        [class.disabled]="pageNumber == pagination.totalPages">
+      <a class="page-link" (click)="pageChanged(pageNumber + 1)">Next</a>
+    </li>
+
+  </ul>
+</nav>
+}
+
+<app-user-permission 
+  #permissionsModal 
+  [allPermissions]="permissions" 
+  (saved)="onPermissionsSaved()">
+</app-user-permission>
+
+<!-- *appHasPermission="'user.edit'"  -->
+ 

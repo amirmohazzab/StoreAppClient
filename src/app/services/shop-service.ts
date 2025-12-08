@@ -84,12 +84,20 @@ export class ShopService {
    return this.http.get<IProduct[]>(`${this.backendUrl}/product/${productId}/related?count=${count}`);
   }
 
-  addReview(productId: number, data: any) {
+  addReview(productId: number, data: { rating: number, comment: string }) {
     return this.http.post(`${this.backendUrl}/product/${productId}/review`, data);
   }
 
-  getReviews(productId: number) {
-    return this.http.get<IReview[]>(`${this.backendUrl}/product/${productId}/reviews`);
+  getReviews(productId: number, pageIndex = 1, pageSize = 5): Observable<IPagination<IReview>> {
+    return this.http.get<IPagination<IReview>>(`${this.backendUrl}/product/${productId}/review?pageIndex=${pageIndex}&pageSize=${pageSize}`);
+  }
+
+  editReview(reviewId: number, data: { rating: number, comment: string }) {
+    return this.http.put<any>(`${this.backendUrl}/product/review/${reviewId}`, data);
+  }
+
+  deleteReview(reviewId: number) {
+    return this.http.delete<any>(`${this.backendUrl}/product/review/${reviewId}`);
   }
 
   // getLikeStatus(productId: number) {

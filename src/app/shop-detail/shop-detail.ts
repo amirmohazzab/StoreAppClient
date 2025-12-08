@@ -16,6 +16,8 @@ import { ProductSkeleton } from '../product-skeleton/product-skeleton';
 import { ProductInfo } from '../product-info/product-info';
 import { ProductRelated } from '../product-related/product-related';
 import { ProductTabs } from '../product-tabs/product-tabs';
+import { IPagination } from '../models/IPagination';
+import { ReviewsList } from '../reviews-list/reviews-list';
 
 @Component({
   selector: 'app-shop-detail',
@@ -35,20 +37,24 @@ import { ProductTabs } from '../product-tabs/product-tabs';
    ]
 })
 export class ShopDetail implements OnInit{  
-  public product : IProduct;
+  public product : IProduct = { liked: false } as IProduct;
   id: number;
   relatedProducts: IProduct[] = [];
   selectedSize?: string;
   selectedColor?: string;
   quantity = 1;
-  public reviews: IReview[] = [];
+  public reviews: IPagination<IReview>;
   public newReview = { rating: 5, comment: '' };
   selectedImage?: string | null = null;
   activeTab: string = 'description';
   loading: boolean = true;
-  isDark: boolean = false
+  isDark: boolean = false;
+
   reviewForm: FormGroup;
   averageRating: number = 0;
+  public reviewsPage = 1;
+  public reviewsPageSize = 5;
+  public reviewsTotal = 0;
 
   constructor(
     private shopService: ShopService, 
@@ -58,15 +64,15 @@ export class ShopDetail implements OnInit{
     private title: Title,
     private bc: BreadcrumbService,
     private basketService: BasketService,
-     private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef
   ){}
 
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     this.load();
-    this.loadReviews();
+    this.loadReviews(1);
     this.reviewForm = new FormGroup({
-      rating: new FormControl(null, Validators.required),
+      rating: new FormControl(5, Validators.required),
       comment: new FormControl('', Validators.required)
     });
   }
@@ -134,30 +140,39 @@ export class ShopDetail implements OnInit{
     this.toast.success('Product added to basket');
   }
 
-loadReviews() {
-  this.shopService.getReviews(this.id).subscribe({
+loadReviews(page = 1) {
+  this.shopService.getReviews(this.id, page, this.reviewsPageSize).subscribe({
     next: (res) => {
       this.reviews = res;
+      console.log(this.reviews.result);
+      this.reviewsPage = res.pageIndex;
+      this.reviewsPageSize = res.pageSize;
+      this.reviewsTotal = res.count;
       this.calculateAverageRating();
     }
   });
 }
 
-submitReview() {
-  if (this.reviewForm.invalid) return;
+ submitReview() {
+   if (this.reviewForm.invalid) return;
 
-  this.shopService.addReview(this.id, this.reviewForm.value).subscribe({
-    next: (createdReview: IReview) => {
-      this.toast.success('Your review has been submitted');
-      this.reviews = [...this.reviews, createdReview];
-      this.loadReviews();
-      this.loadProduct();
-      //this.product.reviewCount += 1;
-      this.calculateAverageRating();
-      this.reviewForm.reset({ rating: 5, comment: '' });
-    }
-  });
-}
+   this.shopService.addReview(this.id, this.reviewForm.value).subscribe({
+     next: (createdReview: IReview) => {
+       // this.reviews = [createdReview, ...this.reviews];
+       // this.loadReviews();
+         if (this.reviewsPage === 1) {
+            this.reviews.result = [createdReview, ...this.reviews.result];
+          } else {
+            this.loadReviews(1);
+          }
+       this.loadProduct();
+       this.toast.success('Your review has been submitted');
+       this.reviewForm.reset({ rating: 5, comment: '' });
+       this.calculateAverageRating();
+     },
+     error: () => this.toast.error('Failed to load reviews')
+   });
+ }
 
 
 getImageUrl(pictureUrl: string | null | undefined): string {
@@ -179,24 +194,36 @@ loadProduct() {
 }
 
 calculateAverageRating() {
-  if (!this.reviews || this.reviews.length === 0) {
+  if (!this.reviews || this.reviews.result.length === 0) {
     this.averageRating = 0;
     return;
   }
 
-  const total = this.reviews.reduce((sum, r) => sum + r.rating, 0);
-  this.averageRating = total / this.reviews.length;
+   const total = this.reviews.result.reduce((sum, r) => sum + (r.rating || 0), 0);
+   this.averageRating = total / this.reviews.result.length;
+ }
+
+  getStars(): number[] {
+   return [1, 2, 3, 4, 5];
+ }
+
+ isStarFilled(star: number, rating: number): 'full' | 'half' | 'empty' {
+   if (rating >= star) return 'full';
+   if (rating >= star - 0.5) return 'half';
+   return 'empty';
+ }
+
+ editReviewSubmit(reviewId: number) {
+   // similar: call editReview and update this.reviews element
+   this.shopService.editReview(reviewId, this.reviewForm.value).subscribe({
+     next: (updated) => {
+       const idx = this.reviews.result.findIndex(r => r.id === reviewId);
+       if (idx > -1) this.reviews[idx] = updated;
+       this.toast.success('Review updated');
+     }
+   });
+ }
+
 }
 
- getStars(): number[] {
-  return [1, 2, 3, 4, 5];
-}
-
-isStarFilled(star: number, rating: number): 'full' | 'half' | 'empty' {
-  if (rating >= star) return 'full';
-  if (rating >= star - 0.5) return 'half';
-  return 'empty';
-}
-
-}
 
