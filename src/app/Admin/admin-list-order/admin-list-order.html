@@ -1,0 +1,116 @@
+<!-- <table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Buyer</th>
+      <th>Total</th>
+      <th>Status</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for(o of orders; track $index){
+        <tr>
+      <td>{{ o.id }}</td>
+      <td>{{ o.buyerPhoneNumber }}</td>
+      <td>{{ o.total | number }}</td>
+      <td>
+        <span class="badge bg-info">{{ o.orderStatus }}</span>
+      </td>
+      <td>{{ o.created | date:'yyyy/MM/dd' }}</td>
+    </tr>
+    }
+  </tbody>
+</table>  -->
+
+<div class="row mb-3">
+  <div class="col-md-3">
+    <input type="text" class="form-control" placeholder="User Name" [(ngModel)]="filter.userName">
+  </div>
+  <div class="col-md-3">
+    <select class="form-select" [(ngModel)]="filter.orderStatus">
+      <option value="">All Status</option>
+      @for(s of orderStatuses; track $index){
+        <option [value]="s">{{ s }}</option>
+      }
+    </select>
+  </div>
+  <div class="col-md-3">
+    <input type="date" class="form-control" [(ngModel)]="filter.fromDate">
+  </div>
+  <div class="col-md-3">
+    <input type="date" class="form-control" [(ngModel)]="filter.toDate">
+  </div>
+</div>
+
+<button class="btn btn-primary mb-3" (click)="applyFilter()">Apply Filter</button>
+
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th (click)="applySort('id')">Order ID <i [class]="sortBy==='id' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
+      <th (click)="applySort('UserName')">User <i [class]="sortBy==='UserName' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
+      <th (click)="applySort('OrderStatus')">OrderStatus <i [class]="sortBy==='OrderStatus' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
+      <th (click)="applySort('Total')">Total <i [class]="sortBy==='Total' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
+      <th (click)="applySort('Created')">Created <i [class]="sortBy==='Created' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for(order of orders; track $index){
+      <tr>
+      <td>{{ order.id }}</td>
+      <td>{{ order.buyerPhoneNumber }}</td>
+      <td>
+        <select [(ngModel)]="order.orderStatus" 
+                (ngModelChange)="changeOrderStatus(order.id, $event)"
+                class="form-select form-select-sm">
+          @for(s of orderStatuses; track $index){
+            <option [ngValue]="s">{{ s }}</option>
+          }
+        </select>
+      </td>
+      <td>{{ order.total | currency }}</td>
+      <td>{{ order.created | date:'mediumDate'}}</td>
+      <td>
+        <button class="btn btn-info btn-sm" (click)="showOrder(order)">
+          View Detail
+        </button>
+      </td>
+    </tr>
+    }
+  </tbody>
+</table> 
+
+
+<!-- Pagination -->
+<!-- @if(totalCount > filter.pageSize){ -->
+  <nav>
+  <ul class="pagination">
+    <li class="page-item" [class.disabled]="filter.pageNumber === 1">
+      <a class="page-link" (click)="changePage(filter.pageNumber - 1)">Previous</a>
+    </li>
+    @for(page of [].constructor(totalPages); track $index){
+       <li class="page-item"
+          [class.active]="filter.pageNumber === $index + 1">
+        <a class="page-link" (click)="changePage($index + 1)">{{ $index + 1 }}</a>
+      </li>
+    }
+    <li class="page-item" [class.disabled]="filter.pageNumber === totalPages">
+      <a class="page-link" (click)="changePage(filter.pageNumber + 1)">Next</a>
+    </li>
+  </ul>
+</nav>
+
+
+@if (isOrderDetailOpen && selectedOrder) {
+<!-- <app-admin-order-detail-modal [order]="selectedOrder" (close)="closeOrderDetail()"></app-admin-order-detail-modal> -->
+ <app-admin-order-detail-modal
+  [order]="selectedOrder"
+  (close)="closeOrderDetail()">
+</app-admin-order-detail-modal>
+}
+
+
+

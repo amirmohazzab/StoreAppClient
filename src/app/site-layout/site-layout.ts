@@ -6,7 +6,6 @@ import { NgxSpinnerComponent } from 'ngx-spinner';
 import { RouterOutlet } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { BusyService } from '../services/busy-service';
-import { ProfileLayout } from '../profile-layout/profile-layout';
 
 @Component({
   selector: 'app-site-layout',

@@ -13,7 +13,7 @@
      <div class="thumbnails">
       @for(img of product?.galleryImages; track $index){
         <img 
-        [src]="img"
+        [src]="getImageUrl(img)"
         (click)="selectedImage = img"
         [class.active]="selectedImage === img"
       >
@@ -61,6 +61,19 @@
       >
         <!-- <i class="fa" [class.fa-heart]="product?.liked" [class.fa-heart-o]="!product?.liked"></i> -->
         <i [ngClass]="[product.liked ? 'fas fa-heart' : 'far fa-heart', 'heart-animate']"></i>
+      </button>
+
+       <button 
+        class="btn-wishlist" 
+        [ngClass]="product.isInWishlist ? 'in-wishlist' : 'not-in-wishlist'"
+        (click)="toggleWishlist(product.id)">
+        
+        <i class="fa" [ngClass]="product.isInWishlist ? 'fa-heart' : 'fa-heart-o'"></i>
+
+        <span>
+          {{ product.isInWishlist ? 'Added to Wishlist' : 'Add to Wishlist' }}
+        </span>
+
       </button>
     </div>
 

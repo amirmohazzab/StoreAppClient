@@ -55,6 +55,7 @@ export class ShopDetail implements OnInit{
   public reviewsPage = 1;
   public reviewsPageSize = 5;
   public reviewsTotal = 0;
+  products : IProduct[];
 
   constructor(
     private shopService: ShopService, 
@@ -88,6 +89,7 @@ export class ShopDetail implements OnInit{
         this.loading = false;
         this.title.setTitle(res?.title);
         this.bc.set('@ProductDetail', res?.title);
+        console.log(this.product);
       } else {
         this.router.navigateByUrl('/notFound');
         this.toast.error("Product not found");
@@ -145,9 +147,9 @@ loadReviews(page = 1) {
     next: (res) => {
       this.reviews = res;
       console.log(this.reviews.result);
-      this.reviewsPage = res.pageIndex;
+      this.reviewsPage = res.pageNumber;
       this.reviewsPageSize = res.pageSize;
-      this.reviewsTotal = res.count;
+      this.reviewsTotal = res.totalCount;
       this.calculateAverageRating();
     }
   });
@@ -223,6 +225,15 @@ calculateAverageRating() {
      }
    });
  }
+
+ toggleWishlist(productId: number) {
+  this.shopService.toggleWishList(productId).subscribe((result: boolean) => {
+    const product = this.products.find(p => p.id === productId);
+    if (product) {
+      product.isInWishlist = result;
+    }
+  });
+}
 
 }
 

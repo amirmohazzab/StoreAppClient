@@ -11,7 +11,7 @@
     <h2>🛍️ Categories</h2>
     <div class="category-grid">
       @for(cat of categories; track $index){
-        <div class="category-item">{{ cat }}</div>
+        <div class="category-item">{{ cat.name }}</div>
       }
     </div>
   </section>

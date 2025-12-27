@@ -26,9 +26,9 @@ export class UserService {
      return this.http.get<IPagination<IAdminUser>>(`${this.adminBackendUrl}/user`, { params });
    }
 
-  // getUsers(query) {
-  //   return this.http.get<IPagination<IAdminUser>>(`${this.adminBackendUrl}/user`, {params: query});
-  // }
+  getUsersForDasboard() {
+     return this.http.get<number>(`${this.adminBackendUrl}/user/dashboard`);
+   }
 
   getUserById(id: string): Observable<IAdminUser> {
     return this.http.get<IAdminUser>(`${this.adminBackendUrl}/user/${id}`);
@@ -56,6 +56,8 @@ updateUserPermissions(userId: string, permissionIds: number[]): Observable<any> 
   getAllPermissions(): Observable<any[]> {
     return this.http.get<any[]>(`${this.adminBackendUrl}/role/permission`);
   }
+
+  
 
   
 

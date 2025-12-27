@@ -126,6 +126,39 @@
   color: white;
 }
 
+
+.btn-wishlist {
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: 1px solid #dc3545;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+/* وقتی در wishlist است */
+.in-wishlist {
+  background: #dc3545;
+  color: #fff;
+}
+
+/* وقتی نیست */
+.not-in-wishlist {
+  background: #fff;
+  color: #dc3545;
+}
+
+.not-in-wishlist:hover {
+  background: #ffe6e6;
+}
+
+.in-wishlist:hover {
+  background: #c82333;
+}
+
 /* TABS */
 .tabs-section {
   padding: 20px;

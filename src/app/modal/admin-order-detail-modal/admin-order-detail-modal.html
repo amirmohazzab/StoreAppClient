@@ -1,0 +1,120 @@
+<!-- @if(orderDetail){
+  <div>
+  <h4>Order #{{ orderDetail.id }}</h4>
+  <p>Status: {{ orderDetail.orderStatus }}</p>
+  <p>User: {{ orderDetail.userName }} ({{ orderDetail.userEmail }})</p>
+  <p>Shipping Address: {{ orderDetail.shippingAddress }}</p>
+  <p>SubTotal: {{ orderDetail.subTotal | currency }}</p>
+  <p>Delivery: {{ orderDetail.deliveryPrice | currency }}</p>
+  <p>Total: {{ orderDetail.total | currency }}</p>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Brand</th>
+        <th>Type</th>
+        <th>Quantity</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(item of orderDetail.items; track $index){
+        <tr>
+        <td>{{ item.productName }}</td>
+        <td>{{ item.brandName }}</td>
+        <td>{{ item.typeName }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.price | currency }}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+} -->
+
+<!-- <div class="modal fade" id="orderDetailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+   @if(selectedOrder){
+     <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Order #{{ selectedOrder.id }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>User: {{ selectedOrder.userName }} ({{ selectedOrder.userEmail }})</p>
+        <p>Shipping Address: {{ selectedOrder.shippingAddress }}</p>
+        <p>SubTotal: {{ selectedOrder.subTotal | currency }}</p>
+        <p>Delivery: {{ selectedOrder.deliveryPrice | currency }}</p>
+        <p>Total: {{ selectedOrder.total | currency }}</p>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Brand</th>
+              <th>Type</th>
+              <th>Quantity</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(item of selectedOrder.items; track $index){
+              <tr>
+              <td>{{ item.productName }}</td>
+              <td>{{ item.brandName }}</td>
+              <td>{{ item.typeName }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.price | currency }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <select [(ngModel)]="selectedOrder.orderStatus" 
+                (change)="changeOrderStatus(selectedOrder.id, selectedOrder.orderStatus)"
+                class="form-select form-select-sm w-auto">
+          <option *ngFor="let s of orderStatuses" [value]="s">{{ s }}</option>
+        </select>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  (click)="closeModal()">Close</button>
+      </div>
+    </div>
+   }
+  </div>
+</div> -->
+
+<div class="modal-header">
+  <h5 class="modal-title">Order #{{order.id}}</h5>
+  <button class="btn-close" (click)="bsModalRef.hide()"></button>
+</div>
+
+<div class="modal-body">
+  <!-- <p><strong>User:</strong> {{order.userName}} ({{order.userEmail}})</p>
+  <p><strong>Status:</strong> {{order.orderStatus}}</p>
+  <p><strong>Address:</strong> {{order.shippingAddress}}</p> -->
+
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Brand</th>
+        <th>Type</th>
+        <th>Qty</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(item of order.items; track $index){
+        <tr>
+        <td>{{item.productName}}</td>
+        <td>{{item.brandName}}</td>
+        <td>{{item.typeName}}</td>
+        <td>{{item.quantity}}</td>
+        <td>{{item.price | currency}}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+

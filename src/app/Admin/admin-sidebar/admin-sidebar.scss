@@ -2,9 +2,12 @@
   width: 260px;
   padding: 20px;
   background: #1e293b;
-  min-height: 100vh;
   color: white;
   transition: 0.3s ease;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 .sidebar.mobile {

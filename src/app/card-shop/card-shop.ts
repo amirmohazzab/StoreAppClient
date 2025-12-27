@@ -18,6 +18,7 @@ import { ProfileService } from '../services/profile-service';
 export class CardShop implements OnInit {
 
    likedProducts: IProduct[];
+   products: IProduct[];
 
    @Input() product!: IProduct;
    @Input() showLikesCount: boolean = true;
@@ -73,13 +74,6 @@ getImageUrl(pictureUrl: string | null | undefined): string {
   return pictureUrl;
 }
 
-// getLikeStatus(){
-//    if (this.product?.id) {
-//     this.shopService.getLikeStatus(this.product.id).subscribe(res => {
-//       this.product.liked = res.liked;
-//       this.cd.detectChanges();
-//     });
-//   }
-// }
+
 
 }

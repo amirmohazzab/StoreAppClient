@@ -44,7 +44,7 @@ export class AdminListUser implements OnInit{
      this.userService.getUsers(this.pageNumber, this.pageSize, this.search, this.sort)
        .subscribe(res => {
          this.users = res.result;
-         this.totalCount = res.count;
+         this.totalCount = res.totalCount;
          console.log(this.users);
        });
    }

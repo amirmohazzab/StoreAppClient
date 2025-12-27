@@ -60,7 +60,7 @@ export interface IOrderItem {
 }
 
 export enum OrderStatusEnum{
-  Surveying = 1,
+  Surveying, 
   Proccessing,
   DeliveredToPost,
   Sent,

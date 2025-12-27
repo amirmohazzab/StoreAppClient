@@ -1,3 +1,5 @@
+import { IPagination } from "./IPagination";
+
 export interface IReview {
   id: number;
   userName: string;
@@ -6,5 +8,21 @@ export interface IReview {
   created: string;
   productId: number;
   userId?: string;
-  productTitle: string
+  productName: string;
+  isApproved: boolean;
+  reviewsCount: number;
+}
+
+export interface IReviewResponse{
+  reviews: IPagination<IReview>,
+  pendingCount: number,
+  approvedCount: number,
+  rejectedCount: number
+}
+
+export interface IMostReviewedProducts {
+  pictureUrl: string;
+  productId: number;
+  productName: string
+  reviewsCount: number
 }

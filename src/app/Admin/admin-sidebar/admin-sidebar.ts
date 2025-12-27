@@ -26,6 +26,7 @@ export class AdminSidebar {
   productCategoryMenuOpen: boolean = false;
   productMenuOpen: boolean = false;
   userMenuOpen: boolean = false;
+  orderMenuOpen: boolean = false;
 
   toggleProductMenu() {
     this.productMenuOpen = !this.productMenuOpen;
@@ -45,5 +46,9 @@ export class AdminSidebar {
 
   toggleProductTypeMenu() {
     this.productTypeMenuOpen = !this.productTypeMenuOpen;
+  }
+
+   toggleOrderMenu() {
+    this.orderMenuOpen = !this.orderMenuOpen;
   }
 }

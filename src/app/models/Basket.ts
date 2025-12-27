@@ -29,3 +29,10 @@ export interface IBasketTotal {
     subTotal: number,
     total: number
 }
+
+export interface IMostAddedToBasket {
+  productId: number;
+  productName: string;
+  totalQuantity: number;
+  pictureUrl: string
+}

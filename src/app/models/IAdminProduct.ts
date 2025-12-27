@@ -38,4 +38,24 @@ export interface IAdminProduct {
 
     colors?: string[];
     sizes?: string[];
+    totalProducts: number;
+}
+
+export interface IMostSoldProduct {
+  productId: number;
+  productName: string;
+  brandName: string;
+  typeName: string;
+  pictureUrl: string;
+  totalQuantitySold : string
+  totalRevenue: number;
+}
+
+
+export interface IMostWishlistedProduct {
+  productId: number;
+  productTitle: string;
+  productBrand: string;
+  wishcount: number;
+  pictureUrl: string;
 }

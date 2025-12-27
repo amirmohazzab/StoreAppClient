@@ -40,6 +40,7 @@ import { AdminCreateProductBrand } from './Admin/admin-create-product-brand/admi
 import { AdminListProductType } from './Admin/admin-list-product-type/admin-list-product-type';
 import { AdminCreateProductType } from './Admin/admin-create-product-type/admin-create-product-type';
 import { AdminDetailProduct } from './Admin/admin-detail-product/admin-detail-product';
+import { AdminListOrder } from './Admin/admin-list-order/admin-list-order';
 
 
 export const routes: Routes = [
@@ -89,6 +90,7 @@ export const routes: Routes = [
                { path: 'productBrand/create', component: AdminCreateProductBrand, data: { breadcrumb: 'Create Product Brand', title: 'Create Product Brand', permission: 'Product.Create' }, title: 'Create Product Brand'},
                { path: 'productType', component: AdminListProductType, title: 'Product Type List ',  data: { breadcrumb: 'Product Type List', title: 'Product Type List' } },
                { path: 'productType/create', component: AdminCreateProductType, data: { breadcrumb: 'Create Product Type', title: 'Create Product Type', permission: 'Product.Create' }, title: 'Create Product Type'},
+               { path: 'order', component: AdminListOrder, title: 'Order List', data: { breadcrumb: 'Order List', title: 'Order List' } },  
           ]
      },
      {path: "serverError", title: "Server Error", component: ServerError, data: {breadcrumb: 'Server Error'}},

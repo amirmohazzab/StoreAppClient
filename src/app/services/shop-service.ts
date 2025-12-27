@@ -74,10 +74,7 @@ export class ShopService {
   }
 
   toggleLike(productId: number): Observable<{ liked: boolean; likeCount: number }> {
-    return this.http.post<{ liked: boolean; likeCount: number }>(
-      `${this.backendUrl}/product/toggle-like/${productId}`,
-      {}
-    );
+    return this.http.post<{ liked: boolean; likeCount: number }>(`${this.backendUrl}/product/toggle-like/${productId}`, {});
   }
 
   getRelatedProducts(productId: number, count: number = 6): Observable<IProduct[]> {
@@ -99,6 +96,14 @@ export class ShopService {
   deleteReview(reviewId: number) {
     return this.http.delete<any>(`${this.backendUrl}/product/review/${reviewId}`);
   }
+
+  toggleWishList(productId: number): Observable<boolean> {
+    return this.http.post<boolean>(`${this.backendUrl}/product/toggle-wishlist/${productId}`, {});
+  }
+
+  // getUserWishlist(userId: number): Observable<any> {
+  //   return this.http.get(`${this.backendUrl}/user/${userId}`);
+  // }
 
   // getLikeStatus(productId: number) {
   //   return this.http.get<{ liked: boolean }>(`${this.backendUrl}/product/like-status/${productId}`);

@@ -20,4 +20,5 @@ export interface IProduct{
     averageRating?: number;   
     reviewCount?: number; 
     galleryImages: string[];
+    isInWishlist : boolean;
 }

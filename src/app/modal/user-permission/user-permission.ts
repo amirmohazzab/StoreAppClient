@@ -26,16 +26,16 @@ export class UserPermission {
 
   open(user: IAdminUser) {
   this.user = user;
- forkJoin([
-    this.userService.getAllPermissions(),
-    this.userService.getUserPermissions(user.id)
-  ]).subscribe(([allPerms, userPerms]) => {
+  forkJoin([
+      this.userService.getAllPermissions(),
+      this.userService.getUserPermissions(user.id)
+    ]).subscribe(([allPerms, userPerms]) => {
 
-    this.allPermissions = allPerms;           // نوع: UserPermission[]
-    this.userPermissionIds = userPerms.map(p => p.id);  // نوع: number[]
+      this.allPermissions = allPerms;           // نوع: UserPermission[]
+      this.userPermissionIds = userPerms.map(p => p.id);  // نوع: number[]
 
-    this.isOpen = true;
-  });
+      this.isOpen = true;
+    });
 }
 
   

@@ -1,0 +1,156 @@
+<div class="row g-3 mb-3">
+
+  <div class="col-md-3">
+    <input class="form-control" placeholder="Product Name" [(ngModel)]="reviewParams.productName">
+  </div>
+
+  <div class="col-md-3">
+    <input class="form-control" placeholder="User Name" [(ngModel)]="reviewParams.userName">
+  </div>
+
+  <div class="col-md-2">
+    <select class="form-select" [(ngModel)]="reviewParams.rating">
+      <option [ngValue]="null" disabled>
+        Rating
+      </option>
+      @for (r of [1,2,3,4,5]; track $index) {
+        <option [ngValue]="r">
+          {{ r }} Stars
+        </option>
+      }
+    </select>
+  </div>
+  
+  <div class="col-md-2">
+    <input type="date" class="form-control" [(ngModel)]="reviewParams.fromDate">
+  </div>
+
+  <div class="col-md-2">
+    <input type="date" class="form-control" [(ngModel)]="reviewParams.toDate">
+  </div>
+
+  <div class="col-md-6 mt-3">
+    <input #text class="form-control" placeholder="Search text..." [(ngModel)]="reviewParams.text" name="text">
+  </div>
+
+  <div class="col-md-2">
+    <select class="form-select" [(ngModel)]="reviewParams.isApproved" (change)="applyFilters(reviewParams.isApproved)">
+    <option [ngValue]="null" disabled hidden>
+      Confirm
+    </option>
+    <option [ngValue]="undefined">All</option>
+    <option [ngValue]="null">Pending</option>
+    <option [ngValue]="true">Approved</option>
+    <option [ngValue]="false">Rejected</option>
+    </select>
+  </div>
+  
+  <div class="col-md-2 mt-3">
+    <button class="btn btn-primary w-100" (click)="onSearch()">
+      Filter
+    </button>
+  </div>
+
+  <div class="col-md-2 mt-3">
+    <button class="btn btn-secondary w-100" (click)="onReset()">
+      Reset
+    </button>
+  </div>
+
+   <div class="col-md-12 mt-3">
+     <span class="badge bg-warning text-dark px-2 py-2 fs-6">
+      Pending Reviews: {{pendingCount ?? 0}}
+    </span>
+      <span class="badge bg-success px-2 py-2 fs-6">
+      Approved Reviews: {{approvedCount ?? 0}}
+    </span>
+     <span class="badge bg-danger text-dark px-2 py-2 fs-6">
+      Rejected Reviews: {{rejectedCount ?? 0}}
+    </span>
+  </div>
+
+</div>
+
+<table class="table table-bordered table-hover">
+  <thead class="table-light">
+    <tr>
+      <th>User</th>
+      <th>Product</th>
+      <th>Rating</th>
+      <th>Comment</th>
+      <th>Date</th>
+      <th>Status</th>
+      <th>Operation</th>
+    </tr>
+  </thead>
+
+ @if(review?.result){
+   <tbody>
+   @for(r of review.result; track $index){
+     <tr>
+      <td>{{r.userName}}</td>
+      <td>{{r.productName}}</td>
+      <td>{{r.rating}} ⭐</td>
+      <td>
+        {{ getShortText(r.comment) }}
+      </td>
+      <td>{{r.created | date:'mediumDate'}}</td>
+      <td>
+        @if(!r.isApproved){
+          <span class="badge bg-warning text-dark px-1 py-1 fs-6">
+            Pending
+          </span>
+        }
+        @if(r.isApproved){
+          <span class="badge bg-success px-1 py-1 fs-6">
+            Approved
+          </span>
+        }
+      </td>
+      <td>
+         @if(!r.isApproved){
+          <button class="btn btn-success btn-sm" (click)="approveReview(r.id)">
+            Approve
+          </button>
+         }
+         @if(r.isApproved){
+          <button class="btn btn-danger btn-sm" (click)="rejectReview(r.id)">
+              Reject
+            </button>
+         }
+         <button class="btn btn-warning btn-sm ms-2" (click)="openReviewModal(r)"><i class="fas fa-edit"></i></button>
+         <button class="btn btn-danger btn-sm ms-2" (click)="deleteReview(r.id)"><i class="fas fa-trash"></i></button>
+    </td>
+    </tr>
+   }
+  </tbody>
+ }
+</table>
+
+@if((totalCount) > 1){
+<pagination 
+  [totalItems]="totalCount"
+  [(ngModel)]="reviewParams.pageNumber"
+  [itemsPerPage]="reviewParams.pageSize"
+  (pageChanged)="onPageChange($event)">
+  previousText="&lsaquo;"
+  nextText="&rsaquo;"
+  firstText="&laquo;"
+  lastText="&raquo;"
+</pagination>
+}
+
+@if(selectedReview){
+  <app-admin-complete-review-text-modal 
+    [reviewId]="selectedReview.id"
+    [reviewText]="selectedReview.comment"
+    (save)="saveReview($event)"
+    (close)="closeReviewModal()">
+  </app-admin-complete-review-text-modal>
+}
+
+
+
+
+
+

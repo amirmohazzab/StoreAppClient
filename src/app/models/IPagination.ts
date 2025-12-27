@@ -1,6 +1,9 @@
 export interface IPagination<T> {
-  pageIndex: number,
-  pageSize: number,
-  count: number,
   result: T[],
+  totalCount: number,
+  pageNumber: number,
+  pageSize: number,
+  totalPages?: number;
+  hasPrevious?: boolean;
+  hasNext?: boolean;
 }

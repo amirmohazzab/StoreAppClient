@@ -85,6 +85,19 @@
       </ul>
     </li>
 
+     <!-- Order -->
+    <li>
+      <button class="dropdown-btn" (click)="toggleOrderMenu()">
+        <i class="fa fa-users"></i> Orders
+        <i class="fa" [class.fa-chevron-down]="!orderMenuOpen"
+                     [class.fa-chevron-up]="orderMenuOpen"></i>
+      </button>
+
+      <ul class="submenu" [class.open]="orderMenuOpen">
+        <li><a routerLink="/admin/order" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Order List</a></li>
+      </ul>
+    </li>
+
   </ul>
 </div>
 
