@@ -6,6 +6,8 @@ import { IAdminOrderDetail } from '../../models/IAdminOrderDetail';
 import { FormsModule } from '@angular/forms';
 import { AdminOrderDetailModal } from "../../modal/admin-order-detail-modal/admin-order-detail-modal";
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { OrderParams } from '../../models/orderParams';
+import {OrderStatusFilter} from '../../models/IAdminOrder';
 
 @Component({
   selector: 'app-admin-list-order',
@@ -20,16 +22,19 @@ export class AdminListOrder implements OnInit{
 
   sortBy: string;
   sortDesc: boolean; 
-  filter: IAdminOrderFilter = {pageNumber: 1, pageSize: 5, sortBy: 'Created', sortDesc: false};
+  //filter: IAdminOrderFilter = {pageNumber: 1, pageSize: 5, sortBy: 'Created', sortDesc: false};
   orders: IAdminOrder[] = [];
   totalCount = 0;
   selectedOrder: IAdminOrderDetail | null = null;
   isOrderDetailOpen = false;
   bsModalRef!: BsModalRef; 
+  orderParams: OrderParams = new OrderParams();
+  orderStatusFilter = OrderStatusFilter;
 
   constructor(private adminOrderService: AdminOrderService, private modalService: BsModalService){}
 
   ngOnInit(): void {
+    this.orderParams = this.adminOrderService.getOrderParams();
     this.loadOrders();
   }
 
@@ -71,7 +76,7 @@ showOrder(order: IAdminOrder) {
 // }
 
 changePage(page: number) {
-  this.filter.pageNumber = page;
+  this.orderParams.pageNumber = page;
   this.loadOrders();
 }
   
@@ -90,10 +95,10 @@ changeOrderStatus(orderId: number, status) {
 }
 
  loadOrders(){
-   this.adminOrderService.getAdminOrders(this.filter).subscribe(res => {
+   this.adminOrderService.getAdminOrders().subscribe(res => {
      this.orders = res.result
      this.totalCount = res.totalCount;
-     console.log(res);
+     console.log(this.orders);
    });
  }
 
@@ -105,30 +110,42 @@ changeOrderStatus(orderId: number, status) {
 // }
 
 applyFilter() {
-  this.filter.pageNumber = 1; 
+  this.orderParams.pageNumber = 1; 
   this.loadOrders();
 }
 
 applySort(column: string) {
-  if (this.sortBy === column) {
-    this.sortDesc = !this.sortDesc; // تغییر ترتیب اگر دوباره روی همان ستون کلیک شد
+  if (this.orderParams.sortBy === column) {
+    this.orderParams.sortDesc = !this.orderParams.sortDesc; // تغییر ترتیب اگر دوباره روی همان ستون کلیک شد
   } else {
-    this.sortBy = column;
-    this.sortDesc = false;
+    this.orderParams.sortBy = column;
+    this.orderParams.sortDesc = false;
   }
-
-  this.filter.sortBy = this.sortBy;
-  this.filter.sortDesc = this.sortDesc;
+  this.orderParams.pageNumber = 1;
   this.loadOrders();
 }
 
-get totalPages(): number {
-  return Math.ceil(this.totalCount / this.filter.pageSize);
-}
+// get totalPages(): number {
+//   return Math.ceil(this.totalCount / this.filter.pageSize);
+// }
 
 closeOrderDetail() {
   this.isOrderDetailOpen = false;
   this.selectedOrder = null;
+}
+
+onStatusChange(value) {
+  this.orderParams.orderStatus = value;
+  this.orderParams.pageNumber = 1;
+  this.adminOrderService.updateOrderParams(this.orderParams);
+  this.loadOrders();
+}
+
+onReset(){
+  this.orderParams = new OrderParams();
+  this.adminOrderService.updateOrderParams(this.orderParams);
+  this.orderParams.pageNumber = 1;
+  this.loadOrders();
 }
 
 }

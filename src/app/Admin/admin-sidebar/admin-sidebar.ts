@@ -27,6 +27,7 @@ export class AdminSidebar {
   productMenuOpen: boolean = false;
   userMenuOpen: boolean = false;
   orderMenuOpen: boolean = false;
+  contactMenuOpen: boolean = false;
 
   toggleProductMenu() {
     this.productMenuOpen = !this.productMenuOpen;
@@ -50,5 +51,9 @@ export class AdminSidebar {
 
    toggleOrderMenu() {
     this.orderMenuOpen = !this.orderMenuOpen;
+  }
+
+  toggleContactMenu() {
+    this.contactMenuOpen = !this.contactMenuOpen;
   }
 }

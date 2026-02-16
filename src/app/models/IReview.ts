@@ -1,4 +1,5 @@
 import { IPagination } from "./IPagination";
+import { FilterReviewStatus } from "./reviewParams";
 
 export interface IReview {
   id: number;
@@ -9,8 +10,9 @@ export interface IReview {
   productId: number;
   userId?: string;
   productName: string;
-  isApproved: boolean;
+  isApproved: boolean | null | undefined;
   reviewsCount: number;
+  status: FilterReviewStatus;
 }
 
 export interface IReviewResponse{

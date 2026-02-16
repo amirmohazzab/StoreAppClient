@@ -1,0 +1,67 @@
+<div class="container mt-2">
+  <h2 class="mb-4">Contact Us</h2>
+
+  <form #f="ngForm" (ngSubmit)="submit()">
+    <div class="mb-3">
+      <input class="form-control"
+             placeholder="Your Name"
+             name="name"
+             required
+             [(ngModel)]="model.name">
+    </div>
+
+    <div class="mb-3">
+      <input class="form-control"
+             placeholder="Email"
+             name="email"
+             required
+             type="email"
+             [(ngModel)]="model.email">
+    </div>
+
+    <div class="mb-3">
+      <input class="form-control"
+             placeholder="Your Subject"
+             name="subject"
+             required
+             [(ngModel)]="model.subject">
+    </div>
+
+    <div class="mb-3">
+      <textarea class="form-control"
+                placeholder="Message"
+                rows="4"
+                name="message"
+                required
+                [(ngModel)]="model.message">
+      </textarea>
+    </div>
+
+     <div class="mb-3">
+      <input #fileInput type="file" class="form-control" (change)="onFileSelected($event)">
+     </div>
+
+    @if (file){
+      <div>
+        @if(filePreviewUrl){
+          <div>
+            <img [src]="filePreviewUrl" class="img-thumbnail" style="max-width:200px;">
+          </div>
+        }
+        @if(!filePreviewUrl){
+          <div>
+            Selected file: {{ file.name }}
+          </div>
+        }
+        @if(file){
+          <button class="btn btn-sm btn-outline-danger mt-1" (click)="removeFile(fileInput)">Remove</button>
+        }
+      </div>
+    }
+    
+    <button class="btn btn-primary" [disabled]="f.invalid">
+      Send Message
+    </button>
+  </form>
+</div>
+

@@ -1,16 +1,27 @@
 <div class="row g-3 mb-3">
 
   <div class="col-md-3">
-    <input class="form-control" placeholder="Product Name" [(ngModel)]="reviewParams.productName">
+    <input 
+      class="form-control" 
+      placeholder="Product Name" 
+      [(ngModel)]="reviewParams.productName" 
+      (ngModelChange)="applyFilters()">
   </div>
 
   <div class="col-md-3">
-    <input class="form-control" placeholder="User Name" [(ngModel)]="reviewParams.userName">
+    <input 
+      class="form-control" 
+      placeholder="User Name" 
+      [(ngModel)]="reviewParams.userName"
+      (ngModelChange)="applyFilters()">
   </div>
 
   <div class="col-md-2">
-    <select class="form-select" [(ngModel)]="reviewParams.rating">
-      <option [ngValue]="null" disabled>
+    <select 
+      class="form-select" 
+      [(ngModel)]="reviewParams.rating"
+      (ngModelChange)="onRatingChange($event)">
+      <option [ngValue]="null">
         Rating
       </option>
       @for (r of [1,2,3,4,5]; track $index) {
@@ -22,31 +33,45 @@
   </div>
   
   <div class="col-md-2">
-    <input type="date" class="form-control" [(ngModel)]="reviewParams.fromDate">
+    <input 
+      type="date" 
+      class="form-control" 
+      [(ngModel)]="reviewParams.fromDate"
+      (ngModelChange)="applyFilters()">
   </div>
 
   <div class="col-md-2">
-    <input type="date" class="form-control" [(ngModel)]="reviewParams.toDate">
+    <input 
+      type="date" 
+      class="form-control" 
+      [(ngModel)]="reviewParams.toDate"
+      (ngModelChange)="applyFilters()">
   </div>
 
   <div class="col-md-6 mt-3">
-    <input #text class="form-control" placeholder="Search text..." [(ngModel)]="reviewParams.text" name="text">
+    <input 
+      #text 
+      class="form-control" 
+      placeholder="Search text..." 
+      [(ngModel)]="reviewParams.text" 
+      name="text"
+      (ngModelChange)="applyFilters()">
   </div>
 
   <div class="col-md-2">
-    <select class="form-select" [(ngModel)]="reviewParams.isApproved" (change)="applyFilters(reviewParams.isApproved)">
-    <option [ngValue]="null" disabled hidden>
-      Confirm
-    </option>
-    <option [ngValue]="undefined">All</option>
-    <option [ngValue]="null">Pending</option>
-    <option [ngValue]="true">Approved</option>
-    <option [ngValue]="false">Rejected</option>
+    <select 
+      class="form-select" 
+      [(ngModel)] = "reviewParams.status"
+      (ngModelChange)="onStatusChange($event)">
+      <option [ngValue]="0">All</option>
+      <option [ngValue]="1">Pending</option>
+      <option [ngValue]="2">Approved</option>
+      <option [ngValue]="3">Rejected</option>
     </select>
   </div>
   
   <div class="col-md-2 mt-3">
-    <button class="btn btn-primary w-100" (click)="onSearch()">
+    <button class="btn btn-primary w-100" (click)="applyFilters()">
       Filter
     </button>
   </div>
@@ -95,25 +120,25 @@
         {{ getShortText(r.comment) }}
       </td>
       <td>{{r.created | date:'mediumDate'}}</td>
+      
       <td>
-        @if(!r.isApproved){
-          <span class="badge bg-warning text-dark px-1 py-1 fs-6">
-            Pending
-          </span>
+        @if (r.status === FilterReviewStatus.Approved) {
+          <span class="badge bg-success text-white px-2 py-2 fs-6">Approved</span>
         }
-        @if(r.isApproved){
-          <span class="badge bg-success px-1 py-1 fs-6">
-            Approved
-          </span>
+        @else if (r.status === FilterReviewStatus.Rejected) {
+          <span class="badge bg-danger text-dark px-2 py-2 fs-6">Rejected</span>
+        }
+        @else {
+          <span class="badge bg-warning text-dark px-2 py-2 fs-6">Pending</span>
         }
       </td>
       <td>
-         @if(!r.isApproved){
+         @if(r.status === FilterReviewStatus.Pending || r.status === FilterReviewStatus.Rejected){
           <button class="btn btn-success btn-sm" (click)="approveReview(r.id)">
             Approve
           </button>
          }
-         @if(r.isApproved){
+         @if(r.status === FilterReviewStatus.Approved){
           <button class="btn btn-danger btn-sm" (click)="rejectReview(r.id)">
               Reject
             </button>
@@ -148,6 +173,8 @@
     (close)="closeReviewModal()">
   </app-admin-complete-review-text-modal>
 }
+
+<!-- [(ngModel)]="productService.getReviewParams().isApproved"  -->
 
 
 

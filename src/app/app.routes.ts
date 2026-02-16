@@ -41,12 +41,18 @@ import { AdminListProductType } from './Admin/admin-list-product-type/admin-list
 import { AdminCreateProductType } from './Admin/admin-create-product-type/admin-create-product-type';
 import { AdminDetailProduct } from './Admin/admin-detail-product/admin-detail-product';
 import { AdminListOrder } from './Admin/admin-list-order/admin-list-order';
+import { AboutUs } from './about-us/about-us';
+import { ContactUs } from './contact-us/contact-us';
+import { AdminContactMessageList } from './Admin/admin-contact-message-list/admin-contact-message-list';
+import { UserContactList } from './user-contact-list/user-contact-list';
 
 
 export const routes: Routes = [
      { path: "", component: SiteLayout,
           children: [
                {path: "", title: "HomePage", component: Home, data: {breadcrumb: 'Home'}},
+               {path: "contact-us", title: "Contact Us", component: ContactUs, data: {breadcrumb: 'Contact Us'}},
+               {path: "about-us", title: "About Us", component: AboutUs, data: {breadcrumb: 'About Us'}},
                {path: "account/login", title: "Login", component: Login, data: {breadcrumb: 'Login'}},
                {path: "account/register", title: "Register", component: Register, data: {breadcrumb: 'Register'}},
                {path: "checkout", canActivate: [AuthGuard], title: "Payment", component: Checkout, data: {breadcrumb: 'Payment'}},
@@ -67,7 +73,8 @@ export const routes: Routes = [
                     { path: "address/create", component: AddressForm },
                     { path: "address/edit/:id", component: AddressForm },
                     { path: 'review', component: UserReviewsList, title: 'My Reviews', data: { breadcrumb: 'My Reviews' } },
-                    { path: 'changePassword', component: ChangePassword, title: 'My Reviews', data: { breadcrumb: 'My Reviews' } }
+                    { path: 'changePassword', component: ChangePassword, title: 'My Reviews', data: { breadcrumb: 'My Reviews' } },
+                    { path: 'message', component: UserContactList, title: 'My Messages', data: { breadcrumb: 'My Messages' } }
                ]}
           ]},
           { path: "admin", component: AdminLayout,
@@ -91,11 +98,14 @@ export const routes: Routes = [
                { path: 'productType', component: AdminListProductType, title: 'Product Type List ',  data: { breadcrumb: 'Product Type List', title: 'Product Type List' } },
                { path: 'productType/create', component: AdminCreateProductType, data: { breadcrumb: 'Create Product Type', title: 'Create Product Type', permission: 'Product.Create' }, title: 'Create Product Type'},
                { path: 'order', component: AdminListOrder, title: 'Order List', data: { breadcrumb: 'Order List', title: 'Order List' } },  
+               { path: 'contact', component: AdminContactMessageList, title: 'Contact List', data: { breadcrumb: 'Contact List', title: 'Contact List' } },  
           ]
      },
      {path: "serverError", title: "Server Error", component: ServerError, data: {breadcrumb: 'Server Error'}},
      {path: "notFound", title: "Not Found", component: NotFound, data: {breadcrumb: 'Not Found'}},
-     {path: '**', title: "Not-Found", component: NotFound}
+     {path: '**', title: "Not-Found", component: NotFound},
+     {path: "serverError", title: "Server Error", component: ServerError, data: {breadcrumb: 'Server Error'}}
+
 ];
 
 

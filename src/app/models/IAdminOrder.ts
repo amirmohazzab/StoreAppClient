@@ -32,3 +32,13 @@ export interface IPaymentStatus{
   paidCount: number;
 }
 
+export enum OrderStatusFilter {
+  All = -1,
+  Pending = 1,
+  PaymentSuccess = 2,
+  PaymentFailed = 3,
+  Shipped = 4,
+  Delivered = 5,
+  Cancelled = 6,
+}
+

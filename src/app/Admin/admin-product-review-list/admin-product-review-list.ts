@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { IReview } from '../../models/IReview';
 import { IPagination } from '../../models/IPagination';
-import { ReviewParams } from '../../models/reviewParams';
+import { FilterReviewStatus, ReviewParams } from '../../models/reviewParams';
 import { AdminCompleteReviewTextModal } from '../../modal/admin-complete-review-text-modal/admin-complete-review-text-modal';
 
 @Component({
@@ -25,7 +25,16 @@ export class AdminProductReviewList implements OnInit{
   approvedCount: number = 0;
   rejectedCount: number = 0;
   selectedReview: IReview | null = null;
-  reviews: IReview[];
+  reviews: IReview[] = [];
+  FilterReviewStatus = FilterReviewStatus;
+  filterTimeout: any;
+
+  constructor(public productService: ProductService){}
+
+  ngOnInit(): void {
+   this.reviewParams = this.productService.getReviewParams();
+   this.loadReviews();
+  }
 
 openReviewModal(review: IReview) {
   this.selectedReview = {...review};
@@ -48,12 +57,11 @@ deleteReview(reviewId){
   )
 }
 
-
 closeReviewModal() {
   this.selectedReview= null;
 }
 
-getShortText(text: string, wordLimit: number = 5): string {
+getShortText(text: string, wordLimit: number = 3): string {
   if (!text) return '';
   const words = text.split(' ');
   return words.length > wordLimit
@@ -61,18 +69,24 @@ getShortText(text: string, wordLimit: number = 5): string {
     : text;
 }
 
-isLongText(text: string, wordLimit: number = 5): boolean {
+isLongText(text: string, wordLimit: number = 3): boolean {
   return text?.split(' ').length > wordLimit;
+}
+
+getReviewStatus(r: any): 'pending' | 'approved' | 'rejected' {
+  if (r.isApproved === true) return 'approved';
+  if (r.isApproved === false) return 'rejected';
+  return 'pending';
 }
 
 loadReviews() {
    this.productService.getAdminReviews().subscribe(res => {
       this.review = res.reviews;
-      this.totalCount = this.review.totalCount;
+      this.totalCount = res.reviews.totalCount;
       this.pendingCount = res.pendingCount;
       this.approvedCount = res.approvedCount;
       this.rejectedCount = res.rejectedCount;
-      console.log(res);
+      console.log(this.review);
    });
 }
 
@@ -82,70 +96,55 @@ onPageChange(data: any){
     this.loadReviews();
 }
 
-  constructor(private productService: ProductService){}
+// onSearch(){
+//   this.reviewParams.text= this.searchItem.nativeElement.value;
+//   this.loadReviews();
+// }
 
-  ngOnInit(): void {
+applyFilters() {
+   this.reviewParams.pageNumber = 1;
    this.loadReviews();
-   this.reviewParams = this.productService.getReviewParams();
-   this.reviewParams.rating = null;
-   this.reviewParams.isApproved = undefined;
-  }
+}
 
-  onSearch(){
-    this.reviewParams.text= this.searchItem.nativeElement.value;
+autoApplyFilters() {
+  clearTimeout(this.filterTimeout);
+  this.filterTimeout = setTimeout(() => {
+    this.reviewParams.pageNumber = 1;
     this.loadReviews();
-  }
+  }, 500);
+}
 
-applyFilters(value: boolean | null | undefined) {
-  this.reviewParams.isApproved = value;
+onRatingChange(value: number | null){
+  this.reviewParams.rating = value;
+  this.reviewParams.pageNumber = 1;
   this.loadReviews();
 }
 
-  onReset(){
-    this.reviewParams = new ReviewParams();
-    this.productService.updateReviewParams(this.reviewParams);
-    this.searchItem.nativeElement.value = '';
-    this.reviewParams.rating = null;
-    this.reviewParams.isApproved = null;
-    this.loadReviews();
-  }
+onReset(){
+  this.reviewParams = new ReviewParams();
+  this.productService.updateReviewParams(this.reviewParams);
+  this.searchItem.nativeElement.value = '';
+  this.reviewParams.pageNumber = 1;
+  this.loadReviews();
+}
 
-   approveReview(reviewId: number) {
-     this.productService.approveReview(reviewId, true).subscribe(() => {
-       //this.reviewParams.status = 'All';
-       this.loadReviews(); 
-     });
-   }
+approveReview(reviewId: number) {
+  this.productService.approveReview(reviewId, true).subscribe(() => {
+    this.loadReviews(); 
+  });
+}
 
-//   approveReview(reviewId: number) {
-//   this.productService.approveReview(reviewId, true).subscribe({
-//     next: () => {
+onStatusChange(value) {
+  this.reviewParams.status = value;
+  this.reviewParams.pageNumber = 1;
+  this.productService.updateReviewParams(this.reviewParams);
+  this.loadReviews();
+}
 
-//       // اگر فیلتر روی Pending است → از لیست حذف شود
-//       if (this.reviewParams.status === 'Pending') {
-//         this.data.result = this.data.result.filter(r => r.id !== reviewId);
-//         this.data.totalCount--;
-//       }
-
-//       // اگر All یا Approved است → فقط وضعیت را آپدیت کن
-//       else {
-//         const review = this.data.result.find(r => r.id === reviewId);
-//         if (review) {
-//           review.isApproved = true;
-//         }
-//       }
-//     },
-//      error: () => {
-//        this.toastr.error('Approve failed');
-//      }
-//   });
-// }
-
-
-  rejectReview(reviewId: number) {
-    this.productService.approveReview(reviewId, false).subscribe(() => {
-      this.loadReviews(); 
-    });
-  }
+rejectReview(reviewId: number) {
+  this.productService.approveReview(reviewId, false).subscribe(() => {
+    this.loadReviews(); 
+  });
+}
 
 }

@@ -2,9 +2,25 @@
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <!-- <img class="mb-4" src="/docs/5.2/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57" /> -->
     <h1 class="h3 mb-3 fw-normal text-center">Register</h1>
-    <app-input-form formControlName="phoneNumber" label="PhoneNumber" placeholder="Please Enter PhoneNumber"></app-input-form>
+    <!-- <app-input-form formControlName="phoneNumber" label="PhoneNumber" placeholder="Please Enter PhoneNumber"></app-input-form>
     <app-input-form type="password" formControlName="password" label="Password"></app-input-form>
-    <app-input-form formControlName="displayName" label="UserName"></app-input-form>
+    <app-input-form formControlName="displayName" label="UserName"></app-input-form> -->
+     <div class="form-floating mb-2">
+      <input type="text" id="phoneNumber" class="form-control" placeholder="Mobile" formControlName="phoneNumber">
+      <label for="phoneNumber">Mobile</label>
+    </div>
+    <div class="form-floating mb-2">
+      <input type="password" id="password" class="form-control" placeholder="Password" formControlName="password">
+      <label for="password">Password</label>
+    </div>
+     <div class="form-floating mb-2">
+      <input type="text" id="email" class="form-control" placeholder="Email" formControlName="email">
+      <label for="email">Email</label>
+    </div>
+     <div class="form-floating mb-2">
+      <input type="text" id="displayName" class="form-control" placeholder="DisplayName" formControlName="displayName">
+      <label for="displayName">DisplayName</label>
+    </div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
   </form>
 </main>

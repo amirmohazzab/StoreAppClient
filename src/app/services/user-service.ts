@@ -57,6 +57,9 @@ updateUserPermissions(userId: string, permissionIds: number[]): Observable<any> 
     return this.http.get<any[]>(`${this.adminBackendUrl}/role/permission`);
   }
 
+
+
+
   
 
   

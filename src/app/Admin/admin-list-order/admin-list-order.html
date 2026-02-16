@@ -25,34 +25,59 @@
 
 <div class="row mb-3">
   <div class="col-md-3">
-    <input type="text" class="form-control" placeholder="User Name" [(ngModel)]="filter.userName">
+    <input 
+      class="form-control" 
+      placeholder="BuyerPhoneNumber" 
+      [(ngModel)]="orderParams.buyerPhoneNumber" 
+      (ngModelChange)="applyFilter()">
   </div>
+
   <div class="col-md-3">
-    <select class="form-select" [(ngModel)]="filter.orderStatus">
-      <option value="">All Status</option>
-      @for(s of orderStatuses; track $index){
-        <option [value]="s">{{ s }}</option>
-      }
+    <select 
+      class="form-select" 
+      [(ngModel)]="orderParams.orderStatus"
+      (ngModelChange)="onStatusChange($event)">
+        <option [ngValue]="orderStatusFilter.All">All</option>
+        <option [ngValue]="orderStatusFilter.Pending">Pending</option>
+        <option [ngValue]="orderStatusFilter.PaymentSuccess">Payment Success</option>
+        <option [ngValue]="orderStatusFilter.PaymentFailed">Payment Failed</option>
+        <option [ngValue]="orderStatusFilter.Shipped">Shipped</option>
+        <option [ngValue]="orderStatusFilter.Delivered">Delivered</option>
+        <option [ngValue]="orderStatusFilter.Cancelled">Cancelled</option>
+      <!-- <option [ngValue]="null">All Status</option> -->
+      <!-- @for(s of orderStatuses; track $index){
+        <option [ngValue]="s">{{ s }}</option>
+      } -->
     </select>
   </div>
   <div class="col-md-3">
-    <input type="date" class="form-control" [(ngModel)]="filter.fromDate">
+    <input type="date" class="form-control" [(ngModel)]="orderParams.fromDate" (ngModelChange)="applyFilter()">
   </div>
   <div class="col-md-3">
-    <input type="date" class="form-control" [(ngModel)]="filter.toDate">
+    <input type="date" class="form-control" [(ngModel)]="orderParams.toDate" (ngModelChange)="applyFilter()">
+  </div>
+
+  <div class="col-md-3 mt-3">
+    <button class="btn btn-primary w-100" (click)="applyFilter()">
+      Filter
+    </button>
+  </div>
+
+<div class="col-md-3 mt-3">
+    <button class="btn btn-secondary w-100" (click)="onReset()">
+      Reset
+    </button>
   </div>
 </div>
-
-<button class="btn btn-primary mb-3" (click)="applyFilter()">Apply Filter</button>
 
 
 <table class="table table-striped">
   <thead>
     <tr>
       <th (click)="applySort('id')">Order ID <i [class]="sortBy==='id' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
-      <th (click)="applySort('UserName')">User <i [class]="sortBy==='UserName' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
+      <th (click)="applySort('BuyerPhoneNumber')">User <i [class]="sortBy==='BuyerPhoneNumber' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
       <th (click)="applySort('OrderStatus')">OrderStatus <i [class]="sortBy==='OrderStatus' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
-      <th (click)="applySort('Total')">Total <i [class]="sortBy==='Total' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
+      <!-- <th (click)="applySort('Total')">Total <i [class]="sortBy==='Total' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th> -->
       <th (click)="applySort('Created')">Created <i [class]="sortBy==='Created' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
       <th>Actions</th>
     </tr>
@@ -85,23 +110,24 @@
 
 
 <!-- Pagination -->
-<!-- @if(totalCount > filter.pageSize){ -->
+<!-- @if(totalCount > orderParams.pageSize){ 
   <nav>
   <ul class="pagination">
-    <li class="page-item" [class.disabled]="filter.pageNumber === 1">
-      <a class="page-link" (click)="changePage(filter.pageNumber - 1)">Previous</a>
+    <li class="page-item" [class.disabled]="orderParams.pageNumber === 1">
+      <a class="page-link" (click)="changePage(orderParams.pageNumber - 1)">Previous</a>
     </li>
     @for(page of [].constructor(totalPages); track $index){
        <li class="page-item"
-          [class.active]="filter.pageNumber === $index + 1">
+          [class.active]="orderParams.pageNumber === $index + 1">
         <a class="page-link" (click)="changePage($index + 1)">{{ $index + 1 }}</a>
       </li>
     }
-    <li class="page-item" [class.disabled]="filter.pageNumber === totalPages">
-      <a class="page-link" (click)="changePage(filter.pageNumber + 1)">Next</a>
+    <li class="page-item" [class.disabled]="orderParams.pageNumber === totalPages">
+      <a class="page-link" (click)="changePage(orderParams.pageNumber + 1)">Next</a>
     </li>
   </ul>
 </nav>
+} -->
 
 
 @if (isOrderDetailOpen && selectedOrder) {

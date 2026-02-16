@@ -1,0 +1,224 @@
+<div class="row mb-3">
+  <div class="col-md-6">
+    <input
+      class="form-control"
+      placeholder="Search messages..."
+      [(ngModel)]="contactMessageParams.search"
+      name="subject"
+      (ngModelChange)="onFilterChange()">
+  </div>
+
+  <div class="col-md-3">
+      <select
+    class="form-select"
+    [(ngModel)]="contactMessageParams.isRead"
+    (change)="onFilterChange()"
+  >
+    <option [ngValue]="null"> All </option>
+    <option [ngValue]="true"> Read </option>
+    <option [ngValue]="false"> Unread </option>
+  </select>
+  </div>
+
+  <div class="col-md-3">
+    <span class="badge bg-danger ms-2 px-3 py-2 fs-6">
+      Unread Messages: {{ (unreadCount$ | async) ?? 0 }}
+    </span> 
+  </div>
+</div>
+
+<div class="container-fluid">
+  @for (c of conversations; track c.id) {
+
+  <div class="card mb-4 shadow-sm">
+
+    <div
+      class="card-header d-flex justify-content-between align-items-center cursor-pointer"
+      (click)="openConversation(c)">
+
+      <div>
+        <div class="fw-bold">{{ c.subject }}</div>
+        <small class="text-muted">
+          {{ c.name }} • {{ c.email }}
+        </small>
+      </div>
+
+       <div class="d-flex gap-2">
+
+        @if (c.hasUnRead) {
+          <span class="badge bg-danger px-2 py-2 fs-6">Unread</span>
+        } @else {
+          <span class="badge bg-success px-2 py-2 fs-6">Read</span>
+        }
+
+        @if (c.hasReply) {
+          <span class="badge bg-primary px-2 py-2 fs-6 text-white">Replied</span>
+        } @else {
+          <span class="badge bg-warning px-2 py-2 fs-6 text-dark">No Reply</span>
+        }
+
+        <button
+          class="btn btn-md btn-outline-danger"
+          (click)="deleteConversation(c); $event.stopPropagation()">
+          <i class="fa fa-trash"></i>
+        </button>
+
+      </div>
+    </div>
+
+    @if(selectedConversationId === c.id){
+
+      <div class="card-body">
+
+        @for (m of messages; track m.id) {
+
+          <div
+            class="d-flex mb-2"
+            [class.justify-content-end]="m.sender === 2">
+
+            <div
+              class="p-3 rounded text-white"
+              [class.bg-secondary]="m.sender === 1"
+              [class.bg-primary]="m.sender === 2"
+              style="max-width: 75%;">
+
+              <div class="small fw-bold mb-1">
+                {{ m.sender === 2 ? 'Admin' : 'User' }}
+              </div>
+
+              <div>{{ m.message }}</div>
+
+              <div class="d-flex align-items-center mt-2 small opacity-75">
+
+                <span
+                  class="badge me-2 px-1 py-1 fs-6"
+                  [class.bg-warning]="!m.isRead"
+                  [class.bg-success]="m.isRead">
+                  {{ m.isRead ? 'Read' : 'Unread' }}
+                </span>
+
+                <span class="ms-auto">
+                  {{ m.created | date:'yyyy/MM/dd HH:mm' }}
+                </span>
+              </div>
+
+              @if(m.sender === 1){
+                <div class="mt-2 text-end">
+                  <button
+                    class="btn btn-sm btn-outline-light me-1"
+                    (click)="m.isRead ? markAsUnread(m) : markAsRead(m); $event.stopPropagation()">
+                    {{ m.isRead ? 'Mark as Unread' : 'Mark as Read' }}
+                  </button>
+                </div>
+              }
+
+              @if (m.attachments && m.attachments.length > 0) {
+                <div class="mt-2 border-top pt-2">
+
+                  @for (a of m.attachments; track a.filePath) {
+                    <a
+                      class="d-flex align-items-center gap-2 text-decoration-none text-white mb-1"
+                      [href]="a.filePath"
+                      download
+                      target="_blank">
+
+                      <i class="fa fa-paperclip"></i>
+                      <span>{{ a.fileName }}</span>
+
+                    </a>
+                  }
+                </div>
+              }
+
+            </div>
+          </div>
+        }
+
+        <div class="border-top pt-3 mt-3">
+          <textarea
+            class="form-control mb-2"
+            [(ngModel)]="replyText[c.id]"
+            placeholder="Admin reply...">
+          </textarea>
+
+          <!-- <input
+            type="file"
+            class="form-control mt-2"
+            (change)="onAdminFileSelected($event, c.id)"
+          > -->
+
+          <div class="upload-box"
+              (dragover)="onDragOver($event)"
+              (drop)="onDrop($event, c.id)">
+
+            <p>Drag & Drop</p>
+
+            <input type="file"
+                  multiple
+                  (change)="onAdminFileSelected($event, c.id)"
+                  hidden
+                  #fileInput>
+
+            <button type="button" (click)="fileInput.click()">
+              Select Files
+            </button>
+          </div>
+
+          @if(adminAttachments[c.id]?.length > 0){
+            <div class="preview-container mt-3">
+
+              @for(file of adminAttachments[c.id]; track $index){
+                <div class="preview-item">
+
+                  @if(isImage(file)){
+                    <img
+                      [src]="URL.createObjectURL(file)"
+                      class="preview-image">
+                  }
+                  @else {
+                    <div class="file-box">
+                      <i class="fa fa-file"></i>
+                      <small>{{ file.name }}</small>
+                    </div>
+                  }
+
+                  <button
+                    class="remove-btn"
+                    (click)="removeFile(c.id, $index)">
+                    ✕
+                  </button>
+
+                </div>
+              }
+
+            </div>
+          }
+
+          <button
+            class="btn btn-primary btn-sm mt-2"
+            (click)="reply(c)">
+            Send Reply
+          </button>
+        </div>
+
+      </div>
+    }
+  </div>
+  }
+</div>
+
+@if(totalCount > filter.pageSize){
+  <pagination 
+    [totalItems]="totalCount"
+    [itemsPerPage]="filter.pageSize"
+    [(ngModel)]="filter.pageNumber"
+    [maxSize]="5"
+    [boundaryLinks]="true"
+    [directionLinks]="true"
+    (pageChanged)="onPageChanged($event)"
+    previousText="‹"
+    nextText="›"
+    firstText="«"
+    lastText="»">
+  </pagination>
+}

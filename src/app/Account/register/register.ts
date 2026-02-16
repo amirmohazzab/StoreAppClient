@@ -26,7 +26,8 @@ export class Register implements OnInit{
   registerForm = new FormGroup({
     phoneNumber: new FormControl('', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]),
     password: new FormControl('', [Validators.required, Validators.minLength(5)]),
-    displayName: new FormControl({value: '', disabled: false}, [Validators.required, Validators.minLength(3)])
+    displayName: new FormControl({value: '', disabled: false}, [Validators.required, Validators.minLength(3)]),
+    email: new FormControl({value: '', disabled: false}, [Validators.required, Validators.maxLength(100)])
   });
   
   ngOnInit(): void {

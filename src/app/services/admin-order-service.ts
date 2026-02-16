@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { IAdminOrderDetail } from '../models/IAdminOrderDetail';
 import { Observable } from 'rxjs/internal/Observable';
 import { IPagination } from '../models/IPagination';
-import { IAdminOrder, IAdminOrderFilter, IPaymentStatus } from '../models/IAdminOrder';
+import { IAdminOrder, IAdminOrderFilter, IPaymentStatus, OrderStatusFilter } from '../models/IAdminOrder';
 import { OrderParams } from '../models/orderParams';
 
 @Injectable({
@@ -19,10 +19,11 @@ export class AdminOrderService {
   //    return this.http.get<IAdminOrder[]>(`${this.adminBackendUrl}/order`);
   //  }
 
-   private generateOrderParams() {
+  private generateOrderParams() {
       let params = new HttpParams();
-      if (this.orderParams?.orderStatus !== null) params = params.append('status', this.orderParams.orderStatus);
-      if (this.orderParams?.userName) params = params.append('userName', this.orderParams.userName);
+     
+      if ( this.orderParams.orderStatus && this.orderParams.orderStatus !== OrderStatusFilter.All) params = params.append('status', this.orderParams.orderStatus);
+      if (this.orderParams?.buyerPhoneNumber) params = params.append('buyerPhoneNumber', this.orderParams.buyerPhoneNumber);
       if (this.orderParams?.fromDate) params = params.append('fromDate', this.orderParams.fromDate);
       if (this.orderParams?.toDate) params = params.append('toDate', this.orderParams.toDate);
       if (this.orderParams?.sortBy) params = params.append('sortBy', this.orderParams.sortBy);
@@ -34,15 +35,8 @@ export class AdminOrderService {
       return params
   }
 
-  getAdminOrders(filter: IAdminOrderFilter) : Observable<IPagination<IAdminOrder>> {
+  getAdminOrders() : Observable<IPagination<IAdminOrder>> {
     let params = this.generateOrderParams();
-
-    // Object.entries(filter).forEach(([key, value]) => {
-    //      if (value !== null && value !== undefined && value !== '') {
-    //        params = params.append(key, value.toString());
-    //      }
-    // });
-
     return this.http.get<IPagination<IAdminOrder>>(`${this.adminBackendUrl}/order`, {params});
   }
 
@@ -62,5 +56,18 @@ export class AdminOrderService {
      return this.http.get<any>(`${this.adminBackendUrl}/order/stats/total-revenue`);   
   }
 
+  // Object.entries(filter).forEach(([key, value]) => {
+    //      if (value !== null && value !== undefined && value !== '') {
+    //        params = params.append(key, value.toString());
+    //      }
+    // });
+
+  getOrderParams(){
+    return this.orderParams;
+  }
+    
+  updateOrderParams(params: OrderParams){
+    this.orderParams = params;
+  }
  
 }

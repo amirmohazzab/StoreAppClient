@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IAdminProduct, IMostSoldProduct, IMostWishlistedProduct } from '../models/IAdminProduct';
 import { IMostReviewedProducts, IReview, IReviewResponse } from '../models/IReview';
-import { ReviewParams } from '../models/reviewParams';
+import { FilterReviewStatus, ReviewParams } from '../models/reviewParams';
 import { IMostAddedToBasket } from '../models/Basket';
 
 @Injectable({
@@ -98,26 +98,28 @@ export class ProductService {
       this.reviewParams = params;
     }
 
+    resetReviewParams(){
+      this.reviewParams = new ReviewParams();
+    }
+
    private generateReviewParams() {
       let params = new HttpParams();
+      if (this.reviewParams.status !== FilterReviewStatus.All) params = params.append('status', this.reviewParams.status);
       if (this.reviewParams.text) params = params.append('text', this.reviewParams.text);
       if (this.reviewParams?.rating && this.reviewParams?.rating > 0) params = params.append('rating', this.reviewParams.rating);
       if (this.reviewParams?.productName) params = params.append('productName', this.reviewParams.productName);
       if (this.reviewParams?.userName) params = params.append('userName', this.reviewParams.userName);
       if (this.reviewParams?.fromDate) params = params.append('fromDate', this.reviewParams.fromDate);
       if (this.reviewParams?.toDate) params = params.append('toDate', this.reviewParams.toDate);
-      // if (this.reviewParams.isApproved !== null && this.reviewParams.isApproved !== undefined) {
-      //   params = params.append('isApproved', this.reviewParams.isApproved.toString());
-      // }
-      if (this.reviewParams.isApproved !== undefined) {
-  params = params.append(
-    'isApproved',
-    this.reviewParams.isApproved === null
-      ? 'null'
-      : this.reviewParams.isApproved.toString()
-  );
-}
 
+      //  if (this.reviewParams.isApproved !== undefined && this.reviewParams.isApproved !== null) {
+      //    params = params.append('isApproved', this.reviewParams.isApproved.toString());
+      //  }
+      
+      //  if (this.reviewParams.isApproved !== undefined) { 
+      //   params = params.append('isApproved', this.reviewParams.isApproved === null ? 'null' : this.reviewParams.isApproved.toString());
+      //  }
+      
       params = params.append('pageSize', this.reviewParams.pageSize);
       params = params.append('pageNumber', this.reviewParams.pageNumber);
 
@@ -125,7 +127,7 @@ export class ProductService {
   }
 
   approveReview(reviewId: number, approve: boolean) {
-    return this.http.put(`${this.adminBackendUrl}/product/review/approve`, { reviewId, approve });
+    return this.http.put(`${this.adminBackendUrl}/product/review/update`, { reviewId, approve });
   }
 
   updateReview(id: number, comment: string) {

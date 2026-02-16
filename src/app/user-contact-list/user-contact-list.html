@@ -1,0 +1,149 @@
+<!-- @if(loading){
+  <div class="text-center my-4">
+  <span class="spinner-border"></span>
+</div>
+}
+
+@for(conv of conversations; track $index){
+  <div class="card mb-3">
+  <div 
+    class="card-header d-flex justify-content-between"
+        (click)="openConversation(conv.id)"
+        [class.bg-light]="conv.id === selectedConversationId">
+    <strong>{{ conv.subject }}</strong>
+
+    @if(conv.hasUnread){
+      <span class="badge bg-danger">
+      New
+    </span>
+    }
+  </div>
+
+  <div class="card-body">
+   @for( msg of conv.messages; track $index){
+     <div class="mb-2" [class.text-end]="isAdmin(msg.sender)">
+
+      <div class="p-2 rounded text-white" 
+           [class.bg-success]="msg.sender === 1"
+           [class.bg-primary]="msg.sender === 2">
+
+        {{ msg.message }}
+
+        <div class="small opacity-75 mt-1">
+          {{ msg.created | date:'short' }}
+        </div>
+
+      </div>
+    </div>
+   }
+  </div>
+</div>
+}
+
+@if(!loading && conversations.length === 0){
+  <div class="alert alert-info">
+    No messages yet.
+  </div>
+}
+ -->
+
+@for (conv of conversations; track conv.id) {
+  <div class="card mb-3">
+
+    <div
+      class="card-header d-flex justify-content-between align-items-center cursor-pointer"
+      (click)="openConversation(conv.id)"
+      [class.bg-light]="conv.id === selectedConversationId">
+
+      <div>
+        <strong>{{ conv.subject }}</strong>
+        <div class="small text-muted">
+          {{ conv.created | date:'short' }}
+        </div>
+      </div>
+
+      <div>
+        @if (conv.hasReply) {
+          <span class="badge bg-success ms-2">
+            Reply by Admin
+          </span>
+        }@else{
+           <span class="badge bg-warning ms-2 text-dark">
+            No Reply by Admin
+          </span>
+        }
+
+        @if (conv.hasUnreadByAdmin) {
+           <span class="badge bg-warning ms-2 text-dark">
+            UnRead by Admin
+          </span>
+        }@else{
+          <span class="badge bg-success ms-2">
+            Read by Admin
+          </span>
+        }
+
+        <!-- <span
+          class="badge"
+          [class.bg-warning]="conv.hasUnreadByAdmin"
+          [class.bg-success]="!conv.hasUnreadByAdmin">
+          {{ conv.hasUnreadByAdmin ? 'Unread by admin' : 'Read by admin' }}
+        </span> -->
+      </div>
+
+    </div>
+
+    <!-- Messages -->
+    @if (conv.id === selectedConversationId) {
+      <div class="card-body">
+
+        @for (msg of conv.messages; track $index) {
+          <div
+            class="d-flex mb-3"
+            [class.justify-content-end]="isAdmin(msg.sender)"
+            [class.justify-content-start]="isUser(msg.sender)">
+
+            <div
+              class="message-bubble text-white p-3 rounded"
+              [class.bg-primary]="isAdmin(msg.sender)"
+              [class.bg-success]="isUser(msg.sender)"
+              style="max-width: 80%;">
+
+              <div class="fw-semibold mb-1">
+                {{ isAdmin(msg.sender) ? 'Admin' : 'You' }}
+              </div>
+
+              <div>{{ msg.message }}</div>
+
+              <div class="small opacity-75 text-end mt-1">
+                {{ msg.created | date:'short' }}
+              </div>
+                    
+              @if (msg.attachments?.length > 0) {
+                <div class="mt-2">
+
+                  <div class="small text-white">
+                    Attachments:
+                  </div>
+
+                   @for(attachment of msg.attachments; track $index){
+                     <div>
+                      <a [href]="attachment.filePath" download target="_blank" class="d-block text-info">
+                        📎 {{ attachment.fileName }}
+                      </a>
+                    </div>
+                   }
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+}
+
+
+
+
+

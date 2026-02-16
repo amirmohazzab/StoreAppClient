@@ -11,7 +11,7 @@
     <!-- Dashboard -->
    <li class="sidebar-item">
   <a routerLink="/admin" routerLinkActive="active" class="sidebar-link">
-    <i class="fa fa-home icon-left"></i>
+    <i class="fa fa-chart-line icon-left"></i>
     <span class="title-center">Dashboard</span>
   </a>
 </li>
@@ -19,7 +19,7 @@
     <!-- Product Category Menu -->
     <li>
       <button class="dropdown-btn" (click)="toggleProductCategoryMenu()">
-        <i class="fa fa-box"></i> Categories
+        <i class="fa fa-list"></i> Categories
         <i class="fa" [class.fa-chevron-down]="!productCategoryMenuOpen"
                      [class.fa-chevron-up]="productCategoryMenuOpen"></i>
       </button>
@@ -33,7 +33,7 @@
      <!-- Product Brand Menu -->
     <li>
       <button class="dropdown-btn" (click)="toggleProductBrandMenu()">
-        <i class="fa fa-box"></i> Product Brand
+        <i class="fa fa-industry"></i> Product Brands
         <i class="fa" [class.fa-chevron-down]="!productBrandMenuOpen"
                      [class.fa-chevron-up]="productBrandMenuOpen"></i>
       </button>
@@ -47,7 +47,7 @@
     <!-- Product Brand Menu -->
     <li>
       <button class="dropdown-btn" (click)="toggleProductTypeMenu()">
-        <i class="fa fa-box"></i> Product Type
+        <i class="fa fa-layer-group"></i> Product Types
         <i class="fa" [class.fa-chevron-down]="!productTypeMenuOpen"
                      [class.fa-chevron-up]="productTypeMenuOpen"></i>
       </button>
@@ -88,13 +88,26 @@
      <!-- Order -->
     <li>
       <button class="dropdown-btn" (click)="toggleOrderMenu()">
-        <i class="fa fa-users"></i> Orders
+        <i class="fa fa-shopping-cart"></i> Orders
         <i class="fa" [class.fa-chevron-down]="!orderMenuOpen"
                      [class.fa-chevron-up]="orderMenuOpen"></i>
       </button>
 
       <ul class="submenu" [class.open]="orderMenuOpen">
         <li><a routerLink="/admin/order" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Order List</a></li>
+      </ul>
+    </li>
+
+     <!-- Contact -->
+    <li>
+      <button class="dropdown-btn" (click)="toggleContactMenu()">
+        <i class="fa fa-envelope"></i> Contacts
+        <i class="fa" [class.fa-chevron-down]="!contactMenuOpen"
+                     [class.fa-chevron-up]="contactMenuOpen"></i>
+      </button>
+
+      <ul class="submenu" [class.open]="contactMenuOpen">
+        <li><a routerLink="/admin/contact" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Contact List</a></li>
       </ul>
     </li>
 
