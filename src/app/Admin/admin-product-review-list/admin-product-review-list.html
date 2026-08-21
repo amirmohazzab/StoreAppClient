@@ -70,11 +70,11 @@
     </select>
   </div>
   
-  <div class="col-md-2 mt-3">
+  <!-- <div class="col-md-2 mt-3">
     <button class="btn btn-primary w-100" (click)="applyFilters()">
       Filter
     </button>
-  </div>
+  </div> -->
 
   <div class="col-md-2 mt-3">
     <button class="btn btn-secondary w-100" (click)="onReset()">
@@ -83,10 +83,10 @@
   </div>
 
    <div class="col-md-12 mt-3">
-     <span class="badge bg-warning text-dark px-2 py-2 fs-6">
+     <span class="badge bg-warning text-dark px-2 py-2 fs-6 me-2">
       Pending Reviews: {{pendingCount ?? 0}}
     </span>
-      <span class="badge bg-success px-2 py-2 fs-6">
+      <span class="badge bg-success px-2 py-2 fs-6 me-2">
       Approved Reviews: {{approvedCount ?? 0}}
     </span>
      <span class="badge bg-danger text-dark px-2 py-2 fs-6">
@@ -96,7 +96,8 @@
 
 </div>
 
-<table class="table table-bordered table-hover">
+<div class="table-responsive">
+  <table class="table table-bordered table-hover">
   <thead class="table-light">
     <tr>
       <th>User</th>
@@ -109,48 +110,65 @@
     </tr>
   </thead>
 
- @if(review?.result){
-   <tbody>
-   @for(r of review.result; track $index){
-     <tr>
-      <td>{{r.userName}}</td>
-      <td>{{r.productName}}</td>
-      <td>{{r.rating}} ⭐</td>
-      <td>
-        {{ getShortText(r.comment) }}
+  @if(review?.result){
+    <tbody>
+    @for(r of review.result; track $index){
+      <tr>
+        <td>{{r.userName}}</td>
+        <td>{{r.productName}}</td>
+        <td>{{r.rating}} ⭐</td>
+        <!-- <td>
+          {{ getShortText(r.comment) }}
+        </td> -->
+        <td class="comment-cell" [title]="r.comment">
+          {{ r.comment }}
+        </td>
+        <td>{{r.created | date:'mediumDate'}}</td>
+        
+        <td>
+          @if (r.status === FilterReviewStatus.Approved) {
+            <span class="badge bg-success text-white px-2 py-2 fs-6 status-badge">
+              <span class="d-none d-md-inline">Approved</span>
+              <i class="fas fa-check d-inline d-md-none"></i>
+            </span>
+          }
+          @else if (r.status === FilterReviewStatus.Rejected) {
+            <span class="badge bg-danger text-dark px-2 py-2 fs-6 status-badge">
+              <span class="d-none d-md-inline">Rejected</span>
+              <i class="fas fa-times d-inline d-md-none"></i>
+            </span>
+          }
+          @else {
+            <span class="badge bg-warning text-dark px-2 py-2 fs-6 status-badge">
+                <span class="d-none d-md-inline">Pending</span>
+                <i class="fas fa-hourglass-half d-inline d-md-none"></i>
+            </span>
+          }
+        </td>
+        <td>
+          <div class="d-flex align-items-center gap-1 flex-nowrap">
+            @if(r.status === FilterReviewStatus.Pending || r.status === FilterReviewStatus.Rejected){
+              <button class="btn btn-success btn-sm desktop-btn-width" (click)="approveReview(r.id)">
+                <span class="d-none d-md-inline">Approve</span>
+                <i class="fas fa-check d-inline d-md-none"></i>
+              </button>
+            }
+            @if(r.status === FilterReviewStatus.Approved){
+              <button class="btn btn-danger btn-sm desktop-btn-width" (click)="rejectReview(r.id)">
+                  <span class="d-none d-md-inline">Reject</span>
+                  <i class="fas fa-times d-inline d-md-none"></i>
+                </button>
+            }
+            <button class="btn btn-warning btn-sm ms-2" (click)="openReviewModal(r)"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-danger btn-sm ms-2" (click)="deleteReview(r.id)"><i class="fas fa-trash"></i></button>
+          </div>
       </td>
-      <td>{{r.created | date:'mediumDate'}}</td>
-      
-      <td>
-        @if (r.status === FilterReviewStatus.Approved) {
-          <span class="badge bg-success text-white px-2 py-2 fs-6">Approved</span>
-        }
-        @else if (r.status === FilterReviewStatus.Rejected) {
-          <span class="badge bg-danger text-dark px-2 py-2 fs-6">Rejected</span>
-        }
-        @else {
-          <span class="badge bg-warning text-dark px-2 py-2 fs-6">Pending</span>
-        }
-      </td>
-      <td>
-         @if(r.status === FilterReviewStatus.Pending || r.status === FilterReviewStatus.Rejected){
-          <button class="btn btn-success btn-sm" (click)="approveReview(r.id)">
-            Approve
-          </button>
-         }
-         @if(r.status === FilterReviewStatus.Approved){
-          <button class="btn btn-danger btn-sm" (click)="rejectReview(r.id)">
-              Reject
-            </button>
-         }
-         <button class="btn btn-warning btn-sm ms-2" (click)="openReviewModal(r)"><i class="fas fa-edit"></i></button>
-         <button class="btn btn-danger btn-sm ms-2" (click)="deleteReview(r.id)"><i class="fas fa-trash"></i></button>
-    </td>
-    </tr>
-   }
-  </tbody>
- }
-</table>
+      </tr>
+    }
+    </tbody>
+  }
+  </table>
+</div>
 
 @if((totalCount) > 1){
 <pagination 

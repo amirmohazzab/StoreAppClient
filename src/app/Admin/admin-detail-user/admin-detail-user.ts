@@ -20,7 +20,6 @@ export class AdminDetailUser implements OnInit{
     const id = this.route.snapshot.paramMap.get('id')!;
     this.userService.getUserById(id).subscribe(res => {
       this.user = res;
-      console.log('user detail', this.user);
     });
   }
 

@@ -128,7 +128,7 @@
 
                    @for(attachment of msg.attachments; track $index){
                      <div>
-                      <a [href]="attachment.filePath" download target="_blank" class="d-block text-info">
+                      <a [href]="attachment.url" download target="_blank" class="d-block text-info">
                         📎 {{ attachment.fileName }}
                       </a>
                     </div>

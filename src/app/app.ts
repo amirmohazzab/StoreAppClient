@@ -19,13 +19,13 @@ import { IUser } from './models/User';
   selector: 'app-root',
   imports: [
     RouterOutlet,
-    Footer,
-    Navbar,
+    // Footer,
+    // Navbar,
     RouterModule,
     CommonModule,
     PaginationModule,
-    Breadcrumb,
-    NgxSpinnerComponent,
+    // Breadcrumb,
+    // NgxSpinnerComponent,
 ],
   
   templateUrl: './app.html',
@@ -58,8 +58,16 @@ export class App implements OnInit{
   
 
   ngOnInit(): void {
-    this.getBasket();
+    //this.getBasket();
     this.getCurrentUser();
+    const user = localStorage.getItem('user_token');
+
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      this.accountService.setCurrentUser(parsedUser);
+    }
+    //this.basketService.getBasketForUser().subscribe();
+    this.basketService.loadBasket();
   }
 
   private getBasket(){

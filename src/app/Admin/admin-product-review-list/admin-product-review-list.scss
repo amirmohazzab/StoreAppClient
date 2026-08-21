@@ -1,0 +1,27 @@
+.comment-cell {
+  max-width: 150px;   /* adjust as you like */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.desktop-btn-width {
+  width: 100px;
+}
+
+.status-badge {
+    width: 100px;
+    display: inline-block;
+    text-align: center;
+}
+
+@media (max-width: 767.98px) {
+  .desktop-btn-width {
+    width: auto;
+  }
+
+  .status-badge {
+        width: auto;
+        min-width: 36px;
+    }
+}

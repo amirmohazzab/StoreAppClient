@@ -3,12 +3,33 @@
         <img 
           [src]="getImageUrl(product.pictureUrl)"
           [alt]="product.title" 
+          style="max-width:250px; max-height:200px; width:100%;"
         />
         <h4>{{ product.title }}</h4>
         <p>${{ product.price | number }}</p>
         <div class="actions">
-          <button type="button" class="btn btn-lg btn-outline-success" (click)="addItemToBasket()">
+          <!-- <button type="button" class="btn btn-lg btn-outline-success" (click)="addItemToBasket()">
             <span class="fas fa-shopping-cart"></span>
+          </button> -->
+          <!-- <button type="button" class="btn btn-lg btn-outline-success" (click)="addItemToBasket()">
+            <span class="fas fa-shopping-cart"></span>
+            @if(isAddedToCart){
+              <span class="fas fa-check text-success check-small"></span>
+            }
+          </button> -->
+         <button
+            type="button"
+            class="btn btn-lg btn-outline-success cart-btn"
+            (click)="addItemToBasket()">
+
+            <span class="cart-icon-wrapper">
+              <span class="fas fa-shopping-cart"></span>
+
+              @if(isAddedToCart){
+                <span class="fas fa-check check-icon"></span>
+              }
+            </span>
+
           </button>
           <button type="button" class="btn btn-lg btn-outline-primary" [routerLink]="['/shop', product?.id]">
             <span class="fas fa-eye"></span>

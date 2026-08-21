@@ -4,6 +4,7 @@ import { IBasket } from '../models/Basket';
 import { Subscription } from 'rxjs';
 import { DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-basket-list',
@@ -39,7 +40,7 @@ totalPrice(basket: IBasket): number {
 
   getImageUrl(pictureUrl: string | null | undefined): string {
   if (!pictureUrl.startsWith('http')) {
-    return `https://localhost:7096/images/products/${pictureUrl}`;
+    return `${environment.imageBaseUrl}${pictureUrl}`;
   }
   return pictureUrl;
 }

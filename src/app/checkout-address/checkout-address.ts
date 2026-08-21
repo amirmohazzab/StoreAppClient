@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AccountService } from '../services/account-service';
-import { filter, Subscription } from 'rxjs';
+import { BehaviorSubject, filter, Subscription } from 'rxjs';
 import { IAddress } from '../models/Address';
 import { CheckoutFormBuilderService } from '../services/checkout-form-builder-service';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
@@ -31,30 +31,68 @@ export class CheckoutAddress implements OnInit, OnDestroy {
     this.formBuilder.formBuilder$.subscribe(res => console.log(res));
   }
 
-  private getAllAddresses(){
-    const sub = this.accountService.getAddresses().subscribe((res: IAddress[]) => {
-      this.addresses = res;
-      console.log(this.addresses);
-      this.indexAddressShipping = res.findIndex(x => x.isMain === true);
-      if (this.indexAddressShipping === -1 && res.length > 0) {
-        this.indexAddressShipping = 0;
+  // private getAllAddresses(){
+  //   const sub = this.accountService.getAddresses().subscribe((res: IAddress[]) => {
+  //     this.addresses = res;
+  //     console.log(this.addresses);
+  //     this.indexAddressShipping = res.findIndex(x => x.isMain === true);
+  //     if (this.indexAddressShipping === -1 && res.length > 0) {
+  //       this.indexAddressShipping = 0;
+  //     }
+  //     this.onChangeAddressShipping(this.indexAddressShipping);
+  //   });
+  //   this.sub$.add(sub);
+  // }
+
+  private getAllAddresses() {
+
+  const sub = this.accountService.getAddresses().subscribe((res: IAddress[]) => {
+
+    this.addresses = res;
+
+    // Read the currently selected checkout address
+    const selectedAddress =
+      this.formBuilder.getCurrentValue().address;
+
+    if (selectedAddress && selectedAddress.id !== 0) {
+
+      const selectedIndex =
+        res.findIndex(x => x.id === selectedAddress.id);
+
+      if (selectedIndex !== -1) {
+
+        this.indexAddressShipping = selectedIndex;
+
+        return;
       }
-      this.onChangeAddressShipping(this.indexAddressShipping);
-    });
-    this.sub$.add(sub);
-  }
+    }
+
+    // No address selected yet -> use Main address
+    this.indexAddressShipping =
+      res.findIndex(x => x.isMain);
+
+    if (this.indexAddressShipping === -1 && res.length > 0) {
+      this.indexAddressShipping = 0;
+    }
+
+    this.onChangeAddressShipping(this.indexAddressShipping);
+
+  });
+
+  this.sub$.add(sub);
+
+}
 
   AddNewAddress(){
     const initialState : ModalOptions = {
-      initialState: {
-
-      }
+      initialState: {}
     };
     this.bsModalRef = this.modalService.show(AddAddressCheckout, initialState);
     this.bsModalRef.content.newAddress.subscribe((address) => {
       this.checkAddressMain(address);
-      this.addresses.push(address);
-      this.onChangeAddressShipping(this.addresses.length - 1);
+      this.getAllAddresses();
+      // this.addresses.push(address);
+      // this.onChangeAddressShipping(this.addresses.length - 1);
     })
   }
 

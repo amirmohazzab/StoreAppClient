@@ -5,13 +5,14 @@ import { BehaviorSubject, tap } from 'rxjs';
 import { IPagination } from '../models/IPagination';
 import { IAdminContactMessageFilter } from '../models/ContactMessage';
 import { ContactMessageParams } from '../models/contactMessageParams';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactUsService {
 
-  private adminBackendUrl = "https://localhost:7096/api/admin";
+  private adminBackendUrl = `${environment.apiUrl}/admin`;
 
   private unreadCountSource = new BehaviorSubject<number | null>(null);
   unreadCount$ = this.unreadCountSource.asObservable();

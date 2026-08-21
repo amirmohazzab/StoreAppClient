@@ -10,7 +10,7 @@ export interface IAddress {
     fullAddress: string,
     number: string,
     postalCode: string, 
-    avatarUrl: string,
+    avatarUrl?: string,
     place: string
 }
 

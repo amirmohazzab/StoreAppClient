@@ -18,6 +18,7 @@ import { ProductRelated } from '../product-related/product-related';
 import { ProductTabs } from '../product-tabs/product-tabs';
 import { IPagination } from '../models/IPagination';
 import { ReviewsList } from '../reviews-list/reviews-list';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-shop-detail',
@@ -56,6 +57,7 @@ export class ShopDetail implements OnInit{
   public reviewsPageSize = 5;
   public reviewsTotal = 0;
   products : IProduct[];
+  isAddedToCart = false;
 
   constructor(
     private shopService: ShopService, 
@@ -71,6 +73,12 @@ export class ShopDetail implements OnInit{
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
     this.load();
+    this.basketService.basketItems$
+    .subscribe(basket => {
+      console.log("first", this.basketService.getCurrentBasketSource());
+      this.isAddedToCart =
+        basket?.items?.some(x => x.productId === this.product?.id) ?? false;
+    });
     this.loadReviews(1);
     this.reviewForm = new FormGroup({
       rating: new FormControl(5, Validators.required),
@@ -89,7 +97,10 @@ export class ShopDetail implements OnInit{
         this.loading = false;
         this.title.setTitle(res?.title);
         this.bc.set('@ProductDetail', res?.title);
-        console.log(this.product);
+        //this.updateCartState(this.basketService.basketItems$.value);
+        const basket = this.basketService.getCurrentBasketSource();
+        this.isAddedToCart =
+          basket?.items?.some(x => x.productId === this.product.id) ?? false;
       } else {
         this.router.navigateByUrl('/notFound');
         this.toast.error("Product not found");
@@ -136,11 +147,28 @@ export class ShopDetail implements OnInit{
     this.selectedColor = color;
   }
 
+  // addToBasket() {
+  //   if (!this.product) return;
+  //   this.basketService.addItemToBasket(this.product, this.quantity);
+  //   this.toast.success('Product added to basket');
+  // }
+
   addToBasket() {
-    if (!this.product) return;
-    this.basketService.addItemToBasket(this.product, this.quantity);
-    this.toast.success('Product added to basket');
-  }
+  if (!this.product) return;
+
+  this.basketService
+    .addItemToBasket(this.product, this.quantity)
+    .subscribe({
+      next: () => {
+        //this.isAddedToCart = true;
+        this.toast.success('Product added to basket');
+      },
+      error: err => {
+        console.error(err);
+        this.toast.error('Failed to add product to basket');
+      }
+    });
+}
 
 loadReviews(page = 1) {
   this.shopService.getReviews(this.id, page, this.reviewsPageSize).subscribe({
@@ -177,15 +205,32 @@ loadReviews(page = 1) {
  }
 
 
-getImageUrl(pictureUrl: string | null | undefined): string {
-  if (!pictureUrl) {
-    return '../../../image/shopping-cart';
-  }
-  if (!pictureUrl.startsWith('http')) {
-    return `https://localhost:7096/images/products/${pictureUrl}`;
-  }
-  return pictureUrl;
-}
+ getImageUrl(pictureUrl: string | null | undefined): string {
+
+   if (!pictureUrl) {
+     return '../../../image/shopping-cart';
+   }
+   if (!pictureUrl.startsWith('http')) {
+     return `${environment.imageBaseUrl}${pictureUrl}`;
+   }
+   return pictureUrl;
+ }
+
+// getImageUrl(pictureUrl: string | null | undefined): string {
+
+//   console.log("IMAGE PATH:", pictureUrl);
+
+//   return "https://storeapp.ahmohazab.com/images/products/test.jpg";
+// }
+
+// getImageUrl(pictureUrl: string | null | undefined): string {
+
+//    if (!pictureUrl) return 'assets/no-image.png';
+
+//    if (pictureUrl.startsWith('http')) return pictureUrl;
+
+//    return `${environment.imageBaseUrl}${pictureUrl}`;
+//  }
 
 loadProduct() {
   this.shopService.getProduct(this.id).subscribe({
@@ -228,9 +273,9 @@ calculateAverageRating() {
 
  toggleWishlist(productId: number) {
   this.shopService.toggleWishList(productId).subscribe((result: boolean) => {
-    const product = this.products.find(p => p.id === productId);
-    if (product) {
-      product.isInWishlist = result;
+    //const product = this.products.find(p => p.id === productId);
+    if (this.product) {
+      this.product.isInWishlist = result;
     }
   });
 }

@@ -10,26 +10,33 @@
   <section class="category-section mt-b">
     <h2>🛍️ Categories</h2>
     <div class="category-grid">
-      @for(cat of categories; track $index){
-        <div class="category-item">{{ cat.name }}</div>
-      }
+
+      <div class="category-item"
+        [class.active]="selectedCategoryId === null"
+         (click)="showAllProducts()">
+        All
+     </div>
+     @for(cat of categories; track cat.id){
+        <div class="category-item"
+            [class.active]="selectedCategoryId === cat.id"
+            (click)="filterByCategory(cat.id)">
+          {{ cat.name }}
+        </div>
+     }
     </div>
   </section>
-
-  <!-- <div class="filters mb-3 d-flex gap-2">
-    <input type="text" placeholder="Search..." class="form-control w-25" #searchBox>
-    <button class="btn btn-primary" (click)="loadProducts(undefined, undefined, searchBox.value)">Search</button>
-  </div> -->
 
   <!-- Featured Products -->
   <section class="product-section mt-4">
     <h2>🌟 Featured Products</h2>
+
     <div class="carousel">
-     @if(allProducts && allProducts.length){
-       @for(item of allProducts; track $index){
-      <app-card-shop [product]="item"></app-card-shop>
+      @if(filteredProducts && filteredProducts.length){
+
+        @for(item of filteredProducts; track item.id){
+          <app-card-shop [product]="item"></app-card-shop>
+        }
       }
-     }
     </div>
   </section>
 
@@ -53,5 +60,6 @@
     </div>
   </section>
 
-  
 </div>
+
+<app-chat></app-chat>

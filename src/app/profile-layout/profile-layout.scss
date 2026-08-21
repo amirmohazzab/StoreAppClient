@@ -1,4 +1,4 @@
-.profile-sidenav-container {
+.sidenav-container {
   height: 100vh; /* تمام ارتفاع صفحه */
   display: flex;
   flex-direction: row;
@@ -39,7 +39,7 @@
   height: 100%;
 }
 
-.profile-sidenav-container {
+.sidenav-container {
   height: 100%;
 }
 
@@ -48,13 +48,13 @@ html, body {
   margin: 0;
 }
 
-app-profile-layout, .profile-sidenav-container {
+app-profile-layout, .sidenav-container {
   height: 100%;
 }
 
 
-.profile-sidenav-container {
-  height: calc(100vh - 64px); // تمام ارتفاع صفحه منهای navbar بالا (در صورت وجود)
+.sidenav-container {
+  min-height: calc(100vh - 64px); // تمام ارتفاع صفحه منهای navbar بالا (در صورت وجود)
   display: flex;
   background-color: #f9f9f9;
 }

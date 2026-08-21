@@ -8,11 +8,14 @@
     <div class="text-center mb-4">
 
       <!-- Preview Image -->
-      <img 
-        [src]="previewUrl || avatarUrl || '../../../image/avatar.png'" 
-        class="rounded-circle border shadow"
-        width="150" height="150" style="object-fit: cover;"
-      >
+       @if (isProfileLoaded) 
+       {
+        <img 
+          [src]="previewUrl || avatarUrl || 'image/avatar.png'" 
+          class="rounded-circle border shadow"
+          width="150" height="150" style="object-fit: cover;"
+        >
+       }
 
       <!-- Drag & Drop Zone -->
       <div 
@@ -65,12 +68,26 @@
         <label for="postalCode">Postal Code</label>
       </div>
 
+       <div class="form-floating mb-2">
+        <input type="text" id="place" class="form-control" formControlName="place">
+        <label for="place">Place</label>
+      </div>
+
       <div class="form-floating mb-4">
         <textarea id="fullAddress" class="form-control" style="height: 60px;" formControlName="fullAddress"></textarea>
         <label for="fullAddress">Full Address</label>
       </div>
 
-      <button type="submit" class="btn btn-primary">Update Profile</button>
+      <!-- <button type="submit" class="btn btn-primary">Update Profile</button> -->
+      @if (!isProfileLoaded) {
+        <div>Loading...</div>
+      } @else {
+        @if (isNewProfile) {
+          <button class="btn btn-primary">Create Profile</button>
+        } @else {
+          <button class="btn btn-success">Update Profile</button>
+        }
+      }
     </form>
   </div>
 

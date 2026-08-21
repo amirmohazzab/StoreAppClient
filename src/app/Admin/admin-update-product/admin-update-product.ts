@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ProductCategoryService } from '../../services/product-category-service';
 import { ProductTypeService } from '../../services/product-type-service';
 import { ProductBrandService } from '../../services/product-brand-service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-admin-update-product',
@@ -174,7 +175,7 @@ removeGalleryImage(index: number) {
       return '../../../image/shopping-cart';
     }
     if (!pictureUrl.startsWith('http')) {
-      return `https://localhost:7096${pictureUrl}`;
+      return `${environment.imageBaseUrl}${pictureUrl}`;
     }
     return pictureUrl;
   }

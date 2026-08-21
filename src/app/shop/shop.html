@@ -1,6 +1,6 @@
 <mat-sidenav-container>
   <mat-sidenav [opened]="sidenavOpen" [mode] = "sidenavOpen ? 'side': 'over'" class="mat-sidenav" style="width: 180px;">
-    <app-shop-filter (updateParams)="updateParams($event)"></app-shop-filter>
+    <app-shop-filter [shopParams]="shopParams" (updateParams)="updateParams($event)"></app-shop-filter>
   </mat-sidenav>
   <mat-sidenav-content class="mat-sidenav-content" style="padding-left: 20px; overflow-x: hidden;">
     <div class="row w-50 mb-3">
@@ -18,14 +18,14 @@
    }
    </div>
 
-   @if (data?.result?.length > 0 && (data.totalCount) > 1 ){
-    <div class="row">
+   @if (data?.result?.length > 0 && (data.totalCount) > shopParams.pageSize ){
+    <div class="row mt-3">
   <div class="col-xs-12 col-12">
     <pagination 
       (pageChanged)="onPageChange($event)"
       [totalItems]="data.totalCount" 
       [itemsPerPage]="shopParams.pageSize" 
-      [(ngModel)]="shopParams.pageIndex"
+      [(ngModel)]="shopParams.pageNumber"
       previousText="&lsaquo;"
       nextText="&rsaquo;"
       firstText="&laquo;"

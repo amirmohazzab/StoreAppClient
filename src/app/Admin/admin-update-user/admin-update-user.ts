@@ -22,22 +22,39 @@ export class AdminUpdateUser implements OnInit {
     private userService: UserService, 
     private router: Router, 
     private toast: ToastrService) {
-       this.form = this.fb.group({
-        username: [''],
-        email: [''],
-        role: ['']
-      });
+      //  this.form = this.fb.group({
+      //   username: [''],
+      //   email: [''],
+      //   role: ['']
+      // });
     }
 
     
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id')!;
-    this.userService.getUserById(id).subscribe(user => this.user = user);
+    const id = this.route.snapshot.paramMap.get('id');
+     console.log("ROUTE ID:", id);
+    this.userService.getUserById(id).subscribe(user => {
+       console.log("Edit API USER:", user);
+      this.user = user;
+
+      // this.form.patchValue({
+      //   userName: user.userName,
+      //   email: user.email,
+      //   role: user.role
+      // });
+    });
     //this.form.patchValue(user)
   }
 
   save() {
-    this.userService.updateUser(this.user.id, this.form.value).subscribe(() => {
+      const data = {
+        id: this.user.id,
+        userName: this.user.userName,
+        email: this.user.email,
+        role: this.user.role,
+        isActive: this.user.isActive
+      };
+    this.userService.updateUser(this.user.id, data).subscribe(() => {
       this.toast.success("User updated");
       this.router.navigate(['/admin/user']);
     });

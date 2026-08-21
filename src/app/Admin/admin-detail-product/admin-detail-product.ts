@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IAdminProduct } from '../../models/IAdminProduct';
 import { ProductService } from '../../services/product-service';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-admin-detail-product',
@@ -28,7 +29,7 @@ export class AdminDetailProduct implements OnInit{
       return '../../../image/shopping-cart';
     }
     if (!pictureUrl.startsWith('http')) {
-      return `https://localhost:7096${pictureUrl}`;
+      return `${environment.imageBaseUrl}${pictureUrl}`;
     }
     return pictureUrl;
   }

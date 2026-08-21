@@ -6,9 +6,10 @@ import { AdminProductReviewList } from "../admin-product-review-list/admin-produ
 import { IMostReviewedProducts, IReview } from '../../models/IReview';
 import { RouterModule } from '@angular/router';
 import { IMostAddedToBasket } from '../../models/Basket';
-import { IMostSoldProduct, IMostWishlistedProduct } from '../../models/IAdminProduct';
+import { IMostSoldProduct, IMostWishlistedProduct, ProductParams } from '../../models/IAdminProduct';
 import { AdminOrderService } from '../../services/admin-order-service';
 import { IPaymentStatus } from '../../models/IAdminOrder';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,6 +33,7 @@ export class Dashboard implements OnInit{
   paidPaymentStatusNumber: number;
   pendingPaymentStatusNumber: number;
   totalRevenue: number;
+  productParams = new ProductParams();
 
   constructor(
     private productService: ProductService, 
@@ -57,8 +59,8 @@ export class Dashboard implements OnInit{
        this.usersCount = res;
       });
 
-    this.productService.getProducts().subscribe(res => {
-      this.productsCount = res.length;
+    this.productService.getProducts(this.productParams.pageNumber, this.productParams.pageSize, this.productParams.search).subscribe(res => {
+      this.productsCount = res.totalCount;
      });
 
     this.productService.getMostWishlistedProducts(5).subscribe(res => {
@@ -100,7 +102,7 @@ export class Dashboard implements OnInit{
       return '../../../image/shopping-cart';
     }
     if (!pictureUrl.startsWith('http')) {
-      return `https://localhost:7096${pictureUrl}`;
+      return `${environment.imageBaseUrl}${pictureUrl}`;;
     }
     return pictureUrl;
   }

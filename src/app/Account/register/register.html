@@ -9,10 +9,46 @@
       <input type="text" id="phoneNumber" class="form-control" placeholder="Mobile" formControlName="phoneNumber">
       <label for="phoneNumber">Mobile</label>
     </div>
-    <div class="form-floating mb-2">
+    <!-- <div class="form-floating mb-2">
       <input type="password" id="password" class="form-control" placeholder="Password" formControlName="password">
       <label for="password">Password</label>
-    </div>
+    </div> -->
+     <div class="form-floating mb-2">
+      <input 
+        type="password"
+        id="password"
+        class="form-control"
+        placeholder="Password"
+        formControlName="password">
+        <label for="password"> Password </label>
+        </div>
+
+        @if(registerForm.get('password')?.touched && registerForm.get('password')?.invalid){
+        <div class="text-danger">
+          @if(registerForm.get('password')?.errors?.['required']){
+            Password is required
+          }
+          @if(registerForm.get('password')?.errors?.['minlength']){
+            Minimum 6 characters
+          }
+          @if(registerForm.get('password')?.errors?.['pattern']){
+            Must contain uppercase, lowercase, number and special character
+          }
+        </div>
+        }
+
+     <div class="form-floating mb-2">
+      <input 
+        type="password"
+        id="repeatPassword"
+        class="form-control"
+        placeholder="Repeat Password"
+        formControlName="repeatPassword">
+        <label for="repeatPassword"> Repeat Password </label>
+        </div>
+          @if(registerForm.errors?.['passwordMismatch'] && registerForm.get('repeatPassword')?.touched){
+            <div class="text-danger"> Passwords do not match </div>
+          }
      <div class="form-floating mb-2">
       <input type="text" id="email" class="form-control" placeholder="Email" formControlName="email">
       <label for="email">Email</label>

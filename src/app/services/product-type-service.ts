@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IType } from '../models/IType';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductTypeService {
  
-  adminBackendUrl = 'https://localhost:7096/api/admin';
+  adminBackendUrl = `${environment.apiUrl}/admin`;
 
   constructor(private http: HttpClient) {}
 

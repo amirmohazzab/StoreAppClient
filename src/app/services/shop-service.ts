@@ -2,19 +2,21 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IPagination } from '../models/IPagination';
 import { IProduct } from '../models/IProduct';
-import { map, Observable } from 'rxjs';
+import { map, Observable } from  'rxjs';
 import { IType } from '../models/IType';
 import { IBrand } from '../models/IBrand';
 import { ShopParams } from '../models/shopParams';
 import { IReview } from '../models/IReview';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShopService {
   
-  private backendUrl = "https://localhost:7096/api";
-  private shopParams = new ShopParams();
+  private backendUrl = environment.apiUrl;
+  
+ private shopParams = new ShopParams();
 
   constructor(private http: HttpClient){}
 
@@ -58,7 +60,7 @@ export class ShopService {
       if (this.shopParams?.typeId && this.shopParams?.typeId > 0) params = params.append('typeId', this.shopParams.typeId);
 
       params = params.append('pageSize', this.shopParams.pageSize);
-      params = params.append('pageIndex', this.shopParams.pageIndex);
+      params = params.append('pageNumber', this.shopParams.pageNumber);
       params = params.append('sort', this.shopParams.sort);
       params = params.append('typeSort', this.shopParams.typeSort);
 

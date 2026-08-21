@@ -4,15 +4,17 @@ import { IBasket, IBasketItems, IBasketTotal } from '../models/Basket';
 import { HttpClient } from '@angular/common/http';
 import { IProduct } from '../models/IProduct';
 import { v4 as uuidv4 } from 'uuid';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BasketService {
   
-  private backendUrl = "https://localhost:7096/api";
-  //private readonly backendUrl = environment.apiUrl;
+  private backendUrl = environment.apiUrl;
+
   private basketItems = new BehaviorSubject<IBasket | null>(null);
+  //private basketItems = new BehaviorSubject<IBasket>({ id: '', items: [] });
   basketItems$ = this.basketItems.asObservable();
 
   shippingPrice: number = 0;
@@ -62,13 +64,22 @@ export class BasketService {
   }
 
   getCurrentBasketSource(){
+    // const basketId = localStorage.getItem('basket_item');
+    // if (!basketId || basketId === 'null' || basketId === 'undefined') return null;
+    // const current = this.basketItems.value;
+    // return current ?? { id: basketId, items: [] };
+    const basket = this.basketItems.value;
+    if (basket) return basket; // use memory if available
     const basketId = localStorage.getItem('basket_item');
-    if (!basketId || basketId === 'null' || basketId === 'undefined') return null;
-    const current = this.basketItems.value;
-    return current ?? { id: basketId, items: [] };
+    if (!basketId) return null;
+    return {
+      id: basketId,
+      items: []
+    };
   }
 
   addItemToBasket(product: IProduct, quantity = 1){
+    console.log('addItemToBasket called', product.id, quantity);
 
     let basket = this.getCurrentBasketSource() ?? this.createBasket();
      const itemToAdd: IBasketItems = this.mapProductToBasketItem(product, quantity, basket.id);
@@ -78,7 +89,7 @@ export class BasketService {
        basketId: basket.id
      }));
      localStorage.setItem('basket_item', basket.id);
-     this.basketItems.next(basket);
+     //this.basketItems.next(basket);
     
 
    return this.http.post<IBasket>(`${this.backendUrl}/basket/add-item`, basket)
@@ -87,8 +98,6 @@ export class BasketService {
          this.basketItems.next(res);
        })
      );
-
-  
   }
 
   increaseItenQuantity(id: number){
@@ -212,5 +221,42 @@ clearBasket(basketId: string) {
       })
     );
   }
+
+  resetBasketState() {
+    this.basketItems.next(null);
+  }
+
+  getBasketForUser() {
+  return this.http.get<IBasket[]>(`${this.backendUrl}/basket/getBasketsForUser`)
+    .pipe(
+      map(baskets => {
+        const basket = baskets[0];
+        if (basket) {
+          localStorage.setItem('basket_item', basket.id);
+          this.basketItems.next(basket);
+          this.calculateTotal();
+        }
+        return basket;
+      })
+    );
+  }
+
+  loadBasket() {
+    this.getBasketForUser().subscribe();
+  }
+  // loadBasket() {
+  //   const basketId = localStorage.getItem('basket_item');
+  //   if (!basketId) return;
+
+  //   this.http.get<IBasket>(`${this.backendUrl}/basket/${basketId}`)
+  //     .subscribe({
+  //       next: basket => {
+  //         this.basketItems.next(basket);
+  //       },
+  //       error: err => {
+  //         console.error('Failed to load basket', err);
+  //       }
+  //     });
+  // }
 
 }

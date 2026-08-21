@@ -7,31 +7,70 @@ import { IDeliveryMethod } from '../models/order';
   providedIn: 'root'
 })
 export class CheckoutFormBuilderService {
-  private formBuilder = new BehaviorSubject<ICheckoutFormBuilder>({
-    address: { id: 0, isMain: false, state: '', city: '', firstName: '', lastName: '', fullAddress: '', number: '', postalCode:'', avatarUrl: '', place: ''},
-    deliveryMethod: undefined,
-    portalType: undefined,
-    buyerPhoneNumber: ''
-  });
+  private formBuilder = new BehaviorSubject<ICheckoutFormBuilder>(
+    this.getInitialCheckoutState()
+  );
+
+  private getInitialCheckoutState(): ICheckoutFormBuilder {
+    return {
+        address: {
+            id: 0,
+            isMain: false,
+            state: '',
+            city: '',
+            firstName: '',
+            lastName: '',
+            fullAddress: '',
+            number: '',
+            postalCode: '',
+            avatarUrl: '',
+            place: ''
+        },
+        deliveryMethod: undefined,
+        portalType: undefined,
+        buyerPhoneNumber: ''
+    };
+  }
+
   public formBuilder$ = this.formBuilder.asObservable();
 
-  constructor(){}
+
+  constructor() {
+    const stored = localStorage.getItem('checkout-form');
+
+    if (stored) {
+        this.formBuilder.next(JSON.parse(stored));
+    }
+  }
 
   setAddress(address: IAddress){
-    this.formBuilder.next({...this.formBuilder.value, address});
+    const value = {...this.formBuilder.value, address};
+
+    this.formBuilder.next(value);
+    localStorage.setItem('checkout-form', JSON.stringify(value));
   }
 
   setDeliveryMethod(deliveryMethod: IDeliveryMethod){
-    this.formBuilder.next({...this.formBuilder.value, deliveryMethod});
+    const value = {...this.formBuilder.value, deliveryMethod
+    };
+
+    this.formBuilder.next(value);
+    localStorage.setItem('checkout-form', JSON.stringify(value)
+    );
   }
 
   setPortalType(portalType: number){
     this.formBuilder.next({...this.formBuilder.value, portalType});
   }
 
-//   setBuyerPhoneNumber(phoneNumber: string) {
-//   this.formBuilder.next({ ...this.formBuilder.value, buyerPhoneNumber: phoneNumber });
-// }
+  clearCheckout() {
+    localStorage.removeItem('checkout-form');
+    this.formBuilder.next(this.getInitialCheckoutState());
+  }
+
+  getCurrentValue(): ICheckoutFormBuilder {
+    return this.formBuilder.value;
+  }
 
 
 }

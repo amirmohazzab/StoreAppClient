@@ -21,6 +21,8 @@ export class PersonalProfile implements OnInit {
   avatarUrl: string = "";
   previewUrl: any = null;
   isDragging = false;
+  isProfileLoaded = false;
+  isNewProfile = false;
 
   constructor(
     private profileService: ProfileService, 
@@ -42,19 +44,47 @@ export class PersonalProfile implements OnInit {
       city: [''],
       state: [''],
       fullAddress: [''],
-      postalCode: ['']
+      postalCode: [''],
+      avatarUrl: [''],
+      email: [''],
+      place: ['']
     });
   }
 
   
+  // loadProfile() {
+  //   this.profileService.getUserProfile().subscribe({
+  //     next: (res: IAddress) => {
+  //       if (res) {
+  //         this.profileForm.patchValue(res);
+  //         this.avatarUrl = res.avatarUrl ?? "";
+  //         this.isProfileLoaded = true;
+  //         console.log('Form value after patch:', this.profileForm.value);
+  //       }
+  //     }
+  //   });
+  // }
+
   loadProfile() {
+    this.isProfileLoaded = false;
+
     this.profileService.getUserProfile().subscribe({
       next: (res: IAddress) => {
-        if (res) {
-          this.profileForm.patchValue(res);
-           this.avatarUrl = res.avatarUrl ?? "";
-          console.log('Form value after patch:', this.profileForm.value);
-        }
+
+        // profile state
+        this.isNewProfile = !res || !res.id;
+
+        // form + avatar
+        this.profileForm.patchValue(res);
+        this.avatarUrl = res.avatarUrl ?? "";
+
+        // UI ready
+        this.isProfileLoaded = true;
+      },
+
+      error: () => {
+        this.isNewProfile = true;
+        this.isProfileLoaded = true;
       }
     });
   }
@@ -73,6 +103,7 @@ export class PersonalProfile implements OnInit {
     this.isDragging = false;
 
     const file = event.dataTransfer?.files[0];
+    if (!file) return;
     if (file) this.upload(file);
   }
 
@@ -83,7 +114,10 @@ export class PersonalProfile implements OnInit {
     return;
     }
     this.profileService.updateUserProfile(this.profileForm.value).subscribe({
-      next: () => this.toast.success('Profile updated successfully!'),
+      next: () => {
+        this.toast.success('Profile updated successfully!'),
+        this.loadProfile();
+      },
       error: () => this.toast.error('Failed to update profile.')
   });
   }
@@ -97,6 +131,7 @@ export class PersonalProfile implements OnInit {
     this.accountService.uploadAvatar(file).subscribe({
       next: (res: any) => {
         this.avatarUrl = res.url;
+        this.profileForm.patchValue({avatarUrl: res.url});
         Swal.fire("Success", "Profile image updated!", "success");
       }
     });

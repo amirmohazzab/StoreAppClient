@@ -1,0 +1,127 @@
+<!-- Small chat button -->
+@if (!isChatOpen) {
+
+    <button
+        class="chat-button"
+        (click)="openChat()">
+        💬 Can I help you?
+    </button>
+}
+
+
+<!-- Chat window -->
+@if (isChatOpen) {
+    <div class="chat-window">
+        <div class="chat-header">
+            <span>Chat with Support</span>
+            <button
+                class="close-button"
+                (click)="closeChat()">
+                ×
+            </button>
+        </div>
+
+        <div class="chat-body">
+           
+           @for (message of messages; track message.id) {
+
+            <div
+                class="message"
+                [style.align-self]="
+                    message.senderUserId === currentUserId
+                        ? 'flex-end'
+                        : 'flex-start'
+                "
+                [style.background-color]="
+                    message.senderUserId === currentUserId
+                        ? 'skyblue'
+                        : '#eee'
+                "
+            >
+
+        @if (message.message) {
+            <div class="message-text">
+                {{ message.message }}
+            </div>
+        }
+
+        @if (message.attachments?.length) {
+
+            @for (
+                attachment of message.attachments;
+                track attachment.id
+            ) {
+
+                @if (
+                    attachment.contentType.startsWith('image/')
+                ) {
+
+                    <img
+                        class="chat-image"
+                        [src]="chatService.getAttachmentUrl(
+                            attachment.filePath
+                        )"
+                        [alt]="attachment.fileName"
+                    />
+
+                }
+                @else {
+
+                    <a
+                        class="chat-file"
+                        [href]="chatService.getAttachmentUrl(
+                            attachment.filePath
+                        )"
+                        target="_blank">
+
+                        📎 {{ attachment.fileName }}
+
+                    </a>
+
+                }
+
+            }
+
+        }
+
+        <div class="message-date">
+            {{ message.createDate | date:'short' }}
+        </div>
+
+    </div>
+
+}
+       
+        </div>
+
+        <div class="chat-footer">
+            <!-- <input
+                type="file"
+                #fileInput
+                hidden
+                accept="image/jpeg,image/png,image/webp,application/pdf"
+                (change)="onFileSelected($event)"
+            />
+
+            <button
+                type="button"
+                (click)="fileInput.click()">
+                📎
+            </button> -->
+
+            <input
+                type="text"
+                [(ngModel)]="message"
+                placeholder="Type your message..."
+                (keyup.enter)="sendMessage()"
+            />
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                (click)="sendMessage()">
+                Send
+            </button>
+        </div>
+    </div>
+}

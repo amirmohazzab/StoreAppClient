@@ -17,6 +17,8 @@ export class Navbar implements OnInit{
 
   basket$ : Observable<IBasket>;
   currentUser$: Observable<IUser>;
+  menuOpen = false;
+  
   constructor(private basketService: BasketService, private accountService: AccountService){}
 
   ngOnInit(): void {
@@ -26,8 +28,7 @@ export class Navbar implements OnInit{
 
   logout(){
     this.accountService.logout();
-
+    this.basketService.resetBasketState();
   }
-
 
 }

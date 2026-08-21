@@ -7,7 +7,7 @@
   </div>
 
   <div class="thumbs d-flex mt-2 flex-row">
-    <img *ngFor="let img of (product?.galleryImages || [product?.pictureUrl])"
+    <img *ngFor="let img of (product?.thumbnails || [product?.pictureUrl])"
          [src]="img"
          class="thumb"
          [class.active]="img === selectedImage"

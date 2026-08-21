@@ -111,9 +111,26 @@
       </ul>
     </li>
 
+     <!-- Livechat -->
+    <li>
+      <button class="dropdown-btn" (click)="toggleLivechatMenu()">
+        <i class="fa fa-envelope"></i> Live Chats
+        <i class="fa" [class.fa-chevron-down]="!livechatMenuOpen"
+                     [class.fa-chevron-up]="livechatMenuOpen"></i>
+      </button>
+
+      <ul class="submenu" [class.open]="livechatMenuOpen">
+        <li><a routerLink="/admin/chat" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">LiveChat List</a></li>
+      </ul>
+    </li>
+
   </ul>
 </div>
 
 <!-- <ul class="submenu" [ngClass]="{'open': menu.products}"></ul>
 <ul class="submenu" [ngClass]="{'open': menu.users}"></ul> -->
 <!-- *appHasPermission="'Product.Create'" -->
+
+<!-- <button *appHasPermission="'User.Delete'">
+  Delete
+</button> -->

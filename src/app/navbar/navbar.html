@@ -63,12 +63,24 @@
     <a class="navbar-brand" routerLink="/">MyShop</a>
 
     <!-- HAMBURGER BUTTON -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+      <button class="navbar-toggler"
+              type="button"
+              (click)="menuOpen = !menuOpen">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- NAV CONTENT -->
+      <div class="navbar-collapse"
+          [class.collapse]="!menuOpen"
+          [class.show]="menuOpen">
+
+    <!-- HAMBURGER BUTTON -->
+    <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
       <span class="navbar-toggler-icon"></span>
-    </button>
+    </button> -->
 
     <!-- NAV CONTENT -->
-    <div class="collapse navbar-collapse" id="mainNavbar">
+    <!-- <div class="collapse navbar-collapse" id="mainNavbar"> -->
 
       <!-- LEFT MENU -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -98,13 +110,25 @@
         <button type="button" routerLink="/basket" class="btn btn-primary position-relative me-3">
           <i class="fa fa-shopping-cart"></i>
 
-          @if (currentUser$ | async) {
+          @if ((currentUser$ | async) && (basket$ | async)?.items?.length > 0) {
+            <span class="badge bg-danger">
+              {{ (basket$ | async)?.items?.length }}
+            </span>
+          }
+
+          <!-- @if ((basket$ | async)?.items?.length) {
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {{ (basket$ | async)?.items?.length }}
+            </span>
+          } -->
+
+          <!-- @if (currentUser$ | async) {
             @if (basket$ | async; as basket) {
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 {{ basket.items.length }}
               </span>
             }
-          }
+          } -->
 
         </button>
 

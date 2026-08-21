@@ -6,6 +6,7 @@ import { BreadcrumbService } from 'xng-breadcrumb';
 import { AccountService } from '../../services/account-service';
 import { InputForm } from "../../input-form/input-form";
 import { CommonModule } from '@angular/common';
+import { BasketService } from '../../services/basket-service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class Login implements OnInit{
     private accountService: AccountService, 
     private toast: ToastrService, 
     private router: Router, 
-    private route: ActivatedRoute){
+    private route: ActivatedRoute,
+    private basketService: BasketService ){
       this.modalForm = new FormGroup({
         phoneNumber: new FormControl('', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]),
         password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(30)])
@@ -48,10 +50,17 @@ export class Login implements OnInit{
       return;
     }
     this.accountService.login(this.loginForm.getRawValue()).subscribe((user) => {
-       if (!user) return;
-
+        
+    if (!user) return;
     this.toast.success('Login Successful');
 
+    // const basketId = localStorage.getItem('basket_item');
+    // console.log('basket id:', basketId);
+    // if (basketId) {
+    //   this.basketService.getBasket(basketId).subscribe();
+    // }
+
+    this.basketService.getBasketForUser().subscribe();
     const returnUrl = this.route.snapshot.queryParams['returnUrl'];
 
     if (returnUrl) {

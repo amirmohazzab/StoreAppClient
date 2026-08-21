@@ -6,10 +6,11 @@ import { CardShop } from '../card-shop/card-shop';
 import { HomeService } from '../services/home-service';
 import { ProductCategoryService } from '../services/product-category-service';
 import { IAdminProductCategory } from '../models/IAdminProductCategory';
+import { Chat } from "../chat/chat";
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, RouterModule, CardShop],
+  imports: [CommonModule, RouterModule, CardShop, Chat],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
@@ -17,8 +18,12 @@ export class Home implements OnInit {
 
   categories: IAdminProductCategory[] = [];
   allProducts: IProduct[] = [];
+  filteredProducts: IProduct[] = [];
+
   liked: IProduct[] = [];
   viewed: IProduct[] = [];
+
+  selectedCategoryId: number | null = null;
 
   constructor(private homeService: HomeService, private productCategoryService: ProductCategoryService) {}
 
@@ -31,7 +36,9 @@ export class Home implements OnInit {
       this.categories = res;
     });
     this.homeService.getFeatured().subscribe(res => {
+      console.log(res);
       this.allProducts = res;
+      this.filteredProducts = res;
     });
     this.homeService.getMostLiked(6).subscribe(res => {
       this.liked = res;
@@ -41,12 +48,18 @@ export class Home implements OnInit {
     });
   }
 
-//   loadProducts(categoryId?: number, brandId?: number, search?: string) {
-//   this.homeService.getFeatured({ categoryId, brandId, search }).subscribe({
-//     next: (res) => this.allProducts = res,
-//     error: (err) => console.error('Error loading products:', err)
-//   });
-// }
+filterByCategory(categoryId: number) {
+  this.selectedCategoryId = categoryId;
+
+  this.filteredProducts = this.allProducts.filter(
+    p => p.categoryId === categoryId
+  );
+}
+
+showAllProducts() {
+  this.selectedCategoryId = null;
+  this.filteredProducts = this.allProducts;
+}
 
 
 

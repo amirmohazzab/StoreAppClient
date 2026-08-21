@@ -57,11 +57,11 @@
     <input type="date" class="form-control" [(ngModel)]="orderParams.toDate" (ngModelChange)="applyFilter()">
   </div>
 
-  <div class="col-md-3 mt-3">
+  <!-- <div class="col-md-3 mt-3">
     <button class="btn btn-primary w-100" (click)="applyFilter()">
       Filter
     </button>
-  </div>
+  </div> -->
 
 <div class="col-md-3 mt-3">
     <button class="btn btn-secondary w-100" (click)="onReset()">
@@ -74,7 +74,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th (click)="applySort('id')">Order ID <i [class]="sortBy==='id' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
+      <th (click)="applySort('Id')">Order ID <i [class]="sortBy==='id' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
       <th (click)="applySort('BuyerPhoneNumber')">User <i [class]="sortBy==='BuyerPhoneNumber' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
       <th (click)="applySort('OrderStatus')">OrderStatus <i [class]="sortBy==='OrderStatus' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th>
       <!-- <th (click)="applySort('Total')">Total <i [class]="sortBy==='Total' ? (sortDesc?'fas fa-sort-down':'fas fa-sort-up'):'fas fa-sort'"></i></th> -->

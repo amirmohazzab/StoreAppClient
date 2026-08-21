@@ -4,24 +4,36 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { IUser, Login, Register } from '../models/User';
 import { Router } from '@angular/router';
 import { IAddAddress, IAddress } from '../models/Address';
+import { environment } from '../../environments/environment';
+import { BasketService } from './basket-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
   
-  private backendUrl = "https://localhost:7096/api";
+  private backendUrl = environment.apiUrl;
+
   private currentUser = new BehaviorSubject<IUser>(null);
   public currentUser$ = this.currentUser.asObservable();
   user: IUser;
 
-  constructor(private http: HttpClient, private router: Router){}
+  constructor(private http: HttpClient, private router: Router, private basketService: BasketService)
+  {
+     const user = localStorage.getItem('user_token');
+    if (user) {
+      this.currentUser.next(JSON.parse(user));
+    }
+  }
 
   login(login: Login) : Observable<IUser> {
     return this.http.post<IUser>(`${this.backendUrl}/account/login`, login).pipe(
     map(user => {
       if (!user) return null;
       this.setCurrentUser(user);
+      this.basketService.getBasketForUser()
+      .subscribe();
+      
       return user;
     })
   );
@@ -39,7 +51,9 @@ export class AccountService {
 
   logout(){
     localStorage.removeItem('user_token');
+    localStorage.removeItem('basket_item');
     this.currentUser.next(null);
+    this.basketService.clearLocalBasket();
     this.router.navigateByUrl('/');
   }
 
@@ -73,7 +87,7 @@ export class AccountService {
   }
 
   changePassword(model: any) {
-    return this.http.put(`${this.backendUrl}/account/change-password`, model);
+    return this.http.post(`${this.backendUrl}/account/change-password`, model);
   }
 
   getProfile() {

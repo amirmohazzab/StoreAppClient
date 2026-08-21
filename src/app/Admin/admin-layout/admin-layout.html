@@ -1,4 +1,4 @@
-<div class="admin-wrapper d-flex">
+<div class="admin-wrapper d-flex" [class.dark]="darkMode">
 
   <!-- BACKDROP for mobile -->
  @if(sidebarOpen && isMobile){
@@ -12,10 +12,12 @@
 }
   <!-- SIDEBAR -->
   <app-admin-sidebar [mobile]="isMobile" [open]="sidebarOpen"></app-admin-sidebar>
+   
 
   <!-- MAIN CONTENT -->
   <div class="admin-content flex-grow-1">
-    <app-admin-header (toggleSidebar)="toggleSidebar()"></app-admin-header>
+    <!-- <app-admin-header (toggleSidebar)="toggleSidebar()"></app-admin-header> -->
+    <app-admin-header (toggleSidebar)="toggleSidebar()" (darkModeChanged)="toggleDarkMode()"></app-admin-header>
 
     <div class="p-3 mt-4">
       <router-outlet></router-outlet>

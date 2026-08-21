@@ -5,19 +5,33 @@ import { IAdminProduct, IMostSoldProduct, IMostWishlistedProduct } from '../mode
 import { IMostReviewedProducts, IReview, IReviewResponse } from '../models/IReview';
 import { FilterReviewStatus, ReviewParams } from '../models/reviewParams';
 import { IMostAddedToBasket } from '../models/Basket';
+import { environment } from '../../environments/environment';
+import { IPagination } from '../models/IPagination';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
   
-  private adminBackendUrl = "https://localhost:7096/api/admin";
+  private adminBackendUrl = `${environment.apiUrl}/admin`;
+  
   private reviewParams = new ReviewParams();
     
   constructor(private http: HttpClient){}
 
-  getProducts(): Observable<IAdminProduct[]> {
-    return this.http.get<IAdminProduct[]>(`${this.adminBackendUrl}/product/getAll`);
+  // getProducts(): Observable<IAdminProduct[]> {
+  //   return this.http.get<IAdminProduct[]>(`${this.adminBackendUrl}/product/getAll`);
+  // }
+
+  getProducts(pageNumber: number = 1, pageSize: number = 5, search: string = ''): Observable<IPagination<IAdminProduct>> {
+
+       let params = new HttpParams();
+        
+       params = params.append('pageSize', pageSize);
+       params = params.append('pageNumber', pageNumber);
+       if (search) params = params.set('search', search);
+
+    return this.http.get<IPagination<IAdminProduct>>(`${this.adminBackendUrl}/product/getAll`, {params});
   }
 
   
@@ -126,8 +140,12 @@ export class ProductService {
       return params
   }
 
-  approveReview(reviewId: number, approve: boolean) {
-    return this.http.put(`${this.adminBackendUrl}/product/review/update`, { reviewId, approve });
+  approveReview(reviewId: number) {
+    return this.http.put(`${this.adminBackendUrl}/product/review/update`, {  dto: {
+      reviewId,
+      status: FilterReviewStatus.Approved
+    } 
+  });
   }
 
   updateReview(id: number, comment: string) {
@@ -153,6 +171,15 @@ export class ProductService {
   getAtLeastOneReview(){
     return this.http.get<number>(`${this.adminBackendUrl}/product/review/at-least-one-review`);
   }
+
+  rejectReview(reviewId: number) {
+  return this.http.put(`${this.adminBackendUrl}/product/review/update`, {
+    dto: {
+      reviewId,
+      status: FilterReviewStatus.Rejected
+    }
+  });
+}
 
  
 

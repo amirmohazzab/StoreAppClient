@@ -87,3 +87,25 @@
 .btn-cart:hover {
   background: #0056b3;
 }
+
+.cart-btn{
+    padding: .5rem .75rem;
+}
+
+.cart-icon-wrapper{
+    position: relative;
+    display: inline-block;
+}
+
+.check-icon{
+    position: absolute;
+    right: -6px;
+    top: -5px;
+
+    color: #28a745;
+    font-size: .55rem;
+
+    background: white;
+    border-radius: 50%;
+}
+

@@ -24,6 +24,19 @@
       <td>{{item.price * item.quantity | number}}</td>
     </tr>
    }
+   @if (selectedAddress) {
+<tr class="table-light">
+  <td colspan="7" class="text-start">
+    <strong>Shipping Address:</strong><br>
+    {{ selectedAddress.place }}<br>
+    Name: {{ selectedAddress.firstName}} {{ selectedAddress.lastName }}<br>
+    Phone: {{ selectedAddress.number }}<br>
+    {{ selectedAddress.city }}, {{ selectedAddress.state }}<br>
+    PostalCode: {{ selectedAddress.postalCode }}<br>
+    {{ selectedAddress.fullAddress }}<br>
+  </td>
+</tr>
+   }
   </tbody>
     </table>
   </div>

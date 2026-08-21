@@ -1,4 +1,4 @@
-<div class="modal-header">
+<!-- <div class="modal-header">
   <h4 class="modal-title pull-left">{{ title }}</h4>
   <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
     <span aria-hidden="true" class="visually-hidden">&times;</span>
@@ -45,9 +45,98 @@
   </form>
 </div>
  <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="onSubmit()" >Save</button>
+      <button type="submit" class="btn btn-primary" (click)="onSubmit()" >Save</button>
       <button type="button" class="btn btn-warning" (click)="bsModalRef.hide()">
         {{ closeBtnName }}
       </button>
+</div> -->
+
+<div class="modal-header">
+  <h4 class="modal-title pull-left">{{ title }}</h4>
+  <button type="button" class="btn-close close pull-right" aria-label="Close"
+          (click)="bsModalRef.hide()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
 </div>
+
+<!-- IMPORTANT: use (ngSubmit) -->
+<form [formGroup]="modalForm" (ngSubmit)="onSubmit()">
+
+  <div class="modal-body">
+
+    <div class="form-floating mb-2">
+      <input type="text" id="number" class="form-control"
+             placeholder="Mobile" formControlName="number">
+      <label for="number">Mobile</label>
+    </div>
+
+    <div class="form-floating mb-2">
+      <input type="text" id="firstName" class="form-control"
+             placeholder="First Name" formControlName="firstName">
+      <label for="firstName">First Name</label>
+    </div>
+
+    <div class="form-floating mb-2">
+      <input type="text" id="lastName" class="form-control"
+             placeholder="Last Name" formControlName="lastName">
+      <label for="lastName">Last Name</label>
+    </div>
+
+    <div class="form-floating mb-2">
+      <input type="text" id="state" class="form-control"
+             placeholder="State" formControlName="state">
+      <label for="state">State</label>
+    </div>
+
+    <div class="form-floating mb-2">
+      <input type="text" id="city" class="form-control"
+             placeholder="City" formControlName="city">
+      <label for="city">City</label>
+    </div>
+
+    <div class="form-floating mb-2">
+      <input type="text" id="postalCode" class="form-control"
+             placeholder="Postal Code" formControlName="postalCode">
+      <label for="postalCode">Postal Code</label>
+    </div>
+
+    <div class="form-floating mb-2">
+      <textarea id="fullAddress" class="form-control"
+                placeholder="Full Address"
+                style="height: 60px;"
+                formControlName="fullAddress"></textarea>
+      <label for="fullAddress">Full Address</label>
+    </div>
+
+    <div class="form-floating mb-2">
+      <input type="text" id="place" class="form-control"
+             placeholder="Place" formControlName="place">
+      <label for="place">Place</label>
+    </div>
+
+    <!-- <div class="form-check form-switch mb-2">
+      <input class="form-check-input"
+             type="checkbox"
+             id="isMain"
+             formControlName="isMain">
+      <label class="form-check-label" for="isMain">
+        Choose Default Address
+      </label>
+    </div> -->
+
+  </div>
+
+  <div class="modal-footer">
+    <!-- IMPORTANT: submit triggers form -->
+    <button type="submit" class="btn btn-primary">
+      Save
+    </button>
+
+    <button type="button" class="btn btn-warning"
+            (click)="bsModalRef.hide()">
+      {{ closeBtnName }}
+    </button>
+  </div>
+
+</form>
 

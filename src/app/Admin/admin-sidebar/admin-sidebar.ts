@@ -6,12 +6,13 @@ import { HasPermissionDirective } from '../../directive/has-permission-directive
 
 @Component({
   selector: 'app-admin-sidebar',
-  imports: [ReactiveFormsModule, CommonModule, RouterModule, HasPermissionDirective],
+  imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './admin-sidebar.html',
   styleUrl: './admin-sidebar.scss'
 })
 export class AdminSidebar {
 
+// HasPermissionDirective
 //   menu = {
 //   products: false,
 //   users: false,
@@ -28,6 +29,7 @@ export class AdminSidebar {
   userMenuOpen: boolean = false;
   orderMenuOpen: boolean = false;
   contactMenuOpen: boolean = false;
+  livechatMenuOpen: boolean = false;
 
   toggleProductMenu() {
     this.productMenuOpen = !this.productMenuOpen;
@@ -55,5 +57,9 @@ export class AdminSidebar {
 
   toggleContactMenu() {
     this.contactMenuOpen = !this.contactMenuOpen;
+  }
+
+  toggleLivechatMenu() {
+    this.livechatMenuOpen = !this.livechatMenuOpen;
   }
 }

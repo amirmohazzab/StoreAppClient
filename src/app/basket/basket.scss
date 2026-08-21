@@ -1,0 +1,12 @@
+.quantity-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+}
+
+@media (max-width: 768px) {
+    .quantity-actions {
+        flex-direction: column;
+    }
+}

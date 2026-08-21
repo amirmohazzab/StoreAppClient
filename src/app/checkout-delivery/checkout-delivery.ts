@@ -28,28 +28,67 @@ export class CheckoutDelivery implements OnInit {
 
   onChangeDelivery(index: number){
     this.indexSelected = index;
-    this.setDeliveryMethod(index);
+    this.saveSelectedDeliveryMethod(index);
     this.basketService.setShippingPrice(this.deliveryMethods[index].price);
     this.formBuilder.formBuilder$.subscribe(res => console.log(res));
   }
 
-  private setDeliveryMethod(index: number) {
+  private saveSelectedDeliveryMethod(index: number) {
     this.formBuilder.setDeliveryMethod(this.deliveryMethods[index]);
   }
 
+  
+  private getDeliveryMethods() {
 
-  private getDeliveryMethods(){
-    this.orderService.getDeliveryMethods().subscribe(res => {
-      if (res && res.length > 0) {
-        this.deliveryMethods = res;
-        this.basketService.setShippingPrice(this.deliveryMethods[0]?.price ?? 0);
-        this.setDeliveryMethod(this.indexSelected);
-      } else {
-        console.warn('No delivery methods found');
-        this.deliveryMethods = [];
+  this.orderService.getDeliveryMethods().subscribe(res => {
+
+    if (res && res.length > 0) {
+
+      this.deliveryMethods = res;
+
+      // Restore previously selected delivery method
+      const selected =
+        this.formBuilder.getCurrentValue().deliveryMethod;
+
+      if (selected) {
+
+        const index =
+          res.findIndex(x => x.id === selected.id);
+
+        if (index !== -1) {
+          this.indexSelected = index;
+        }
       }
-    })
-  }
+
+      this.basketService.setShippingPrice(
+        this.deliveryMethods[this.indexSelected].price
+      );
+
+      this.saveSelectedDeliveryMethod(this.indexSelected);
+
+    }
+    else {
+
+      console.warn('No delivery methods found');
+      this.deliveryMethods = [];
+
+    }
+
+  });
+
+}
+  // private getDeliveryMethods(){
+  //   this.orderService.getDeliveryMethods().subscribe(res => {
+  //     if (res && res.length > 0) {
+  //       this.deliveryMethods = res;
+  //       this.basketService.setShippingPrice(this.deliveryMethods[0]?.price ?? 0);
+  //       this.setDeliveryMethod(this.indexSelected);
+  //     } else {
+  //       console.warn('No delivery methods found');
+  //       this.deliveryMethods = [];
+  //     }
+  //   })
+  // }
 
   
   

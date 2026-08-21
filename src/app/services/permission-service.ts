@@ -4,13 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IUser } from '../models/User';
 import { AccountService } from './account-service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PermissionService {
   
-  adminBackendUrl = 'https://localhost:7096/api/admin';
+  adminBackendUrl = `${environment.apiUrl}/admin`;
+  
   private currentUser: IUser | null = null;
 
   constructor(private http: HttpClient, private accountService: AccountService) {

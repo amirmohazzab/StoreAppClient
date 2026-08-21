@@ -4,24 +4,27 @@ import { Observable } from 'rxjs';
 import { IPagination } from '../models/IPagination';
 import { IAdminUser } from '../models/IAdminUser';
 import { IPermission } from '../models/IPermission';
+import { environment } from '../../environments/environment';
+import { UserParams } from '../models/User';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   
-  private adminBackendUrl = "https://localhost:7096/api/admin";
-
+  private adminBackendUrl = `${environment.apiUrl}/admin`;
+  
+  //private userParams = new UserParams();
   constructor(private http: HttpClient) {}
 
-   getUsers(pageIndex: number = 1, pageSize: number = 5, search: string, sort: string): Observable<IPagination<IAdminUser>> {
+   getUsers(pageNumber: number = 1, pageSize: number = 5, search: string): Observable<IPagination<IAdminUser>> {
     
-     let params = new HttpParams()
-       .set('pageIndex', pageIndex)
-       .set('pageSize', pageSize);
+     let params = new HttpParams();
+      
+     params = params.append('pageSize', pageSize);
+     params = params.append('pageNumber', pageNumber);
 
      if (search) params = params.set('search', search);
-     if (sort) params = params.set('sort', sort);
 
      return this.http.get<IPagination<IAdminUser>>(`${this.adminBackendUrl}/user`, { params });
    }
@@ -56,6 +59,14 @@ updateUserPermissions(userId: string, permissionIds: number[]): Observable<any> 
   getAllPermissions(): Observable<any[]> {
     return this.http.get<any[]>(`${this.adminBackendUrl}/role/permission`);
   }
+
+  //  getUserParams(){
+  //     return this.userParams;
+  //   }
+  
+  //   updateUserParams(params: UserParams){
+  //     this.userParams = params;
+  //   }
 
 
 

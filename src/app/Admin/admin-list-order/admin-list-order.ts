@@ -111,6 +111,7 @@ changeOrderStatus(orderId: number, status) {
 
 applyFilter() {
   this.orderParams.pageNumber = 1; 
+  this.adminOrderService.updateOrderParams(this.orderParams);
   this.loadOrders();
 }
 

@@ -13,16 +13,21 @@ import { NgxSpinnerComponent } from 'ngx-spinner';
   templateUrl: './admin-layout.html',
   styleUrl: './admin-layout.scss'
 })
-export class AdminLayout {
+export class AdminLayout implements OnInit{
   
   isMobile = false;
   sidebarOpen = true;
+  darkMode = false;
 
   constructor(
     private accountService: AccountService, 
     private router: Router, 
     private busyService: BusyService){
     this.checkScreenSize();
+  }
+
+  ngOnInit(): void {
+    this.darkMode = localStorage.getItem('admin-dark-mode') === 'enabled';
   }
   
   get busy$() {
@@ -46,7 +51,14 @@ export class AdminLayout {
    this.accountService.logout();
   }
 
+  toggleDarkMode() {
+    this.darkMode = !this.darkMode;
 
+    localStorage.setItem(
+      'admin-dark-mode',
+      this.darkMode ? 'enabled' : 'disabled'
+    );
+  }
 
 
 }

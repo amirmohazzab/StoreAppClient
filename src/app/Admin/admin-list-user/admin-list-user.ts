@@ -1,29 +1,35 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../../services/user-service';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule} from '@angular/forms';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, JsonPipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { IAdminUser } from '../../models/IAdminUser';
 import { HasPermissionDirective } from '../../directive/has-permission-directive';
 import { UserPermission } from '../../modal/user-permission/user-permission';
+import { IPagination } from '../../models/IPagination';
+import { UserParams } from '../../models/User';
+import { PaginationComponent } from "ngx-bootstrap/pagination";
 
 @Component({
   selector: 'app-admin-list-user',
-  imports: [FormsModule, RouterModule, HasPermissionDirective, DatePipe, UserPermission],
+  imports: [FormsModule, RouterModule, UserPermission, PaginationComponent],
   templateUrl: './admin-list-user.html',
   styleUrl: './admin-list-user.scss'
 })
 export class AdminListUser implements OnInit{
-
-   users: IAdminUser[] = [];
   
+     userParams = new UserParams();
+     public data? : IPagination<IAdminUser>;
      pageNumber: number = 1;
      pageSize: 5;
      search: "";
+   @ViewChild('search', {static: false}) searchItem: ElementRef
      sort: string = "username";
      totalCount = 0;
      permissions: any[] = [];
+     
+      
 
   @ViewChild('permissionsModal') permissionsModal!: UserPermission;
 
@@ -37,30 +43,29 @@ export class AdminListUser implements OnInit{
 
   ngOnInit(): void {
     this.loadUsers();
-    this.loadAllPermissions();
+    //this.loadAllPermissions();
   }
 
    loadUsers() {
-     this.userService.getUsers(this.pageNumber, this.pageSize, this.search, this.sort)
+     this.userService.getUsers(this.userParams.pageNumber, this.userParams.pageSize, this.userParams.search)
        .subscribe(res => {
-         this.users = res.result;
+         this.data = res;
          this.totalCount = res.totalCount;
-         console.log(this.users);
        });
    }
 
-  // loadAllPermissions() {
-  //   this.userService.getAllPermissions().subscribe(res => this.allPermissions = res);
-  // }
+//   loadAllPermissions() {
+//      this.userService.getAllPermissions().subscribe(res => this.allPermissions = res);
+//   }
 
-  loadAllPermissions() {
-  this.userService.getAllPermissions()
-    .subscribe(perms => {
-      perms.forEach(p => this.permissions[p.id] = p.displayName);
-    });
-}
+//   loadAllPermissions() {
+//   this.userService.getAllPermissions()
+//     .subscribe(perms => {
+//       perms.forEach(p => this.permissions[p.id] = p.displayName);
+//     });
+// }
 
-  openPermissionsModal(user: any) {
+  openPermissionsModal(user: IAdminUser) {
     this.permissionsModal.open(user);
   }
 
@@ -68,11 +73,11 @@ export class AdminListUser implements OnInit{
     this.loadUsers(); 
   }
 
-  onSearch() {
-    this.pageNumber = 1;
+  onSearch(){
+    this.userParams.search = this.searchItem.nativeElement.value;
+    this.userParams.pageNumber = 1;
     this.loadUsers();
-  }
-
+   }
     onSort(field: string) {
      this.sort = field;
      this.loadUsers();
@@ -99,4 +104,12 @@ export class AdminListUser implements OnInit{
   goToEdit(id: string) {
     this.router.navigate(['/admin/user/edit', id]);
   }
-}
+
+  onPageChange(event: any){
+     this.userParams.pageNumber = event.page;
+//     this.userService.updateUserParams(this.userParams);
+     this.loadUsers();
+    }
+
+  
+  }

@@ -5,3 +5,11 @@
 .card-body h4 {
     font-weight: bold;
 }
+
+.dashboard-title {
+  color: #555;
+}
+
+.dark-mode .dashboard-title {
+  color: white  !important;
+}

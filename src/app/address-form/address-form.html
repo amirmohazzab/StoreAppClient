@@ -10,40 +10,88 @@
     <form [formGroup]="form" (ngSubmit)="submit()">
 
       <div class="mb-3">
-        <label>Title</label>
-        <input type="text" class="form-control" formControlName="title">
-        <div class="text-danger" *ngIf="form.controls.title.touched && form.controls.title.invalid">
-          Title is required (min 2 chars)
+        <label>Place</label>
+        <input type="text" class="form-control" formControlName="place">
+        @if(form.controls['place'].touched && form.controls['place'].invalid){
+           <div class="text-danger">
+          Place is required 
         </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label>FirstName</label>
+        <input type="text" class="form-control" formControlName="firstName">
+        @if(form.controls['firstName'].touched && form.controls['firstName'].invalid){
+          <div class="text-danger">
+            FirstName is required
+          </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label>LastName</label>
+        <input type="text" class="form-control" formControlName="lastName">
+        @if(form.controls['lastName'].touched && form.controls['lastName'].invalid){
+          <div class="text-danger">
+            LastName is required
+          </div>
+        }
       </div>
 
       <div class="mb-3">
         <label>State</label>
         <input type="text" class="form-control" formControlName="state">
-        <div class="text-danger" *ngIf="form.controls.state.touched && form.controls.state.invalid">
-          State is required
-        </div>
+        @if(form.controls['state'].touched && form.controls['state'].invalid){
+          <div class="text-danger">
+            State is required
+          </div>
+        }
       </div>
 
       <div class="mb-3">
         <label>City</label>
         <input type="text" class="form-control" formControlName="city">
-        <div class="text-danger" *ngIf="form.controls.city.touched && form.controls.city.invalid">
+        @if(form.controls['city'].touched && form.controls['city'].invalid){
+           <div class="text-danger">
           City is required
         </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label>Number</label>
+        <input type="text" class="form-control" formControlName="number">
+        @if(form.controls['number'].touched && form.controls['number'].invalid){
+           <div class="text-danger">
+          Number is required
+        </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label>PostalCode</label>
+        <input type="text" class="form-control" formControlName="postalCode">
+        @if(form.controls['postalCode'].touched && form.controls['postalCode'].invalid){
+           <div class="text-danger">
+          PostalCode is required
+        </div>
+        }
       </div>
 
       <div class="mb-3">
         <label>Full Address</label>
-        <textarea rows="3" class="form-control" formControlName="address"></textarea>
-        <div class="text-danger" *ngIf="form.controls.address.touched && form.controls.address.invalid">
-          Address must be at least 10 characters
-        </div>
+        <textarea rows="3" class="form-control" formControlName="fullAddress"></textarea>
+        @if(form.controls['fullAddress'].touched && form.controls['fullAddress'].invalid){
+           <div class="text-danger">
+            Address must be at least 10 characters
+          </div>
+        }
       </div>
 
       <button class="btn btn-success" [disabled]="loading">
         {{ id ? "Update" : "Save" }}
-      </button>
+      </button> 
 
       <a routerLink="/profile/address" class="btn btn-secondary ms-2">
         Cancel

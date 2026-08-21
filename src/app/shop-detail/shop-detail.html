@@ -4,18 +4,19 @@
   <div class="gallery">
     <img 
       class="main-img" 
-      [src]="getImageUrl(selectedImage) || getImageUrl(product?.pictureUrl)"
+      [src]="getImageUrl(selectedImage || product?.pictureUrl)"
       [alt]="product?.title"
-      style="max-width: 150px;"
+      style="max-width:500px; max-height:500px; width:100%;"
     >
 
-   @if(product?.galleryImages){
+   @if(product?.thumbnails?.length){
      <div class="thumbnails">
-      @for(img of product?.galleryImages; track $index){
+      @for(img of product?.thumbnails; track $index){
         <img 
         [src]="getImageUrl(img)"
         (click)="selectedImage = img"
         [class.active]="selectedImage === img"
+        style="width:80px; height:80px;"
       >
       }
     </div>
@@ -44,14 +45,24 @@
         {{ product?.likeCount }}
       </span>
       }
-      <span><i class="fa fa-eye"></i> {{ product?.viewCount }}</span>
+      <span><i class="fa fa-eye" style="color: blue !important"></i> {{ product?.viewCount }}</span>
     </div>
 
     <div class="actions">
       <input type="number" min="1" [(ngModel)]="quantity" class="qty-input">
 
-      <button class="btn-cart" (click)="addToBasket()">
+      <!-- <button class="btn-cart" (click)="addToBasket()">
         <i class="fa fa-shopping-cart"></i> Add to Cart
+      </button> -->
+
+      <button class="btn-cart" (click)="addToBasket()">
+        <i class="fa fa-shopping-cart"></i>
+        @if(!isAddedToCart){
+          Add to Cart
+        }
+        @else{
+          ✓ Added to Cart
+        }
       </button>
 
       <button 
@@ -68,7 +79,7 @@
         [ngClass]="product.isInWishlist ? 'in-wishlist' : 'not-in-wishlist'"
         (click)="toggleWishlist(product.id)">
         
-        <i class="fa" [ngClass]="product.isInWishlist ? 'fa-heart' : 'fa-heart-o'"></i>
+        <!-- <i class="fa" [ngClass]="product.isInWishlist ? 'fa-heart' : 'fa-heart-o'"></i> -->
 
         <span>
           {{ product.isInWishlist ? 'Added to Wishlist' : 'Add to Wishlist' }}

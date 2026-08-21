@@ -19,7 +19,10 @@ export class UserReviewsList {
   //   { product: "Samsung TV", rating: 4, comment: "Great image quality", date: "2024-12-10" }
   // ];
   reviews: IReview[] = [];
-  loading = true;
+  loading = false;
+  pageNumber = 1;
+  pageSize = 5;
+  totalPages = 0;
 
   constructor(private profileService: ProfileService, private toast: ToastrService) {}
 
@@ -29,8 +32,8 @@ export class UserReviewsList {
 
   load() {
     this.loading = true;
-    this.profileService.getUserReviews().subscribe({
-      next: res => { this.reviews = res; this.loading = false; },
+    this.profileService.getUserReviews(this.pageNumber, this.pageSize).subscribe({
+      next: res => { this.reviews = res.result; this.totalPages = res.totalPages;  this.pageNumber = res.pageNumber; this.loading = false; },
       error: () => { this.loading = false; Swal.fire('Error', 'Could not load reviews', 'error'); }
     });
   }
@@ -70,5 +73,11 @@ export class UserReviewsList {
    if (rating >= star) return 'full';
    if (rating >= star - 0.5) return 'half';
    return 'empty';
+  }
+
+
+  changePage(page: number) {
+    this.pageNumber = page;
+    this.load();
   }
 }

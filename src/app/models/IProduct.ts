@@ -19,6 +19,8 @@ export interface IProduct{
     thumbnails: string[],
     averageRating?: number;   
     reviewCount?: number; 
-    galleryImages: string[];
+    //galleryImages: string[];
     isInWishlist : boolean;
+    categoryId? : number,
+    categoryName? : string
 }

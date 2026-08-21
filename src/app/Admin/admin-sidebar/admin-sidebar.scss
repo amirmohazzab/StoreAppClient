@@ -13,12 +13,12 @@
 .sidebar.mobile {
   position: fixed;
   top: 0;
-  right: -260px;
+  left: -260px;
   z-index: 2000;
 }
 
 .sidebar.mobile.open {
-  right: 0;
+  left: 0;
 }
 
 .sidebar-header {
@@ -37,7 +37,7 @@
   width: 100%;
   padding: 12px;
   border: none;
-  background: none;
+  background: transparent;
   color: white;
   text-align: left;
   font-size: 16px;
@@ -45,13 +45,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: background 0.2s ease;
 }
+
 
  .menu-list li a:hover,
  .dropdown-btn:hover {
    background: rgba(255,255,255,0.1);
    border-radius: 6px;
  }
+
+ .dropdown-btn i {
+  pointer-events: none;
+}
 
 .submenu {
   max-height: 0;

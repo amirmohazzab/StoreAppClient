@@ -14,7 +14,8 @@ import { IPermission } from '../../models/IPermission';
 })
 export class UserPermission {
 
-  @Input() user: any; // IAdminUser
+  //@Input() user: any; // IAdminUser
+  user!: IAdminUser;
   @Input() allPermissions: IPermission[] = [];
   @Output() saved = new EventEmitter<void>();
 
@@ -25,20 +26,23 @@ export class UserPermission {
   constructor(private userService: UserService) {}
 
   open(user: IAdminUser) {
-  this.user = user;
-  forkJoin([
+    this.user = user;
+    forkJoin([
       this.userService.getAllPermissions(),
       this.userService.getUserPermissions(user.id)
-    ]).subscribe(([allPerms, userPerms]) => {
+    ])
+    .subscribe({
+      next: ([allPerms, userPerms]) => {
 
-      this.allPermissions = allPerms;           // نوع: UserPermission[]
-      this.userPermissionIds = userPerms.map(p => p.id);  // نوع: number[]
-
-      this.isOpen = true;
+        this.allPermissions = allPerms;
+        this.userPermissionIds = userPerms.map(p => p.id);
+        this.isOpen = true;
+      },
+      error: err => {
+        console.log("PERMISSION ERROR:", err);
+      }
     });
-}
-
-  
+  }
 
   close() {
     this.isOpen = false;
@@ -54,27 +58,40 @@ export class UserPermission {
   loadAllPermissions() {
     this.userService.getAllPermissions()
       .subscribe(res => {
-        console.log("ALL PERMISSIONS:", res);
         this.allPermissions = res;
       });
  }
 
-  togglePermission(permissionId: number, checked: boolean) {
+  // togglePermission(permissionId: number, checked: boolean) {
+  //   if (checked) {
+  //   if (!this.userPermissionIds.includes(permissionId)) {
+  //     this.userPermissionIds.push(permissionId);
+  //     }
+  //   } else {
+  //     this.userPermissionIds = this.userPermissionIds.filter(id => id !== permissionId);
+  //   }
+  // }
+
+  togglePermission(permissionId: number, event: Event) {
+
+    const checked = (event.target as HTMLInputElement).checked;
+
     if (checked) {
-    if (!this.userPermissionIds.includes(permissionId)) {
-      this.userPermissionIds.push(permissionId);
+      if (!this.userPermissionIds.includes(permissionId)) {
+        this.userPermissionIds.push(permissionId);
       }
     } else {
-      this.userPermissionIds = this.userPermissionIds.filter(id => id !== permissionId);
+      this.userPermissionIds =
+      this.userPermissionIds.filter(id => id !== permissionId);
     }
   }
 
   savePermissions() {
-  this.userService.updateUserPermissions(this.user.id, this.userPermissionIds)
-    .subscribe(() => {
-      this.saved.emit();
-      this.close();
-    });
-}
+    this.userService.updateUserPermissions(this.user.id, this.userPermissionIds)
+      .subscribe(() => {
+        this.saved.emit();
+        this.close();
+      });
+  }
 
 }

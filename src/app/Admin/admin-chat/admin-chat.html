@@ -1,0 +1,215 @@
+<!-- <div class="chat-container">
+    <div class="customers">
+        <h3>Customers</h3>
+
+        @for(chat of chats; track chat.id) {
+            <div 
+              class="customer"
+              (click)="selectChat(chat)">
+                {{chat.customerName}}
+                <br>
+                <small>
+                    {{chat.lastMessage}}
+                </small>
+            </div>
+        }
+    </div>
+
+    <div class="conversation">
+
+        <h3>Conversation</h3>
+
+        <div class="messages">
+            @for(message of messages; track message.id){
+                <div class="message">
+                    <b>
+                      {{message.senderUserId}}
+                    </b>
+                    <p>
+                      {{message.message}}
+                    </p>
+                    <small>
+                      {{message.createDate}}
+                    </small>
+                </div>
+            }
+        </div>
+
+        <div class="send-box">
+            <input
+            [(ngModel)]="message"
+            placeholder="Reply..."
+            />
+            <button
+            (click)="sendMessage()">
+              Send
+            </button>
+        </div>
+    </div>
+</div> -->
+
+
+
+<div class="admin-chat-container">
+
+    <!-- Customers -->
+    <div class="customers-panel">
+        <div class="customers-header">
+            <h3>Customers</h3>
+        </div>
+        <div class="customers-list">
+            @for(chat of chats; track chat.id) {
+                <div
+                    class="customer-item"
+                    [class.active]="selectedChatId === chat.id"
+                    (click)="selectChat(chat)">
+
+                    <div class="customer-info">
+                        <div class="customer-name">
+                            {{ chat.customerName }}
+                        </div>
+                        <div class="last-message">
+                            {{ chat.lastMessage || 'No messages yet' }}
+                        </div>
+                    </div>
+                    @if(chat.unreadCount > 0) {
+                        <span class="unread-badge">
+                            {{ chat.unreadCount }}
+                        </span>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Conversation -->
+    <div class="conversation-panel">
+        @if(selectedChatId) {
+            <div class="conversation-header">
+                <h3>
+                    {{ selectedChat?.customerName }}
+                </h3>
+            </div>
+            <div class="messages">
+
+                @for (message of messages; track message.id) {
+
+                    <div
+                        class="message"
+                        [class.admin-message]="
+                            message.senderUserId !== selectedChat?.customerId
+                        "
+                        [class.customer-message]="
+                            message.senderUserId === selectedChat?.customerId
+                        "
+                    >
+
+                        @if (message.message) {
+
+                            <div class="message-text">
+                                {{ message.message }}
+                            </div>
+
+                        }
+
+                        @if (message.attachments?.length) {
+
+                            <div class="message-attachments">
+
+                                @for (attachment of message.attachments; track attachment.id) 
+                                {
+
+                                    @if (isImage(attachment.contentType)) 
+                                    {
+                                        <div class="attachment-image">
+
+                                            <img
+                                                class="chat-image"
+                                                [src]="
+                                                    adminChatService.getAttachmentUrl(
+                                                        attachment.filePath
+                                                    )
+                                                "
+                                                [alt]="attachment.fileName"
+                                            />
+
+                                            <div class="attachment-file-name">
+                                                {{ attachment.fileName }}
+                                            </div>
+
+                                        </div>
+                                    }
+                                    @else {
+                                        <a
+                                            class="chat-file"
+                                            [href]="
+                                                adminChatService.getAttachmentUrl(
+                                                    attachment.filePath
+                                                )
+                                            "
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+
+                                            📎
+                                            {{ attachment.fileName }}
+
+                                        </a>
+
+                                    }
+
+                                }
+
+                            </div>
+
+                        }
+
+                        <div class="message-date">
+                            {{ message.createDate | date:'short' }}
+                        </div>
+
+                    </div>
+
+                }
+
+            </div>
+            <div class="send-box">
+
+                 <!-- <input
+                    type="file"
+                    #fileInput
+                    hidden
+                    accept="image/jpeg,image/png,image/webp,application/pdf"
+                    (change)="onFileSelected($event)"
+                />
+
+                <button
+                    type="button"
+                    (click)="fileInput.click()">
+                    📎
+                </button> -->
+
+                <input
+                    type="text"
+                    [(ngModel)]="message"
+                    placeholder="Reply..."
+                    (keyup.enter)="sendMessage()"
+                />
+                
+                <button
+                    type="button"
+                    (click)="sendMessage()">
+                    Send
+                </button>
+            </div>
+        }
+        @else {
+            <div class="empty-conversation">
+                <h3>Select a customer</h3>
+                <p>
+                    Choose a customer to view the conversation.
+                </p>
+            </div>
+        }
+    </div>
+</div>

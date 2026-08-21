@@ -8,6 +8,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ShopService } from '../services/shop-service';
 import { ProfileService } from '../services/profile-service';
+import { environment } from '../../environments/environment';
  
 @Component({
   selector: 'app-card-shop',
@@ -27,6 +28,8 @@ export class CardShop implements OnInit {
    @Input() viewCount: number = 0;
 
    @Output() likedChanged = new EventEmitter<IProduct>();
+   isAddedToCart = false;
+   
     
    constructor(
     private basketService: BasketService, 
@@ -40,11 +43,24 @@ export class CardShop implements OnInit {
     //this.loadLikedProducts();
     this.profileService.likedProducts$.subscribe(res => this.likedProducts = res);
     //this.getLikeStatus();
+    this.basketService.basketItems$.subscribe(basket => {
+      this.isAddedToCart = basket?.items?.some(x => x.productId === this.product?.id) ?? false;
+    });
   }
 
   addItemToBasket(){
-    this.basketService.addItemToBasket(this.product).subscribe();
+    this.basketService.addItemToBasket(this.product)
+     .subscribe({
+      next: () => {
+        this.toast.success('Product added to basket');
+      },
+      error: err => {
+        console.error(err);
+        this.toast.error('Failed to add product to basket');
+      }
+    });
   }
+
 
   loadLikedProducts() {
     this.profileService.getLikedProducts().subscribe({
@@ -67,12 +83,30 @@ toggleLike(product: IProduct) {
   });
 }
 
-getImageUrl(pictureUrl: string | null | undefined): string {
-  if (!pictureUrl.startsWith('http')) {
-    return `https://localhost:7096/images/products/${pictureUrl}`;
+
+  getImageUrl(pictureUrl: string | null | undefined): string {
+     
+    if (!pictureUrl.startsWith('http')) {
+      return `${environment.imageBaseUrl}${pictureUrl}`;
+    }
+    return pictureUrl;
   }
-  return pictureUrl;
-}
+
+//  getImageUrl(pictureUrl: string | null | undefined): string {
+
+//    if (!pictureUrl) return 'assets/no-image.png';
+
+//    if (pictureUrl.startsWith('http')) return pictureUrl;
+
+//    return `${environment.imageBaseUrl}${pictureUrl}`;
+//  }
+
+// getImageUrl(pictureUrl: string | null | undefined): string {
+
+//   console.log("IMAGE PATH:", pictureUrl);
+
+//   return "https://storeapp.ahmohazab.com/images/products/test.jpg";
+// }
 
 
 

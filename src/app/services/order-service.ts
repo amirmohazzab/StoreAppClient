@@ -6,13 +6,15 @@ import { Router } from '@angular/router';
 import { Observable, switchMap, take } from 'rxjs';
 import { CheckoutFormBuilderService } from './checkout-form-builder-service';
 import { ICheckoutFormBuilder } from '../models/Address';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService implements OnInit{
   
-  private backendUrl = "https://localhost:7096/api";
+  private backendUrl = environment.apiUrl;
+
   formData: ICheckoutFormBuilder;
 
   constructor(

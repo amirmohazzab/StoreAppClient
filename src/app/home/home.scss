@@ -119,6 +119,11 @@
   background: #e0f2f1;
 }
 
+.category-item.active {
+  background: #0d6efd;
+  color: white;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .hero {

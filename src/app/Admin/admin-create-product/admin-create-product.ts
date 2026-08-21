@@ -90,19 +90,51 @@ export class AdminCreateProduct implements OnInit{
   }
 }
 
-onGallerySelected(event: any) {
-  this.galleryFiles = Array.from(event.target.files);
+// onGallerySelected(event: any) {
+//    this.galleryFiles = Array.from(event.target.files);
 
-  this.galleryPreview = [];
+//    //this.galleryPreview = [];
 
-  for (let file of this.galleryFiles) {
+//    for (let file of this.galleryFiles) {
+//      const reader = new FileReader();
+//      reader.onload = (e: any) => {
+//        this.galleryPreview.push(e.target.result);
+//      };
+//      reader.readAsDataURL(file);
+//    }
+//  }
+
+  onGallerySelected(event: any) {
+  const selectedFiles = Array.from(event.target.files) as File[];
+
+  for (let file of selectedFiles) {
+    this.galleryFiles.push(file);
+
     const reader = new FileReader();
-    reader.onload = (e: any) => {
-      this.galleryPreview.push(e.target.result);
-    };
+    reader.onload = (e: any) => this.galleryPreview.push(e.target.result);
     reader.readAsDataURL(file);
   }
 }
+
+galleryPreviews: string[] = [];
+
+// onGallerySelected(event: any) {
+
+//   const files = Array.from(event.target.files) as File[];
+
+//   this.galleryFiles.push(...files);
+
+//   files.forEach(file => {
+
+//     const reader = new FileReader();
+
+//     reader.onload = () => {
+//       this.galleryPreviews.push(reader.result as string);
+//     };
+
+//     reader.readAsDataURL(file);
+//   });
+// }
 
  submit() {
     console.log(this.form.value);

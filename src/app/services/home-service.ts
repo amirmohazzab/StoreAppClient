@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IProduct } from '../models/IProduct';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -9,7 +10,8 @@ import { IProduct } from '../models/IProduct';
 })
 export class HomeService {
   
-  private backendUrl = "https://localhost:7096/api";
+  private backendUrl = environment.apiUrl;
+
   constructor(private http: HttpClient){}
 
   private refreshMessageSource = new BehaviorSubject<void>(undefined);

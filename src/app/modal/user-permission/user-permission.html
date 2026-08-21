@@ -9,7 +9,7 @@
         <div *ngFor="let perm of allPermissions">
           <input type="checkbox" 
                  [checked]="userPermissionIds.includes(perm.id)" 
-                 (change)="togglePermission(perm.id, $event.target.checked)">
+                 (change)="togglePermission(perm.id, $event)">
           {{ perm.displayName }}
         </div>
       </div>

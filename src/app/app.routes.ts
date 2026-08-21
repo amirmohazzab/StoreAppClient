@@ -45,6 +45,7 @@ import { AboutUs } from './about-us/about-us';
 import { ContactUs } from './contact-us/contact-us';
 import { AdminContactMessageList } from './Admin/admin-contact-message-list/admin-contact-message-list';
 import { UserContactList } from './user-contact-list/user-contact-list';
+import { AdminChat } from './Admin/admin-chat/admin-chat';
 
 
 export const routes: Routes = [
@@ -73,13 +74,13 @@ export const routes: Routes = [
                     { path: "address/create", component: AddressForm },
                     { path: "address/edit/:id", component: AddressForm },
                     { path: 'review', component: UserReviewsList, title: 'My Reviews', data: { breadcrumb: 'My Reviews' } },
-                    { path: 'changePassword', component: ChangePassword, title: 'My Reviews', data: { breadcrumb: 'My Reviews' } },
+                    { path: 'changePassword', component: ChangePassword, title: 'Change Password', data: { breadcrumb: 'My Change Password' } },
                     { path: 'message', component: UserContactList, title: 'My Messages', data: { breadcrumb: 'My Messages' } }
                ]}
           ]},
           { path: "admin", component: AdminLayout,
           children: [
-               { path: '', component: Dashboard, title: 'Dashboard', data: { breadcrumb: 'Dashboard', title: 'Dashboard' } },  
+               { path: '', component: Dashboard, title: 'Dashboard', canActivate: [AdminGuard], data: { breadcrumb: 'Dashboard', title: 'Dashboard' } },  
                { path: 'product', component: AdminListProduct, title: 'Product List',  data: { breadcrumb: 'Product List', title: 'Product List' } },
                { path: 'product/create', component: AdminCreateProduct, data: { breadcrumb: 'Create Product', title: 'Create Product', permission: 'Product.Create' }, title: 'Create Product'},
                { path: 'product/edit/:id', component: AdminUpdateProduct, title: 'Update Product',  data: { breadcrumb: 'Update Product', title: 'Update Product' } },
@@ -98,14 +99,13 @@ export const routes: Routes = [
                { path: 'productType', component: AdminListProductType, title: 'Product Type List ',  data: { breadcrumb: 'Product Type List', title: 'Product Type List' } },
                { path: 'productType/create', component: AdminCreateProductType, data: { breadcrumb: 'Create Product Type', title: 'Create Product Type', permission: 'Product.Create' }, title: 'Create Product Type'},
                { path: 'order', component: AdminListOrder, title: 'Order List', data: { breadcrumb: 'Order List', title: 'Order List' } },  
-               { path: 'contact', component: AdminContactMessageList, title: 'Contact List', data: { breadcrumb: 'Contact List', title: 'Contact List' } },  
+               { path: 'contact', component: AdminContactMessageList, title: 'Contact List', data: { breadcrumb: 'Contact List', title: 'Contact List' } }, 
+               { path: 'chat', component: AdminChat, title: 'LiveChat List', data: { breadcrumb: 'LiveChat List', title: 'LiveChat List' } },   
           ]
      },
      {path: "serverError", title: "Server Error", component: ServerError, data: {breadcrumb: 'Server Error'}},
      {path: "notFound", title: "Not Found", component: NotFound, data: {breadcrumb: 'Not Found'}},
      {path: '**', title: "Not-Found", component: NotFound},
-     {path: "serverError", title: "Server Error", component: ServerError, data: {breadcrumb: 'Server Error'}}
-
 ];
 
 

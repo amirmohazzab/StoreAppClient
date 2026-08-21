@@ -2,14 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IBrand } from '../models/IBrand';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductBrandService {
   
-  adminBackendUrl = 'https://localhost:7096/api/admin';
-
+  adminBackendUrl = `${environment.apiUrl}/admin`;
+  
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<IBrand[]> {

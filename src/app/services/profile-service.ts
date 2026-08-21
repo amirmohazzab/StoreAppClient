@@ -5,6 +5,8 @@ import { BehaviorSubject, map, Observable, switchMap, tap } from 'rxjs';
 import { IProduct } from '../models/IProduct';
 import { IReview } from '../models/IReview';
 import { UserContactConversation, UserContactMessage } from '../models/ContactMessage';
+import { environment } from '../../environments/environment';
+import { IPagination } from '../models/IPagination';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ import { UserContactConversation, UserContactMessage } from '../models/ContactMe
 
 export class ProfileService {
   
-  private backendUrl = "https://localhost:7096/api";
+  private backendUrl = environment.apiUrl;
 
   private likedProductsSource = new BehaviorSubject<IProduct[]>([]);
   likedProducts$ = this.likedProductsSource.asObservable();
@@ -46,8 +48,8 @@ export class ProfileService {
     return this.http.get<IProduct[]>(`${this.backendUrl}/userLike/liked-products`);
   }
 
-   getUserReviews(): Observable<IReview[]> {
-    return this.http.get<IReview[]>(`${this.backendUrl}/account/review`);
+   getUserReviews(pageNumber: number, pageSize: number): Observable<IPagination<IReview>> {
+    return this.http.get<IPagination<IReview>>(`${this.backendUrl}/account/review?pageNumber=${pageNumber}&pageSize=${pageSize}`);
   }
 
   deleteReview(id: number): Observable<boolean> {

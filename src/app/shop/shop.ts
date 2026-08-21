@@ -28,8 +28,8 @@ export class Shop implements OnInit, OnDestroy{
   constructor(private shopService: ShopService){}
  
   ngOnInit(): void {
-    this.getProducts();
     this.shopParams = this.shopService.getShopParams();
+    this.getProducts();
   }
 
   @HostListener("window:resize")
@@ -42,14 +42,15 @@ export class Shop implements OnInit, OnDestroy{
       this.getProducts();
    }
 
-   onPageChange(data: any){
-    this.shopParams.pageIndex = data.page;
+   onPageChange(event: any){
+    this.shopParams.pageNumber = event.page;
     this.shopService.updateShopParams(this.shopParams);
     this.getProducts();
    }
 
    onSearch(){
     this.shopParams.search = this.searchItem.nativeElement.value;
+    this.shopParams.pageNumber = 1;
     this.getProducts();
    }
 

@@ -6,6 +6,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators, ReactiveFormsModule, 
 import { IAddress } from '../../models/Address';
 import { CommonModule } from '@angular/common';
 import { InputForm } from '../../input-form/input-form';
+import { AddressService } from '../../services/address-service';
 
 
 @Component({
@@ -21,30 +22,40 @@ export class AddAddressCheckout {
   title: string = "Register New Address";
   closeBtnName: string = "Close";
 
-  constructor(public bsModalRef: BsModalRef, private accountService: AccountService, private toast: ToastrService){
+  constructor(public bsModalRef: BsModalRef, private addressService: AddressService, private toast: ToastrService){
      this.modalForm = new FormGroup({
-      number: new FormControl('', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]),
+      number: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
       firstName: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
       lastName: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
       state: new FormControl('', [Validators.required, Validators.minLength(3)]),
       city: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      postalCode: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
+      postalCode: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]),
       fullAddress: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]),
-      isMain: new FormControl(true),
+      isMain: new FormControl(false),
       place: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(15)]),
     });
   }
   
   onSubmit(){
-    // if (this.modalForm.invalid){
-    //   this.modalForm.markAsTouched();
-    //   return;
-    // }
-    this.accountService.addAddress(this.modalForm.value).subscribe(newAddress => {
+    console.log(this.modalForm.value);
+    if (this.modalForm.invalid){
+       this.modalForm.markAsTouched();
+       return;
+    }
+
+    this.addressService.create(this.modalForm.value).subscribe({
+    next: newAddress => {
+      console.log('Saved:', newAddress);
       this.newAddress.emit(newAddress);
       this.toast.success('Address added successfully');
       this.bsModalRef.hide();
-    });
+    },
+    error: err => {
+      console.error(err);
+      console.log(err.error);
+      this.toast.error('Failed to add address');
+    }
+  });
   }
 
 }

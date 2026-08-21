@@ -39,6 +39,7 @@ export interface IAdminProduct {
     colors?: string[];
     sizes?: string[];
     totalProducts: number;
+
 }
 
 export interface IMostSoldProduct {
@@ -58,4 +59,10 @@ export interface IMostWishlistedProduct {
   productBrand: string;
   wishcount: number;
   pictureUrl: string;
+}
+
+export class ProductParams {
+    search: string = '';
+    pageSize: number = 5;
+    pageNumber: number = 1;
 }

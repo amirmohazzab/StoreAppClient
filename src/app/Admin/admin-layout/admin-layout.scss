@@ -55,6 +55,27 @@
   transition: margin-left .3s ease;
 }
 
+.admin-wrapper.dark {
+  background-color: #121212;
+  color: #dcdcdc;
+}
+
+.admin-wrapper.dark .sidebar {
+  background-color: #1a1a1a;
+}
+
+.admin-wrapper.dark .admin-content {
+  background-color: #181818;
+}
+
+.admin-wrapper.dark .navbar {
+  background-color: #222;
+}
+
+.admin-wrapper.dark footer {
+  background-color: #1c1c1c;
+}
+
 /* MOBILE OVERRIDE */
 @media (max-width: 992px) {
   .admin-content {

@@ -129,7 +129,7 @@ onReset(){
 }
 
 approveReview(reviewId: number) {
-  this.productService.approveReview(reviewId, true).subscribe(() => {
+  this.productService.approveReview(reviewId).subscribe(() => {
     this.loadReviews(); 
   });
 }
@@ -142,7 +142,7 @@ onStatusChange(value) {
 }
 
 rejectReview(reviewId: number) {
-  this.productService.approveReview(reviewId, false).subscribe(() => {
+  this.productService.rejectReview(reviewId).subscribe(() => {
     this.loadReviews(); 
   });
 }

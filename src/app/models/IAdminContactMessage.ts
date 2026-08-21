@@ -54,5 +54,6 @@ export interface IAdminContactMessage {
 export interface IAdminContactAttachment {
   fileName: string;
   filePath: string;
+  url: string
 }
 

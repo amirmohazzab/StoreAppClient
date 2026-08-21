@@ -5,13 +5,15 @@ import { Observable } from 'rxjs/internal/Observable';
 import { IPagination } from '../models/IPagination';
 import { IAdminOrder, IAdminOrderFilter, IPaymentStatus, OrderStatusFilter } from '../models/IAdminOrder';
 import { OrderParams } from '../models/orderParams';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminOrderService {
   
-   private adminBackendUrl = "https://localhost:7096/api/admin";
+   private adminBackendUrl = `${environment.apiUrl}/admin`;
+   
    private orderParams = new OrderParams();
    constructor(private http: HttpClient){}
 

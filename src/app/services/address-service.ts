@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IAddress } from '../models/Address';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddressService {
   
-  private backendUrl = "https://localhost:7096/api";
+  private backendUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -24,8 +25,8 @@ export class AddressService {
     return this.http.post(`${this.backendUrl}/user/create-address`, data);
   }
 
-  update(id: number, data: IAddress): Observable<any> {
-    return this.http.put(`${this.backendUrl}/user/address/${id}`, data);
+  update(id: number, data: IAddress): Observable<IAddress> {
+    return this.http.put<IAddress>(`${this.backendUrl}/user/address/${id}`, data);
   }
 
   delete(id: number): Observable<any> {

@@ -6,6 +6,7 @@ import { AsyncPipe, DecimalPipe } from '@angular/common';
 import { TotalOrder } from "../total-order/total-order";
 import { RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-basket',
@@ -51,7 +52,7 @@ export class Basket implements OnInit{
 
    getImageUrl(pictureUrl: string | null | undefined): string {
   if (!pictureUrl.startsWith('http')) {
-    return `https://localhost:7096/images/products/${pictureUrl}`;
+    return `${environment.imageBaseUrl}${pictureUrl}`;
   }
   return pictureUrl;
 }

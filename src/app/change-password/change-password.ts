@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { AccountService } from '../services/account-service';
@@ -9,7 +9,7 @@ import { AccountService } from '../services/account-service';
   templateUrl: './change-password.html',
   styleUrl: './change-password.scss'
 })
-export class ChangePassword {
+export class ChangePassword implements OnInit{
 
  form: FormGroup;
 
@@ -23,8 +23,13 @@ export class ChangePassword {
     confirmPassword: ['', Validators.required]
   });
   }
+  ngOnInit(): void {
+    console.log("Change password component loaded");
+  }
 
   submit() {
+     console.log("SUBMIT TRIGGERED");
+  console.log(this.form.value);
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -34,10 +39,39 @@ export class ChangePassword {
       Swal.fire("Error", "New passwords do not match", "error");
       return;
     }
+    
+    const data = {
+      currentPassword: this.form.value.currentPassword,
+      newPassword: this.form.value.newPassword
+    };
 
-    this.accountService.changePassword(this.form.value).subscribe({
-      next: () => Swal.fire("Success", "Password changed successfully", "success"),
-      error: () => Swal.fire("Error", "Current password is incorrect", "error")
+    this.accountService.changePassword(data).subscribe({
+      next: (res: any) => {
+
+        const user = JSON.parse(localStorage.getItem('user_token')!);
+        this.accountService.setCurrentUser({...user, token: res.token});
+        this.form.reset();
+        Swal.fire("Success", "Password changed successfully", "success");
+      },
+      // error: () =>
+      //   Swal.fire("Error", "Current password is incorrect", "error")
+      error: (err) => {
+        console.log("FULL ERROR:", err);
+
+        const errors = err?.error?.errors;
+
+        let message = "Unknown error";
+
+        if (Array.isArray(errors)) {
+          message = errors.join(", ");
+        } else if (typeof errors === 'string') {
+          message = errors;
+        } else if (err?.error?.message) {
+          message = err.error.message;
+        }
+
+        Swal.fire("Error", message, "error");
+      }
     });
   }
 }

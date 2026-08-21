@@ -5,16 +5,29 @@ import { take } from 'rxjs';
 
 export const authJWTTokenInterceptor: HttpInterceptorFn = (req, next) => {
 
-  const accountService = inject(AccountService);
+  // const accountService = inject(AccountService);
 
-  accountService.currentUser$.pipe(take(1)).subscribe(user => {
+  // accountService.currentUser$.pipe(take(1)).subscribe(user => {
+  //   if (user) {
+  //     req = req.clone({
+  //       setHeaders: {
+  //         Authorization: `Bearer ${user.token}`
+  //       }
+  //     });
+  //   }
+  // })
+  // return next(req);
+   const user = localStorage.getItem('user_token');
+
     if (user) {
-      req = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${user.token}`
-        }
-      });
-    }
-  })
+    const parsed = JSON.parse(user);
+
+    req = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${parsed.token}`
+      }
+    });
+  }
+
   return next(req);
 };

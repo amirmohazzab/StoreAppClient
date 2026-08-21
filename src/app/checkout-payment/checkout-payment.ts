@@ -34,11 +34,11 @@ export class CheckoutPayment implements OnInit {
   }
 
   submitPayment(){
-    //this.orderService.createOrder();
     this.orderService.createOrder().subscribe({
     next: () => {
       this.basketService.clearLocalBasket();
-      this.toast.success('ayment Done Successfully');
+      this.formBuilder.clearCheckout();
+      this.toast.success('Payment Done Successfully');
       this.router.navigateByUrl('/checkout/success');
     },
     error: err => {

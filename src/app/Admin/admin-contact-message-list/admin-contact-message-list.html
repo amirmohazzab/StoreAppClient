@@ -38,7 +38,7 @@
 
       <div>
         <div class="fw-bold">{{ c.subject }}</div>
-        <small class="text-muted">
+        <small>
           {{ c.name }} • {{ c.email }}
         </small>
       </div>
@@ -115,10 +115,10 @@
               @if (m.attachments && m.attachments.length > 0) {
                 <div class="mt-2 border-top pt-2">
 
-                  @for (a of m.attachments; track a.filePath) {
+                  @for (a of m.attachments; track a.url) {
                     <a
                       class="d-flex align-items-center gap-2 text-decoration-none text-white mb-1"
-                      [href]="a.filePath"
+                      [href]="a.url"
                       download
                       target="_blank">
 

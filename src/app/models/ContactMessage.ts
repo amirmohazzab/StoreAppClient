@@ -38,6 +38,7 @@ export enum MessageSender {
 export interface IContactAttachment {
   fileName: string;
   filePath: string;
+  url: String
 }
 
 

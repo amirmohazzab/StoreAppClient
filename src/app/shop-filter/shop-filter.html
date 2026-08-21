@@ -6,7 +6,10 @@
           <strong>Type</strong>
         </span>
       </label>
-      <select class="form-select rounded-bottom rounded-0" (change)="onChangeTypes($any($event.target).value)">
+      <select class="form-select rounded-bottom rounded-0"  [(ngModel)]="shopParams.typeId" (change)="onChangeTypes($any($event.target).value)">
+        <option [value]="0">
+          All
+        </option>
        @for (item of types; track $index){
          <option [value]="item?.id">
           {{ item?.title }}
@@ -25,7 +28,10 @@
           <strong>Brand</strong>
         </span>
       </label>
-      <select class="form-select rounded-bottom rounded-0" (change)="onChangeBrands($any($event.target).value)">
+      <select class="form-select rounded-bottom rounded-0" [(ngModel)]="shopParams.brandId" (change)="onChangeBrands($any($event.target).value)">
+       <option [value]="0">
+        All
+       </option>
        @for (item of brands; track $index){
          <option [value]="item?.id">
           {{ item?.title }}
